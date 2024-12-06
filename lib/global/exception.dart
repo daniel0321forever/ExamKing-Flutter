@@ -1,0 +1,1 @@
+class GoogleAuthFailedException implements Exception {}

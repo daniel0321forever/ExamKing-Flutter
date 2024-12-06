@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1090156799813",
+    "project_id": "exam-king-fee02",
+    "storage_bucket": "exam-king-fee02.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1090156799813:android:3b3b65dafb5787c897002c",
+        "android_client_info": {
+          "package_name": "com.daniel.examKing"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtdZIfEx3vVlK8zvka2BwiNZpY7MycGsw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -17,6 +17,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
+  late final AuthBloc authBloc;
   late final StreamSubscription authBlocListener;
   late final AnimationController _contentController;
   late final AnimationController _backgroundController;
@@ -66,9 +67,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     );
 
     // Auth listener
-    authBlocListener = context.read<AuthBloc>().stream.listen((state) {
+    authBloc = context.read<AuthBloc>();
+    authBloc.add(AuthEventAppStart());
+    authBlocListener = authBloc.stream.listen((state) {
       if (state is AuthStateAuthenticated) {
-        debugPrint("is authenticated");
         if (mounted) {
           Navigator.of(context).push(FadeScalePageRoute(page: const MainPage()));
         }

@@ -1,8 +1,15 @@
+import 'dart:async';
+
+import 'package:examKing/blocs/main/main_bloc.dart';
+import 'package:examKing/models/user.dart';
+import 'package:examKing/pages/ability_analyse_page.dart';
+import 'package:examKing/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:examKing/component/main_page_button.dart';
 import 'package:examKing/pages/index_page.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -12,14 +19,31 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin {
+  late MainBloc mainBloc;
+  late StreamSubscription mainBlocListener;
+  late UserData user;
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
+
+  bool _isEditing = false;
+  final TextEditingController _nameController = TextEditingController();
 
   ImageProvider backgroundImageProvider = const NetworkImage('https://media.tenor.com/bx7hbOEm4gMAAAAj/sakura-leaves.gif');
 
   @override
   void initState() {
     super.initState();
+
+    mainBloc = context.read<MainBloc>();
+    mainBlocListener = mainBloc.stream.listen((state) {
+      if (state is MainStateUpdateUserName) {
+        setState(() {});
+      }
+    });
+
+    user = context.read<UserProvider>().userData!;
+    _nameController.text = user.name;
+
     _controller = AnimationController(
       duration: const Duration(seconds: 3),
       vsync: this,
@@ -32,85 +56,9 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
 
   @override
   void dispose() {
+    _nameController.dispose();
     _controller.dispose();
     super.dispose();
-  }
-
-  Widget _buildRadarChart() {
-    Color mainColor = const Color.fromARGB(209, 255, 228, 228);
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.8,
-      height: MediaQuery.of(context).size.width * 0.8,
-      child: RadarChart(
-        RadarChartData(
-          radarShape: RadarShape.polygon,
-          radarBackgroundColor: const Color.fromARGB(94, 110, 110, 110),
-          ticksTextStyle: const TextStyle(
-            color: Colors.transparent,
-          ),
-          tickBorderData: BorderSide(
-            color: mainColor,
-            width: 0.5,
-          ),
-          gridBorderData: BorderSide(
-            color: Colors.white.withOpacity(0.5),
-            width: 2,
-          ),
-          titleTextStyle: const TextStyle(
-            color: Colors.white,
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'PressStart2P',
-            shadows: [
-              Shadow(
-                color: Colors.black54,
-                blurRadius: 3,
-                offset: Offset(2, 2),
-              ),
-            ],
-          ),
-          dataSets: [
-            RadarDataSet(
-              fillColor: const Color.fromARGB(255, 255, 102, 91).withOpacity(0.5),
-              borderColor: Colors.white,
-              entryRadius: 5,
-              borderWidth: 2,
-              dataEntries: [
-                const RadarEntry(value: 80), // Mathematics
-                const RadarEntry(value: 70), // English
-                const RadarEntry(value: 90), // Science
-                const RadarEntry(value: 85), // Social Studies
-                const RadarEntry(value: 75), // Chinese
-              ],
-            ),
-          ],
-          getTitle: (index, angle) {
-            switch (index) {
-              case 0:
-                return RadarChartTitle(text: '高中', angle: angle);
-              case 1:
-                return RadarChartTitle(text: '大學', angle: angle);
-              case 2:
-                return RadarChartTitle(text: 'Sanrio', angle: angle);
-              case 3:
-                return RadarChartTitle(text: '娛樂', angle: angle);
-              case 4:
-                return RadarChartTitle(text: '語言', angle: angle);
-              default:
-                return const RadarChartTitle(text: '');
-            }
-          },
-          borderData: FlBorderData(
-            show: false,
-            border: Border.all(
-              color: Colors.white,
-              width: 2,
-            ),
-          ),
-          tickCount: 5,
-        ),
-      ),
-    );
   }
 
   @override
@@ -128,6 +76,8 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
           child: Column(
             children: [
               const SizedBox(height: 50),
+
+              // TODO: show win rate chart as carousal
               // User Avatar
               Container(
                 width: 160,
@@ -153,24 +103,59 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Daniel",
-                    style: GoogleFonts.girassol(
-                      fontSize: 35,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
+                  if (_isEditing)
+                    SizedBox(
+                      width: 200,
+                      child: TextField(
+                        autofocus: true,
+                        onTapOutside: (event) {
+                          setState(() {
+                            _isEditing = false;
+                          });
+                        },
+                        controller: _nameController,
+                        style: GoogleFonts.girassol(
+                          fontSize: 35,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                        decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                        ),
+                        onSubmitted: (value) {
+                          if (value.trim().isNotEmpty) {
+                            mainBloc.add(MainEventUpdateUserName(name: value.trim()));
+                            setState(() {
+                              _isEditing = false;
+                            });
+                          }
+                        },
+                      ),
+                    )
+                  else
+                    Text(
+                      user.name,
+                      style: GoogleFonts.girassol(
+                        fontSize: 35,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
                   const SizedBox(width: 9),
-                  GestureDetector(
-                    onTap: () {
-                      // Handle edit button press
-                    },
-                    child: const Icon(
-                      Icons.edit,
-                      color: Colors.black,
+                  if (!_isEditing)
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _isEditing = true;
+                        });
+                      },
+                      child: const Icon(
+                        Icons.edit,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
                 ],
               ),
               const SizedBox(height: 10),
@@ -178,9 +163,9 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _buildRecordCard('勝', '23', Colors.black),
+                  _buildRecordCard('勝', user.winRecord, Colors.black),
                   const SizedBox(width: 20),
-                  _buildRecordCard('敗', '12', Colors.black),
+                  _buildRecordCard('敗', user.loseRecord, Colors.black),
                 ],
               ),
               const SizedBox(height: 70),
@@ -188,7 +173,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
               MainPageButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const IndexPage(),
+                    builder: (context) => const AbilityAnalysePage(),
                   ));
                 },
                 title: "能力分析",
@@ -220,7 +205,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
     );
   }
 
-  Widget _buildRecordCard(String title, String count, Color color) {
+  Widget _buildRecordCard(String title, int count, Color color) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       decoration: BoxDecoration(
@@ -246,7 +231,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
           ),
           const SizedBox(height: 4),
           Text(
-            count,
+            count.toString(),
             style: GoogleFonts.yuseiMagic(
               fontSize: 24,
               color: color,

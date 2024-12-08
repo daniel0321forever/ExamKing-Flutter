@@ -13,6 +13,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   BackendService backendService = BackendService();
 
   AuthBloc({required this.userProvider}) : super(AuthInitial()) {
+    on<AuthEventAppStart>((event, emit) async {
+      debugPrint("on AuthEventAppStart | triggered");
+      try {
+        userProvider.userData = await backendService.signInWithToken();
+        debugPrint("on AuthEventAppStart | get user data");
+        emit(AuthStateAuthenticated());
+      } on UnAuthenticatedException {
+        debugPrint("on AuthEventAppStart | failed logging in with token");
+      } on Exception catch (e) {
+        emit(AuthStateError(exception: e));
+      }
+    });
+
     on<AuthEventSignUp>((event, emit) async {
       try {
         debugPrint("AuthEventSignUp triggered");

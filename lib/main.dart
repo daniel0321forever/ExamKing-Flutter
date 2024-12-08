@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:examKing/blocs/auth/auth_bloc.dart';
 import 'package:examKing/blocs/battle/battle_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
+  await dotenv.load();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => AuthBloc(userProvider: context.read<UserProvider>())),
           BlocProvider(create: (context) => BattleBloc(userProvider: context.read<UserProvider>())),
           BlocProvider(create: (context) => IndexBloc()),
-          BlocProvider(create: (context) => MainBloc()),
+          BlocProvider(create: (context) => MainBloc(userProvider: context.read<UserProvider>())),
         ],
         child: MaterialApp(
           title: 'Exam King',

@@ -15,10 +15,10 @@ class GoogleSigninButton extends StatelessWidget {
         authBloc.add(AuthEventSignUp());
       },
       child: Container(
-        height: 50,
-        width: 220,
+        height: 46,
+        width: 250,
         decoration: BoxDecoration(
-          color: const Color.fromARGB(202, 255, 255, 255),
+          color: const Color.fromARGB(255, 255, 255, 255),
           borderRadius: BorderRadius.circular(8),
           boxShadow: [
             BoxShadow(

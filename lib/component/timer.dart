@@ -16,50 +16,43 @@ class TimerWidget extends StatefulWidget {
 }
 
 class _TimerWidgetState extends State<TimerWidget> {
-  late int leftSec;
   late BattleBloc battleBloc;
   late StreamSubscription battleListener;
   Timer? timer;
 
   void startTimer() {
+    setState(() {
+      battleBloc.leftSec = widget.seconds;
+    });
     timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
-        if (leftSec == 0) {
+        if (battleBloc.leftSec == 0) {
           if (!battleBloc.hasResponded) battleBloc.add(BattleTimesUpEvent());
           timer.cancel();
           return;
         }
         setState(() {
-          leftSec -= 1;
+          battleBloc.leftSec = battleBloc.leftSec! - 1;
         });
       },
     );
-    setState(() {
-      leftSec = widget.seconds;
-    });
   }
 
   @override
   void initState() {
     super.initState();
-
-    leftSec = widget.seconds;
     battleBloc = context.read<BattleBloc>();
 
     startTimer();
 
     battleListener = battleBloc.stream.listen((state) {
-      if (state is BattleNewProblemState) {
-        debugPrint("battle new problem in timer");
+      if (state is BattleRoundFinishState) {
         timer?.cancel();
-        timer = null;
       } else if (state is BattleNewProblemReadyState) {
-        debugPrint("battle new problem in timer");
         startTimer();
       } else if (state is BattleEndGameState) {
         timer?.cancel();
-        timer = null;
       }
     });
   }
@@ -80,11 +73,11 @@ class _TimerWidgetState extends State<TimerWidget> {
           size: const Size(60, 60),
           painter: TimerPainter(
             seconds: widget.seconds,
-            repaint: ValueNotifier<int>(leftSec),
+            repaint: ValueNotifier<int>(battleBloc.leftSec!),
           ),
         ),
         Text(
-          leftSec.toString(),
+          battleBloc.leftSec.toString(),
           style: const TextStyle(
             color: Colors.white,
             fontSize: 20,

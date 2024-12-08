@@ -2,16 +2,20 @@ import 'dart:io';
 import 'dart:convert';
 
 import 'package:examKing/global/exception.dart';
+import 'package:examKing/global/properties.dart';
+import 'package:examKing/models/ability_record.dart';
 import 'package:examKing/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:examKing/models/challenge.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:examKing/global/keys.dart' as keys;
 
-const String httpURL = "http://10.0.2.2:8000/api/";
-const String socketURL = "ws://10.0.2.2:8000/api/";
+const String httpURL = "http://localhost:8000/api/";
+const String socketURL = "ws://localhost:8000/api/";
 
 class BackendService {
   WebSocketChannel? channel;
@@ -26,9 +30,8 @@ class BackendService {
   /// The following behaviour are expected
   /// 1) The user might wait for a while without getting game-data before there is match for the user
   /// 2) The server would return game-data with following format by the key 'game-data' once the connection is built
-  Future<void> connectToBattle(Challenge challenge) async {
-    debugPrint("challenge key: ${challenge.key}");
-    String gameSocketURL = "${socketURL}battle?user=daniel_00&challenge=${challenge.key}";
+  Future<void> connectToBattle(Challenge challenge, {required String username}) async {
+    String gameSocketURL = "${socketURL}battle?user=$username&challenge=${challenge.key}";
     try {
       channel = WebSocketChannel.connect(Uri.parse(gameSocketURL));
       await channel?.ready;
@@ -43,7 +46,6 @@ class BackendService {
   /// 1) An event including information about userID and score would be sent to server websocket
   /// 2) Server websocket would broadcast data about the scoring event
   void answer(int score, int? optionIndex) {
-    debugPrint("answer | score: $score, optionIndex: $optionIndex");
     Map<String, dynamic> payload = {
       'type': 'answer',
       'userID': "daniel_00",
@@ -64,10 +66,6 @@ class BackendService {
   void closeConnection() {
     channel?.sink.close();
     channel = null;
-  }
-
-  Future<void> updateRecord(int totMoney) async {
-    debugPrint("record updated");
   }
 
   /// Signing in with google
@@ -123,7 +121,171 @@ class BackendService {
     );
 
     debugPrint("get res ${res.statusCode}, ${res.body}");
+    Map body = json.decode(utf8.decode(res.bodyBytes));
 
-    return UserData.fromJson(res.body);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(keys.prefTokenKey, body[keys.accountTokenKey]);
+
+    return UserData.fromMap(body);
+  }
+
+  Future<UserData> signInWithToken() async {
+    debugPrint("backend | signInWithToken | triggered");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(keys.prefTokenKey);
+
+    if (token == null) {
+      debugPrint("backend | signInWithTOken | token not found");
+      throw UnAuthenticatedException();
+    }
+
+    Uri url = Uri.parse("${httpURL}login");
+    var res = await http.post(
+      url,
+      headers: {
+        "Content-type": "Application/json",
+        "Authorization": "Bearer $token",
+      },
+    );
+
+    switch (res.statusCode) {
+      case 200:
+        debugPrint("backend service | updatedBattleRecord | get success response ${res.body}");
+        Map body = json.decode(utf8.decode(res.bodyBytes));
+        return UserData.fromMap(body);
+      case 404:
+        debugPrint("backend service | updatedBattleRecord | end point not found");
+        throw PageNotFoundException();
+      case 401:
+        debugPrint("backend service | updatedBattleRecord | ${res.body}");
+        throw UnAuthenticatedException();
+      default:
+        debugPrint("backend service | updatedBattleRecord | error status ${res.statusCode}");
+        debugPrint("body ${res.body}");
+        throw UnhandledStatusException();
+    }
+  }
+
+  Future<void> updateUserInfo(Map<String, dynamic> updateMap) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(keys.prefTokenKey);
+
+    if (token == null) {
+      throw UnAuthenticatedException();
+    }
+
+    Uri url = Uri.parse("${httpURL}user");
+    var res = await http.patch(
+      url,
+      headers: {
+        "Content-type": "Application/json",
+        "Authorization": "Bearer $token",
+      },
+      body: json.encode(updateMap),
+    );
+
+    switch (res.statusCode) {
+      case 200:
+        debugPrint("backend service | updateUserInfo | get success response ${res.body}");
+      case 404:
+        debugPrint("service | updateUserInfo | end point not found");
+        throw PageNotFoundException();
+      case 401:
+        debugPrint("backend service | updateUserInfo | ${res.body}");
+        throw UnAuthenticatedException();
+      default:
+        debugPrint("backend service | updateUserInfo | error status ${res.statusCode}");
+        debugPrint("body ${res.body}");
+        throw UnhandledStatusException();
+    }
+  }
+
+  Future<void> updatedBattleRecord({
+    required String opponentID,
+    required String field,
+    required int totCorrect,
+    required int totWrong,
+    required bool userWin,
+  }) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(keys.prefTokenKey);
+
+    if (token == null) {
+      throw UnAuthenticatedException();
+    }
+
+    Uri url = Uri.parse("${httpURL}record");
+    var res = await http.post(
+      url,
+      headers: {
+        "Content-type": "Application/json",
+        "Authorization": "Bearer $token",
+      },
+      body: json.encode({
+        "field": field,
+        "totCorrect": totCorrect,
+        "totWrong": totWrong,
+        "opponent": opponentID,
+        "victory": userWin,
+      }),
+    );
+
+    switch (res.statusCode) {
+      case 200:
+        debugPrint("backend service | updatedBattleRecord | get success response ${res.body}");
+      case 404:
+        debugPrint("service | updatedBattleRecord | end point not found");
+        throw PageNotFoundException();
+      case 401:
+        debugPrint("backend service | updatedBattleRecord | ${res.body}");
+        throw UnAuthenticatedException();
+      default:
+        debugPrint("backend service | updatedBattleRecord | error status ${res.statusCode}");
+        debugPrint("body ${res.body}");
+        throw UnhandledStatusException();
+    }
+  }
+
+  Future<List<AbilityRecord>> getAbilityRecord() async {
+    debugPrint("backend | getAbilityRecord triggered");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(keys.prefTokenKey);
+
+    if (token == null) {
+      throw UnAuthenticatedException();
+    }
+
+    Uri url = Uri.parse("${httpURL}record");
+
+    var res = await http.get(
+      url,
+      headers: {
+        "Content-type": "Application/json",
+        "Authorization": "Bearer $token",
+      },
+    );
+
+    switch (res.statusCode) {
+      case 200:
+        debugPrint("backend service | getAbilityRecord | get success response ${res.body}");
+        Map body = json.decode(res.body);
+
+        List<AbilityRecord> abilityRecords = List<AbilityRecord>.generate(
+          body.values.length,
+          (i) => AbilityRecord.fromMap(body.values.toList()[i]),
+        );
+
+        return abilityRecords;
+      case 404:
+        debugPrint("service | getAbilityRecord | end point not found");
+        throw PageNotFoundException();
+      case 401:
+        debugPrint("backend service | getAbilityRecord | ${res.body}");
+        throw UnAuthenticatedException();
+      default:
+        debugPrint("backend service | getAbilityRecord | error status ${res.statusCode}");
+        debugPrint("body ${res.body}");
+        throw UnhandledStatusException();
+    }
   }
 }

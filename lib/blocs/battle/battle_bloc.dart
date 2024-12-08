@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:examKing/models/challenge.dart';
 import 'package:examKing/models/problem.dart';
 import 'package:examKing/service/backend.dart';
+import 'package:examKing/global/keys.dart' as keys;
 
 part 'battle_event.dart';
 part 'battle_state.dart';
@@ -16,16 +17,22 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
   BackendService backendService = BackendService();
   Stream? battleStream;
-  StreamSubscription? battleStreamSub;
+  StreamSubscription? battleBlocListener;
+
+  int? leftSec;
 
   int playerScore = 0;
   int playerCombo = 0;
   int playerMaxCombo = 0;
+  int playerCorrect = 0;
+  int playerWrong = 0;
   int opponentScore = 0;
   int opponentCombo = 0;
   int opponentMaxCombo = 0;
   String? opponentName;
+  String? opponentID;
 
+  String? field;
   List<Problem>? problems;
   int round = 0;
   bool hasResponded = false;
@@ -34,21 +41,26 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   String userId = "daniel_00";
 
   void initialize() {
+    leftSec = null;
     playerScore = 0;
     playerCombo = 0;
     playerMaxCombo = 0;
+    playerCorrect = 0;
+    playerWrong = 0;
     opponentScore = 0;
     opponentCombo = 0;
     opponentMaxCombo = 0;
     opponentName = null;
+    opponentID = null;
+    field = null;
     problems = null;
     round = 0;
     hasResponded = false;
     opnHasResponded = false;
 
     battleStream = null;
-    battleStreamSub?.cancel();
-    battleStreamSub = null;
+    battleBlocListener?.cancel();
+    battleBlocListener = null;
     backendService.closeConnection();
   }
 
@@ -59,20 +71,19 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     on<BattleStartEvent>((event, emit) async {
       try {
         initialize();
-        debugPrint("BattleStartEvent | triggered");
+        debugPrint("on BattleStartEvent | triggered");
         // connect to server
-        await backendService.connectToBattle(event.challenge);
+        await backendService.connectToBattle(event.challenge, username: userProvider.userData!.username);
+        field = event.challenge.key;
 
         // define stream which listen to wait, start_game, answer and end-game type message
         battleStream = backendService.channel!.stream.asBroadcastStream();
-        debugPrint("get battle stream");
-
-        battleStreamSub = battleStream!.listen((message) async {
+        battleBlocListener = battleStream!.listen((message) async {
           Map decoded = json.decode(utf8.decode(message.codeUnits));
 
           if (decoded['type'] == null) {
-            debugPrint("BattleStartEvent | error: there is no 'type' field in socket message");
-            debugPrint("decoded message $decoded");
+            debugPrint("on BattleStartEvent | error: there is no 'type' field in socket message");
+            debugPrint("on BattleStartEvent | decoded message $decoded");
             return;
           }
 
@@ -82,7 +93,18 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
               add(BattleWaitingEvent());
               break;
             case 'start_game':
-              opponentName = decoded['opponent_name'] ?? "Unknown Player";
+              String userID = userProvider.userData!.username;
+
+              debugPrint("on BattleStartEvent | get start game message: $decoded");
+
+              for (int i = 0; i < 2; i++) {
+                if (decoded[keys.battleUsernamesKey][i] != userID) {
+                  opponentID = decoded[keys.battleUsernamesKey][i];
+                  opponentName = decoded[keys.battleNamesKey][i];
+                  break;
+                }
+              }
+
               problems = List<Problem>.generate(
                 decoded['problems'].length, // TODO: change here
                 (i) => Problem.fromMap(decoded['problems'][i]),
@@ -98,14 +120,14 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
               break;
 
             default:
-              debugPrint("BattleStartEvent | error: cannot recognize return type ${decoded['type']}");
+              debugPrint("on BattleStartEvent | error: cannot recognize return type ${decoded['type']}");
               throw Exception();
           }
         });
       } on Exception catch (e) {
         emit(BattleErrorState());
         initialize();
-        debugPrint("Unexcepted exception occurs: $e");
+        debugPrint("on BattleStartEvent | Unexcepted exception occurs: $e");
       }
     });
 
@@ -122,14 +144,16 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     on<BattleAnswerEvent>((event, emit) {
       try {
         // compare answer to correctAns and emit either correct or wrong state
-        debugPrint("answer event triggered");
+        debugPrint("on BattleAnswerEvent | event triggered");
         hasResponded = true;
         int addedScore = 0;
 
         if (problems![round].options[event.answerIndex].correct) {
-          // TODO: add combo here
-          addedScore = 200;
+          addedScore = (200 * (leftSec! / 10)).toInt();
           playerScore += addedScore;
+          playerCorrect += 1;
+        } else {
+          playerWrong += 1;
         }
 
         emit(BattleAnsweredState(
@@ -153,13 +177,13 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         if (event.isPlayer) {
           debugPrint("on BattleGetAnsRespondedEvent | get player answer response");
         } else {
-          debugPrint("on BattleGetAnsRespondedEvent | get oppn answer response");
+          debugPrint("on BattleGetAnsRespondedEvent | get opponent answer response");
 
           // update opponent record
           opnHasResponded = true;
           opponentScore += event.addedScore;
 
-          debugPrint("on BattleGetAnsRespondedEvent | emitting oppn answered state");
+          debugPrint("on BattleGetAnsRespondedEvent | emitting BattleAnsweredState for opponent");
           emit(BattleAnsweredState(
             playerAnswered: false,
             opponentScore: opponentScore,
@@ -178,12 +202,27 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
           if (round >= (problems?.length ?? round + 1)) {
             hasResponded = false;
             opnHasResponded = false;
-            debugPrint("on BattleGetAnsRespondedEvent | ending game");
-            int moneyAdded = playerScore >= opponentScore ? 1000 : -200;
-            await backendService.updateRecord(moneyAdded + 0);
+
+            int moneyAdded = playerScore - opponentScore;
+
+            if (playerScore > opponentScore) {
+              userProvider.userData!.winRecord += 1;
+            } else {
+              userProvider.userData!.loseRecord += 1;
+            }
+
+            await backendService.updatedBattleRecord(
+              opponentID: opponentID!,
+              field: field!,
+              totCorrect: playerCorrect,
+              totWrong: playerWrong,
+              userWin: playerScore > opponentScore,
+            );
+
+            debugPrint("on BattleGetAnsRespondedEvent | emitting BattleEndGameState");
 
             emit(BattleEndGameState(
-              playerWin: playerScore >= opponentScore,
+              playerWin: playerScore > opponentScore,
               playerScore: playerScore,
               opponentScore: opponentScore,
               moneyAdded: moneyAdded,
@@ -193,12 +232,10 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
           // case: not ending, going to next round
           else {
-            debugPrint("on BattleGetAnsRespondedEvent | emitting start problem state: ${problems![round].problem}");
-            emit(BattleNewProblemState(problem: problems![round]));
+            debugPrint("on BattleGetAnsRespondedEvent | emitting BattleRoundFinishState: ${problems![round].problem}");
+            emit(BattleRoundFinishState(problem: problems![round]));
           }
         }
-
-        debugPrint("ending BattleGetAnsRespondedEvent");
       } on Exception catch (e) {
         emit(BattleErrorState());
         initialize();
@@ -210,8 +247,9 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     /// 1) Send answer type data with zero score while emitting times up state to the UI code
     on<BattleTimesUpEvent>((event, emit) {
       try {
-        debugPrint("on BattleTimesUpEvent | emitting times up state");
+        debugPrint("on BattleTimesUpEvent | emitting BattleTimesUpEvent");
         hasResponded = true;
+
         // send message to server
         backendService.answer(0, null);
 
@@ -222,8 +260,8 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
           answerIndex: null,
         ));
 
-        // send message to server
-        backendService.answer(0, null);
+        // // send message to server
+        // backendService.answer(0, null);
       } on Exception catch (e) {
         emit(BattleErrorState());
         initialize();
@@ -234,18 +272,18 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     on<BattleNextRoundReadyEvent>((event, emit) {
       hasResponded = false;
       opnHasResponded = false;
-      debugPrint("on BattleNextRoundReadyEvent | emitting next round ready state");
+      debugPrint("on BattleNextRoundReadyEvent | emitting BattleNewProblemReadyState");
       emit(BattleNewProblemReadyState());
     });
 
     on<BattleWaitingEvent>((event, emit) {
-      debugPrint("on BattleWaitingEvent | emitting waiting state");
+      debugPrint("on BattleWaitingEvent | emitting BattleWaitingEvent");
       emit(BattleWaitingState());
     });
 
     on<BattleStartBattleEvent>((event, emit) {
       // NOTE: the 'problems' would be decoded in the listener, to save me from passing the decoded data as parameter
-      debugPrint("on BattleStartBattleEvent | emitting battle start problem state");
+      debugPrint("on BattleStartBattleEvent | emitting battle BattleStartBattleState");
       emit(BattleStartBattleState());
     });
   }

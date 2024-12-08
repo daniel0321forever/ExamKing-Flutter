@@ -162,8 +162,6 @@ class _BattlePageState extends State<BattlePage> with SingleTickerProviderStateM
     battleListener = battleBloc.stream.listen((state) {
       if (state is BattleAnsweredState) {
         bool isCorrect = state.isCorrect;
-        debugPrint("battle answered: $isCorrect");
-
         setState(() {
           if (isCorrect) {
             _showCorrectOverlay = true;
@@ -175,7 +173,6 @@ class _BattlePageState extends State<BattlePage> with SingleTickerProviderStateM
         });
 
         _animationController.forward(from: 0).then((_) {
-          debugPrint("animation forwarding");
           Future.delayed(const Duration(milliseconds: 500), () {
             if (mounted) {
               setState(() {
@@ -185,7 +182,7 @@ class _BattlePageState extends State<BattlePage> with SingleTickerProviderStateM
             }
           });
         });
-      } else if (state is BattleNewProblemState) {
+      } else if (state is BattleRoundFinishState) {
         Future.delayed(const Duration(milliseconds: 800), () {
           if (mounted) {
             setState(() {
@@ -193,7 +190,7 @@ class _BattlePageState extends State<BattlePage> with SingleTickerProviderStateM
             });
           }
         }).then((_) {
-          Future.delayed(const Duration(milliseconds: 2800), () {
+          Future.delayed(const Duration(milliseconds: 2000), () {
             battleBloc.add(BattleNextRoundReadyEvent());
             if (mounted) {
               setState(() {
@@ -205,9 +202,9 @@ class _BattlePageState extends State<BattlePage> with SingleTickerProviderStateM
         });
       } else if (state is BattleEndGameState) {
         if (mounted) {
-          Future.delayed(const Duration(milliseconds: 3000), () {
+          Future.delayed(const Duration(milliseconds: 3500), () {
             if (mounted) {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const BattleResultPage()));
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const BattleResultPage()));
             }
           });
         }

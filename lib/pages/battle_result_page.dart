@@ -15,7 +15,7 @@ class BattleResultPage extends StatelessWidget {
       body: Column(
         children: [
           const SizedBox(height: 100),
-          Container(
+          SizedBox(
             height: 450,
             child: PageView(
               controller: PageController(viewportFraction: 0.8),
@@ -58,12 +58,12 @@ class ScoreCard extends StatefulWidget {
   final int moneyChange;
 
   const ScoreCard({
-    Key? key,
+    super.key,
     required this.avatarImage,
     required this.userName,
     required this.score,
     required this.moneyChange,
-  }) : super(key: key);
+  });
 
   @override
   State<ScoreCard> createState() => _ScoreCardState();

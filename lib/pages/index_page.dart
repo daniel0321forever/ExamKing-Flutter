@@ -223,9 +223,9 @@ class _IndexPageState extends State<IndexPage> with SingleTickerProviderStateMix
                       child: ScaleTransition(
                         scale: _scaleAnimations[i],
                         child: ChallengTile(
-                          challenge: challenges[i],
+                          challenge: challenges.values.toList()[i],
                           onPressed: () {
-                            showStartBattleDialog(challenges[i], isLeft: i % 2 == 1);
+                            showStartBattleDialog(challenges.values.toList()[i], isLeft: i % 2 == 1);
                           },
                           isLeft: i % 2 == 1,
                         ),
@@ -262,7 +262,6 @@ class _StartBattleDialogState extends State<StartBattleDialog> with SingleTicker
     super.initState();
     battleBloc = context.read<BattleBloc>();
     battleSubscription = battleBloc.stream.listen((state) {
-      debugPrint("battle state: $state");
       if (state is BattleWaitingState) {
         setState(() {
           _isWaiting = true;

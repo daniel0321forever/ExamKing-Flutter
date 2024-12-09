@@ -29,6 +29,17 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   ImageProvider backgroundImageProvider = const NetworkImage('https://media.tenor.com/3hKQ_ZtSPd4AAAAM/luffy-snake-man.gif');
 
+  void preloadImages() {
+    List<String> preloadPaths = [
+      "assets/player1.webp",
+      "assets/player2.webp",
+    ];
+
+    for (String path in preloadPaths) {
+      precacheImage(AssetImage(path), context);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -96,6 +107,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    preloadImages();
     authBlocListener.cancel();
     _contentController.dispose();
     _backgroundController.dispose();

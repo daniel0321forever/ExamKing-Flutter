@@ -68,17 +68,17 @@ class _ScoreBarState extends State<ScoreBar> with SingleTickerProviderStateMixin
       mainAxisSize: MainAxisSize.min,
       children: [
         // Add score text above the bar
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Text(
-            currentScore.toString(),
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+        Text(
+          currentScore.toString(),
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
+
+        const SizedBox(height: 10),
+
         Container(
           height: barHeight,
           width: 20,

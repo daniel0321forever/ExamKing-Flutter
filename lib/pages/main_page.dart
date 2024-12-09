@@ -7,7 +7,6 @@ import 'package:examKing/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:examKing/component/main_page_button.dart';
 import 'package:examKing/pages/index_page.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -64,6 +63,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
           width: double.infinity,

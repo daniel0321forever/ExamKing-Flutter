@@ -110,8 +110,8 @@ class _BattlePrepPageState extends State<BattlePrepPage> with SingleTickerProvid
                           ],
                         ),
                         child: ClipOval(
-                          child: Image.network(
-                            'https://cdn.theanimegallery.com/theanimegallery/04a6fe55-e618-485a-86b6-5da9d123bc85-cute-wallpaper-anime.webp',
+                          child: Image.asset(
+                            'assets/player1.webp',
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -160,8 +160,8 @@ class _BattlePrepPageState extends State<BattlePrepPage> with SingleTickerProvid
                           ],
                         ),
                         child: ClipOval(
-                          child: Image.network(
-                            'https://www.stylevore.com/wp-content/uploads/2022/06/bloggerharry-16165570897940667.jpg',
+                          child: Image.asset(
+                            'assets/player2.webp',
                             fit: BoxFit.cover,
                           ),
                         ),

@@ -3,15 +3,25 @@ part of 'battle_bloc.dart';
 @immutable
 sealed class BattleEvent {}
 
+/// The following behavior is expected as the event occurs
+/// 1) Emit the BattleWaitingState to the UI code
 class BattleWaitingEvent extends BattleEvent {}
 
+/// The following behavior is expected as the event occurs
+/// 1) Emit the BattleStartBattleState to the UI code
 class BattleStartBattleEvent extends BattleEvent {}
 
+/// The event is triggered when the player answers the problem
+/// The following behavior is expected as the event occurs
+/// 1) Send answer type data with the answer index to the server
 class BattleAnswerEvent extends BattleEvent {
   final int answerIndex;
   BattleAnswerEvent({required this.answerIndex});
 }
 
+/// The event is triggered when the opponent answers the problem
+/// The following behavior is expected as the event occurs
+/// 1) Send answer type data with the answer index to the server
 class BattleGetAnsRespondedEvent extends BattleEvent {
   final bool isPlayer;
   final int addedScore;
@@ -27,10 +37,9 @@ class BattleStartEvent extends BattleEvent {
   BattleStartEvent({required this.challenge});
 }
 
-/// This event indicates that the animation is completed
-/// and the UI could be updated for the next round
-class BattleNextRoundReadyEvent extends BattleEvent {}
-
+/// The event is triggered when the player times up
+/// The following behavior is expected as the event occurs
+/// 1) Send answer type data with zero score while emitting times up state to the UI code
 class BattleTimesUpEvent extends BattleEvent {}
 
 /// The following behavior is expected as the event occurs

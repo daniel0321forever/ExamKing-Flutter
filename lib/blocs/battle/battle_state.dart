@@ -5,12 +5,16 @@ sealed class BattleState {}
 
 final class BattleInitial extends BattleState {}
 
-class BattleRoundFinishState extends BattleState {
-  final Problem problem;
-  BattleRoundFinishState({required this.problem});
-}
+class BattleShowOpponentAnswerState extends BattleState {}
 
-class BattleNewProblemReadyState extends BattleState {}
+class BattleShowCorrectAnswerState extends BattleState {}
+
+class BattleShowNextRoundLabelState extends BattleState {}
+
+class BattleNextRoundState extends BattleState {
+  final Problem problem;
+  BattleNextRoundState({required this.problem});
+}
 
 class BattleStartBattleState extends BattleState {}
 

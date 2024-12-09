@@ -27,7 +27,7 @@ class BattleResultPage extends StatelessWidget {
                   moneyChange: battleBloc.playerScore - battleBloc.opponentScore,
                 ),
                 ScoreCard(
-                  avatarImage: 'assets/player2.jpg',
+                  avatarImage: 'assets/player2.webp',
                   userName: battleBloc.opponentName ?? 'UNKNOWN',
                   score: battleBloc.opponentScore,
                   moneyChange: battleBloc.opponentScore - battleBloc.playerScore,

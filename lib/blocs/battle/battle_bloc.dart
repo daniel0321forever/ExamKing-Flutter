@@ -15,6 +15,11 @@ part 'battle_state.dart';
 class BattleBloc extends Bloc<BattleEvent, BattleState> {
   final UserProvider userProvider;
 
+  static const Duration battlePrepareStartDuration = Duration(milliseconds: 1000);
+  static const Duration showOpponentAnswerDuration = Duration(milliseconds: 1000);
+  static const Duration showCorrectAnswerDuration = Duration(milliseconds: 1300);
+  static const Duration showNextRoundLabelDuration = Duration(milliseconds: 1900);
+
   BackendService backendService = BackendService();
   Stream? battleStream;
   StreamSubscription? battleBlocListener;
@@ -71,6 +76,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     on<BattleStartEvent>((event, emit) async {
       try {
         initialize();
+        add(BattleWaitingEvent());
         debugPrint("on BattleStartEvent | triggered");
         // connect to server
         await backendService.connectToBattle(event.challenge, username: userProvider.userData!.username);
@@ -90,7 +96,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
           // NOTE: Triggered state based on answer type
           switch (decoded['type']) {
             case 'wait':
-              add(BattleWaitingEvent());
+              // add(BattleWaitingEvent());
               break;
             case 'start_game':
               String userID = userProvider.userData!.username;
@@ -174,9 +180,12 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
     on<BattleGetAnsRespondedEvent>((event, emit) async {
       try {
+        // case: if the answer response is from the player
         if (event.isPlayer) {
           debugPrint("on BattleGetAnsRespondedEvent | get player answer response");
-        } else {
+        }
+        // if the answer response is from the opponent
+        else {
           debugPrint("on BattleGetAnsRespondedEvent | get opponent answer response");
 
           // update opponent record
@@ -198,7 +207,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
           debugPrint("on BattleGetAnsRespondedEvent | going to next round");
           round += 1;
 
-          // check end game
+          // case: end game
           if (round >= (problems?.length ?? round + 1)) {
             hasResponded = false;
             opnHasResponded = false;
@@ -219,6 +228,16 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
               userWin: playerScore > opponentScore,
             );
 
+            debugPrint("on BattleGetAnsRespondedEvent | emitting BattleShowOpponentAnswerState");
+            emit(BattleShowOpponentAnswerState());
+
+            await Future.delayed(showOpponentAnswerDuration);
+
+            debugPrint("on BattleGetAnsRespondedEvent | emitting BattleShowCorrectAnswerState");
+            emit(BattleShowCorrectAnswerState());
+
+            await Future.delayed(showCorrectAnswerDuration);
+
             debugPrint("on BattleGetAnsRespondedEvent | emitting BattleEndGameState");
 
             emit(BattleEndGameState(
@@ -232,8 +251,27 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
           // case: not ending, going to next round
           else {
-            debugPrint("on BattleGetAnsRespondedEvent | emitting BattleRoundFinishState: ${problems![round].problem}");
-            emit(BattleRoundFinishState(problem: problems![round]));
+            debugPrint("on BattleGetAnsRespondedEvent | emitting BattleShowOpponentAnswerState");
+            emit(BattleShowOpponentAnswerState());
+
+            await Future.delayed(showOpponentAnswerDuration);
+
+            debugPrint("on BattleGetAnsRespondedEvent | emitting BattleShowCorrectAnswerState");
+            emit(BattleShowCorrectAnswerState());
+
+            await Future.delayed(showCorrectAnswerDuration);
+
+            debugPrint("on BattleGetAnsRespondedEvent | emitting BattleShowNextRoundLabelState");
+            emit(BattleShowNextRoundLabelState());
+
+            await Future.delayed(showNextRoundLabelDuration);
+
+            debugPrint("on BattleGetAnsRespondedEvent | emitting BattleNextRoundState: ${problems![round].problem}");
+
+            hasResponded = false;
+            opnHasResponded = false;
+            debugPrint("on BattleNextRoundReadyEvent | emitting BattleNewProblemReadyState");
+            emit(BattleNextRoundState(problem: problems![round]));
           }
         }
       } on Exception catch (e) {
@@ -269,21 +307,15 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       }
     });
 
-    on<BattleNextRoundReadyEvent>((event, emit) {
-      hasResponded = false;
-      opnHasResponded = false;
-      debugPrint("on BattleNextRoundReadyEvent | emitting BattleNewProblemReadyState");
-      emit(BattleNewProblemReadyState());
-    });
-
     on<BattleWaitingEvent>((event, emit) {
       debugPrint("on BattleWaitingEvent | emitting BattleWaitingEvent");
       emit(BattleWaitingState());
     });
 
-    on<BattleStartBattleEvent>((event, emit) {
+    on<BattleStartBattleEvent>((event, emit) async {
       // NOTE: the 'problems' would be decoded in the listener, to save me from passing the decoded data as parameter
       debugPrint("on BattleStartBattleEvent | emitting battle BattleStartBattleState");
+      await Future.delayed(battlePrepareStartDuration); // wait a few seconds just for the UI effect
       emit(BattleStartBattleState());
     });
   }

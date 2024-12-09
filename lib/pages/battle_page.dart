@@ -26,9 +26,10 @@ class _NextRoundAnimationState extends State<NextRoundAnimation> with SingleTick
   @override
   void initState() {
     super.initState();
+
     _slideController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 2500),
+      duration: BattleBloc.showNextRoundLabelDuration,
     );
 
     _slideAnimation = TweenSequence<Offset>([
@@ -182,31 +183,22 @@ class _BattlePageState extends State<BattlePage> with SingleTickerProviderStateM
             }
           });
         });
-      } else if (state is BattleRoundFinishState) {
-        Future.delayed(const Duration(milliseconds: 800), () {
-          if (mounted) {
-            setState(() {
-              _showNextRoundText = true;
-            });
-          }
-        }).then((_) {
-          Future.delayed(const Duration(milliseconds: 2000), () {
-            battleBloc.add(BattleNextRoundReadyEvent());
-            if (mounted) {
-              setState(() {
-                _showNextRoundText = false;
-                problem = state.problem;
-              });
-            }
+      } else if (state is BattleShowNextRoundLabelState) {
+        if (mounted) {
+          setState(() {
+            _showNextRoundText = true;
           });
-        });
+        }
+      } else if (state is BattleNextRoundState) {
+        if (mounted) {
+          setState(() {
+            _showNextRoundText = false;
+            problem = state.problem;
+          });
+        }
       } else if (state is BattleEndGameState) {
         if (mounted) {
-          Future.delayed(const Duration(milliseconds: 3500), () {
-            if (mounted) {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const BattleResultPage()));
-            }
-          });
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const BattleResultPage()));
         }
       }
     });
@@ -307,7 +299,7 @@ class _BattlePageState extends State<BattlePage> with SingleTickerProviderStateM
                   Spacer(),
                   TimerWidget(seconds: 10),
                   Spacer(),
-                  BattleAvatar(image: AssetImage('assets/player2.jpg')),
+                  BattleAvatar(image: AssetImage('assets/player2.webp')),
                 ],
               ),
 

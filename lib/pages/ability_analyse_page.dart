@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:examKing/models/ability_record.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class AbilityAnalysePage extends StatefulWidget {
   const AbilityAnalysePage({super.key});
@@ -46,8 +48,6 @@ class _AbilityAnalysePageState extends State<AbilityAnalysePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading) return loadingPage(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -57,21 +57,50 @@ class _AbilityAnalysePageState extends State<AbilityAnalysePage> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 50),
-            _buildRadarChart(),
-            const SizedBox(height: 20),
-            _buildStatsGrid(),
-          ],
-        ),
-      ),
+      body: isLoading
+          ? loadingPage(context)
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 50),
+                  _buildRadarChart(),
+                  const SizedBox(height: 20),
+                  _buildStatsGrid(),
+                ],
+              ),
+            ),
     );
   }
 
   Widget loadingPage(BuildContext context) {
-    return Container();
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Lottie.asset(
+            'assets/exam_king_radar.json',
+            width: 200,
+            height: 200,
+            fit: BoxFit.fill,
+          ),
+          const SizedBox(height: 5),
+          AnimatedTextKit(
+            animatedTexts: [
+              TypewriterAnimatedText(
+                '能力計算中',
+                speed: const Duration(milliseconds: 30),
+                textStyle: GoogleFonts.pressStart2p(
+                  fontSize: 16,
+                  color: const Color.fromARGB(255, 104, 167, 106),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+            isRepeatingAnimation: true,
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildRadarChart() {
@@ -168,7 +197,8 @@ class AbilityStatCard extends StatelessWidget {
   double _calculateScore() {
     // Weight: 70% correctRate, 30% normalized total correct count
     final normalizedTotalCorrect = min(1.0, record.totCorrect / 50); // Normalize with max 50 questions
-    return (record.correctRate * 0.6) + (normalizedTotalCorrect * 0.4);
+    // return (record.correctRate * 0.6) + (normalizedTotalCorrect * 0.4);
+    return record.correctRate;
   }
 
   @override

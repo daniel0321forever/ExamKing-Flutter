@@ -47,9 +47,9 @@ class _TimerWidgetState extends State<TimerWidget> {
     startTimer();
 
     battleListener = battleBloc.stream.listen((state) {
-      if (state is BattleRoundFinishState) {
+      if (state is BattleShowOpponentAnswerState) {
         timer?.cancel();
-      } else if (state is BattleNewProblemReadyState) {
+      } else if (state is BattleNextRoundState) {
         startTimer();
       } else if (state is BattleEndGameState) {
         timer?.cancel();

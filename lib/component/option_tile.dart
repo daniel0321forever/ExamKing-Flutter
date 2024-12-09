@@ -40,7 +40,7 @@ class _OptionTileState extends State<OptionTile> {
     });
   }
 
-  void showAnswer() {
+  void showOpponentAnswer() {
     if (opponentTappedCorrect != null) {
       setState(() {
         if (opponentTappedCorrect!) {
@@ -60,7 +60,9 @@ class _OptionTileState extends State<OptionTile> {
         }
       });
     }
+  }
 
+  void showCorrectAnswer() {
     if (battleBloc.problems![battleBloc.round - 1].options[widget.optionIndex].correct) {
       setState(() {
         color = correctColor;
@@ -91,12 +93,14 @@ class _OptionTileState extends State<OptionTile> {
             opponentTappedCorrect = state.isCorrect;
           });
         }
-      } else if (state is BattleRoundFinishState) {
-        showAnswer();
-      } else if (state is BattleNewProblemReadyState) {
+      } else if (state is BattleShowOpponentAnswerState) {
+        showOpponentAnswer();
+      } else if (state is BattleShowCorrectAnswerState) {
+        showCorrectAnswer();
+      } else if (state is BattleShowNextRoundLabelState) {
         initialize();
       } else if (state is BattleEndGameState) {
-        showAnswer();
+        initialize();
       }
     });
     super.initState();
@@ -122,7 +126,7 @@ class _OptionTileState extends State<OptionTile> {
         curve: Curves.easeInOut,
         alignment: Alignment.center,
         height: 70,
-        width: MediaQuery.of(context).size.width * 0.8 - 20,
+        width: MediaQuery.of(context).size.width * 0.8 - 40,
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         decoration: BoxDecoration(

@@ -14,9 +14,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:examKing/global/keys.dart' as keys;
 
-const String httpURL = "http://localhost:8000/api/";
-const String socketURL = "ws://localhost:8000/api/";
-
 class BackendService {
   WebSocketChannel? channel;
   GoogleSignIn? googleSignIn;
@@ -31,7 +28,7 @@ class BackendService {
   /// 1) The user might wait for a while without getting game-data before there is match for the user
   /// 2) The server would return game-data with following format by the key 'game-data' once the connection is built
   Future<void> connectToBattle(Challenge challenge, {required String username}) async {
-    String gameSocketURL = "${socketURL}battle?user=$username&challenge=${challenge.key}";
+    String gameSocketURL = "${dotenv.get('SOCKET_HOST')}battle?user=$username&challenge=${challenge.key}";
     try {
       channel = WebSocketChannel.connect(Uri.parse(gameSocketURL));
       await channel?.ready;
@@ -110,8 +107,9 @@ class BackendService {
     debugPrint("auth, ${googleAuthentication.idToken}");
 
     // log in to backend with id_token
+    debugPrint(Uri.parse("${dotenv.get('HTTP_HOST')}auth").toString());
     var res = await http.post(
-      Uri.parse("${httpURL}auth"),
+      Uri.parse("${dotenv.get('HTTP_HOST')}auth"),
       headers: {
         "Content-type": "Application/json",
       },
@@ -139,7 +137,7 @@ class BackendService {
       throw UnAuthenticatedException();
     }
 
-    Uri url = Uri.parse("${httpURL}login");
+    Uri url = Uri.parse("${dotenv.get('HTTP_HOST')}login");
     var res = await http.post(
       url,
       headers: {
@@ -174,7 +172,7 @@ class BackendService {
       throw UnAuthenticatedException();
     }
 
-    Uri url = Uri.parse("${httpURL}user");
+    Uri url = Uri.parse("${dotenv.get('HTTP_HOST')}user");
     var res = await http.patch(
       url,
       headers: {
@@ -214,7 +212,7 @@ class BackendService {
       throw UnAuthenticatedException();
     }
 
-    Uri url = Uri.parse("${httpURL}record");
+    Uri url = Uri.parse("${dotenv.get('HTTP_HOST')}record");
     var res = await http.post(
       url,
       headers: {
@@ -255,7 +253,7 @@ class BackendService {
       throw UnAuthenticatedException();
     }
 
-    Uri url = Uri.parse("${httpURL}record");
+    Uri url = Uri.parse("${dotenv.get('HTTP_HOST')}record");
 
     var res = await http.get(
       url,

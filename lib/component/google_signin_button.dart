@@ -12,7 +12,7 @@ class GoogleSigninButton extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        authBloc.add(AuthEventSignUp());
+        authBloc.add(AuthEventGoogleSignUp());
       },
       child: Container(
         height: 46,
@@ -28,33 +28,27 @@ class GoogleSigninButton extends StatelessWidget {
             ),
           ],
         ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(8),
-            onTap: () {
-              authBloc.add(AuthEventSignUp());
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.network(
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS70VFOE_89OCH_ztJMmAt-3NPx-nwKCVGvkg&s',
-                    height: 24,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.network(
+                  'https://w7.pngwing.com/pngs/425/124/png-transparent-google-chrome-icon-google-chrome-web-browser-logo-computer-icons-chrome-orange-chrome-os-internet-explorer-thumbnail.png',
+                  height: 24,
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  "使用Google帳號登入",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey.shade700,
                   ),
-                  const SizedBox(width: 12),
-                  Text(
-                    "Sign in with Google",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey.shade700,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

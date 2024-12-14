@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:examKing/component/login_button.dart';
+import 'package:examKing/component/normal_signin_button.dart';
 import 'package:examKing/pages/main_page.dart';
 import 'package:examKing/styling/router.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +58,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       vsync: this,
     );
 
+    _backgroundFadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _backgroundController,
+        curve: Curves.easeIn,
+      ),
+    );
+
     _scaleAnimation = Tween<double>(begin: 0.5, end: 1.0).animate(
       CurvedAnimation(
         parent: _contentController,
@@ -70,16 +79,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       ),
     );
 
-    _backgroundFadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _backgroundController,
-        curve: Curves.easeIn,
-      ),
-    );
-
     // Auth listener
     authBloc = context.read<AuthBloc>();
-    authBloc.add(AuthEventAppStart());
+
+    if (authBloc.state is AuthInitial) {
+      authBloc.add(AuthEventAppStart());
+    }
+
     authBlocListener = authBloc.stream.listen((state) {
       if (state is AuthStateAuthenticated) {
         if (mounted) {
@@ -107,10 +113,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    preloadImages();
+    // preloadImages();
     authBlocListener.cancel();
     _contentController.dispose();
     _backgroundController.dispose();
+
     super.dispose();
   }
 
@@ -145,43 +152,73 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   fit: BoxFit.cover,
                 ),
               ),
-              child: AnimatedOpacity(
-                duration: const Duration(milliseconds: 300),
-                opacity: _imageLoaded ? 1.0 : 0.0,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    FadeTransition(
-                      opacity: _opacityAnimation,
-                      child: ScaleTransition(
-                        scale: _scaleAnimation,
-                        child: Text(
-                          'The king of exams',
-                          style: GoogleFonts.yuseiMagic(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            shadows: [
-                              Shadow(
-                                blurRadius: 10.0,
-                                color: Colors.black26,
-                                offset: Offset(5.0, 5.0),
-                              ),
-                            ],
-                          ),
+              child: FadeTransition(
+                opacity: _opacityAnimation,
+                child: ScaleTransition(
+                  scale: _scaleAnimation,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'The King of Exam',
+                        style: GoogleFonts.yuseiMagic(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          shadows: [
+                            const Shadow(
+                              blurRadius: 10.0,
+                              color: Colors.black26,
+                              offset: Offset(5.0, 5.0),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 50),
-                    FadeTransition(
-                      opacity: _opacityAnimation,
-                      child: ScaleTransition(
-                        scale: _scaleAnimation,
-                        child: const GoogleSigninButton(),
-                      ),
-                    ),
-                  ],
+                      const SizedBox(height: 40),
+
+                      // username field
+                      // Container(
+                      //   width: 300,
+                      //   margin: const EdgeInsets.symmetric(vertical: 8),
+                      //   decoration: BoxDecoration(
+                      //     color: Colors.white.withOpacity(0.9),
+                      //     borderRadius: BorderRadius.circular(30),
+                      //     boxShadow: [
+                      //       BoxShadow(
+                      //         color: Colors.black.withOpacity(0.1),
+                      //         blurRadius: 10,
+                      //         offset: const Offset(0, 5),
+                      //       ),
+                      //     ],
+                      //   ),
+                      //   child: TextField(
+                      //     controller: _usernameController,
+                      //     style: const TextStyle(color: Colors.black87),
+                      //     onTapOutside: (event) => FocusScope.of(context).unfocus(),
+                      //     decoration: InputDecoration(
+                      //       labelText: 'Username',
+                      //       labelStyle: const TextStyle(color: Colors.black54),
+                      //       prefixIcon: const Icon(Icons.person, color: Colors.black54),
+                      //       border: OutlineInputBorder(
+                      //         borderRadius: BorderRadius.circular(30),
+                      //         borderSide: BorderSide.none,
+                      //       ),
+                      //       filled: true,
+                      //       fillColor: Colors.transparent,
+                      //     ),
+                      //   ),
+                      // ),
+
+                      // Google signin button
+
+                      const GoogleSigninButton(),
+
+                      // sign up button
+                      const SizedBox(height: 20),
+                      NormalSigninButton(),
+                    ],
+                  ),
                 ),
               ),
             ),

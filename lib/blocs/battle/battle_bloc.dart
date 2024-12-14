@@ -79,7 +79,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         add(BattleWaitingEvent());
         debugPrint("on BattleStartEvent | triggered");
         // connect to server
-        await backendService.connectToBattle(event.challenge, username: userProvider.userData!.username);
+        await backendService.connectToBattle(event.challenge, username: userProvider.userData!.username ?? userProvider.userData!.googleUsername!);
         field = event.challenge.key;
 
         // define stream which listen to wait, start_game, answer and end-game type message
@@ -99,7 +99,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
               // add(BattleWaitingEvent());
               break;
             case 'start_game':
-              String userID = userProvider.userData!.username;
+              String userID = userProvider.userData!.username ?? userProvider.userData!.googleUsername!;
 
               debugPrint("on BattleStartEvent | get start game message: $decoded");
 

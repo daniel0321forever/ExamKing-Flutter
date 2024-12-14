@@ -1,5 +1,11 @@
+const String authUserNameKey = "username";
+const String authPasswordKey = "password";
+const String authEmailKey = "email";
+const String authNameKey = "name";
+
 const String accountNameKey = "name";
 const String accountUsernameKey = "username";
+const String accountGoogleUsernameKey = "google_username";
 const String accountWinKey = "win_record";
 const String accountLoseKey = "lose_record";
 const String accountWinRateKey = "win_rate";

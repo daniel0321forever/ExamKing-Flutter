@@ -74,8 +74,6 @@ class BackendService {
       googleSignIn = GoogleSignIn(
         scopes: signInScope,
       );
-
-      debugPrint("google signin is set");
     }
 
     //If current device IOS, We have to declare clientID
@@ -92,9 +90,8 @@ class BackendService {
       throw Exception("Invalid platform ${Platform.operatingSystem} (Why the hell it would happen?)");
     }
 
-    debugPrint("getting google account");
     final GoogleSignInAccount? googleAccount = await googleSignIn!.signIn();
-    debugPrint("got google account");
+    debugPrint("backend | signInWithGoogle | got google account");
 
     // If you want further information about Google accounts, such as authentication, use this.
     if (googleAccount == null) {
@@ -103,11 +100,10 @@ class BackendService {
 
     final GoogleSignInAuthentication googleAuthentication = await googleAccount.authentication;
 
-    debugPrint("email, ${googleAccount.displayName}");
-    debugPrint("auth, ${googleAuthentication.idToken}");
+    debugPrint("backend | signInWithGoogle | email, ${googleAccount.displayName}");
+    debugPrint("backend | signInWithGoogle | auth, ${googleAuthentication.idToken}");
 
     // log in to backend with id_token
-    debugPrint(Uri.parse("${dotenv.get('HTTP_HOST')}auth").toString());
     var res = await http.post(
       Uri.parse("${dotenv.get('HTTP_HOST')}auth"),
       headers: {
@@ -118,7 +114,6 @@ class BackendService {
       }),
     );
 
-    debugPrint("get res ${res.statusCode}, ${res.body}");
     Map body = json.decode(utf8.decode(res.bodyBytes));
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -137,7 +132,7 @@ class BackendService {
       throw UnAuthenticatedException();
     }
 
-    Uri url = Uri.parse("${dotenv.get('HTTP_HOST')}login");
+    Uri url = Uri.parse("${dotenv.get('HTTP_HOST')}token_login");
     var res = await http.post(
       url,
       headers: {
@@ -159,6 +154,128 @@ class BackendService {
         throw UnAuthenticatedException();
       default:
         debugPrint("backend service | updatedBattleRecord | error status ${res.statusCode}");
+        debugPrint("body ${res.body}");
+        throw UnhandledStatusException();
+    }
+  }
+
+  Future<UserData> signIn(String username, String password) async {
+    debugPrint("backend | signIn | triggered");
+
+    Uri url = Uri.parse("${dotenv.get('HTTP_HOST')}login");
+    var res = await http.post(
+      url,
+      headers: {
+        "Content-type": "Application/json",
+      },
+      body: json.encode({
+        keys.authUserNameKey: username,
+        keys.authPasswordKey: password,
+      }),
+    );
+
+    switch (res.statusCode) {
+      case 200:
+        debugPrint("backend service | signIn | get success response ${res.body}");
+        Map body = json.decode(utf8.decode(res.bodyBytes));
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString(keys.prefTokenKey, body[keys.accountTokenKey]);
+        return UserData.fromMap(body);
+      case 404:
+        debugPrint("backend service | signIn | end point not found");
+        throw PageNotFoundException();
+      case 401:
+        debugPrint("backend service | signIn | username or password is incorrect");
+        throw UnAuthenticatedException();
+      default:
+        debugPrint("backend service | signIn | error status ${res.statusCode}");
+        debugPrint("body ${res.body}");
+        throw UnhandledStatusException();
+    }
+  }
+
+  Future<UserData> signUp(String username, String password, String email, String name) async {
+    debugPrint("backend | signUp | triggered");
+
+    Uri url = Uri.parse("${dotenv.get('HTTP_HOST')}signup");
+    var res = await http.post(
+      url,
+      headers: {
+        "Content-type": "Application/json",
+      },
+      body: json.encode({
+        keys.authUserNameKey: username,
+        keys.authPasswordKey: password,
+        keys.authEmailKey: email,
+        keys.authNameKey: name,
+      }),
+    );
+
+    switch (res.statusCode) {
+      case 200:
+        debugPrint("backend service | signUp | get success response ${res.body}");
+        Map body = json.decode(utf8.decode(res.bodyBytes));
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString(keys.prefTokenKey, body[keys.accountTokenKey]);
+        return UserData.fromMap(body);
+      case 404:
+        debugPrint("backend service | signUp | end point not found");
+        throw PageNotFoundException();
+      case 401:
+        debugPrint("backend service | signUp | ${res.body}");
+        throw UnAuthenticatedException();
+      default:
+        debugPrint("backend service | signUp | error status ${res.statusCode}");
+        debugPrint("body ${res.body}");
+        throw UnhandledStatusException();
+    }
+  }
+
+  Future<void> checkUsername(String username) async {
+    debugPrint("backend | checkUsername | triggered");
+    Uri url = Uri.parse("${dotenv.get('HTTP_HOST')}check_username");
+    var res = await http.post(
+      url,
+      headers: {
+        "Content-type": "Application/json",
+      },
+      body: json.encode({
+        keys.authUserNameKey: username,
+      }),
+    );
+
+    switch (res.statusCode) {
+      case 200:
+        debugPrint("backend service | checkUsername | get success response ${res.body}");
+      case 409:
+        debugPrint("backend service | checkUsername | username is already taken");
+        throw UsernameAlreadyTakenException();
+      default:
+        throw UnhandledStatusException();
+    }
+  }
+
+  Future<void> checkEmail(String email) async {
+    debugPrint("backend | checkEmail | triggered");
+    Uri url = Uri.parse("${dotenv.get('HTTP_HOST')}check_email");
+    var res = await http.post(
+      url,
+      headers: {
+        "Content-type": "Application/json",
+      },
+      body: json.encode({
+        keys.authEmailKey: email,
+      }),
+    );
+
+    switch (res.statusCode) {
+      case 200:
+        debugPrint("backend service | checkEmail | get success response ${res.body}");
+      case 400:
+        debugPrint("backend service | checkEmail | email is invalid");
+        throw EmailInvalidException();
+      default:
+        debugPrint("backend service | checkEmail | error status ${res.statusCode}");
         debugPrint("body ${res.body}");
         throw UnhandledStatusException();
     }

@@ -8,6 +8,7 @@ import 'package:examKing/component/logout_icon.dart';
 import 'package:examKing/models/user.dart';
 import 'package:examKing/pages/ability_analyse_page.dart';
 import 'package:examKing/pages/login_page.dart';
+import 'package:examKing/pages/main_page.dart';
 import 'package:examKing/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:examKing/component/main_page_button.dart';
@@ -86,7 +87,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> with SingleTickerPr
         });
       } else if (state is AuthStateAuthenticated) {
         if (mounted) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const IndexPage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const MainPage()));
         }
       } else if (state is AuthStateFailed) {
         setState(() {
@@ -430,6 +431,46 @@ class _AccountLoginPageState extends State<AccountLoginPage> with SingleTickerPr
           obscureText: true,
           errorText: isLogInFailed ? "帳號或密碼錯誤" : null,
         ),
+
+        // Keep signed in checkbox
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        //     Checkbox(
+        //       value: authBloc.isKeepSignedIn,
+        //       onChanged: (bool? value) {
+        //         setState(() {
+        //           if (value != null) {
+        //             authBloc.isKeepSignedIn = value;
+        //           }
+        //         });
+        //       },
+        //       fillColor: WidgetStateProperty.resolveWith((states) {
+        //         if (states.contains(WidgetState.selected)) {
+        //           return Theme.of(context).primaryColor;
+        //         }
+        //         return Colors.white;
+        //       }),
+        //       checkColor: Colors.white,
+        //       shape: RoundedRectangleBorder(
+        //         borderRadius: BorderRadius.circular(6),
+        //       ),
+        //       side: BorderSide(
+        //         color: Theme.of(context).primaryColor.withOpacity(0.8),
+        //         width: 1.5,
+        //       ),
+        //     ),
+        //     Text(
+        //       '保持登入狀態',
+        //       style: GoogleFonts.notoSans(
+        //         color: Colors.black87,
+        //         fontSize: 14,
+        //         fontWeight: FontWeight.w500,
+        //         letterSpacing: 0.3,
+        //       ),
+        //     ),
+        //   ],
+        // ),
 
         // Login Button
         const SizedBox(height: 20),

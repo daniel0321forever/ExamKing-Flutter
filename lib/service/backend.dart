@@ -281,6 +281,13 @@ class BackendService {
     }
   }
 
+  Future<void> logOut(bool isKeepSignedIn) async {
+    // if (!isKeepSignedIn) {
+    //   SharedPreferences prefs = await SharedPreferences.getInstance();
+    //   prefs.remove(keys.prefTokenKey);
+    // }
+  }
+
   Future<void> updateUserInfo(Map<String, dynamic> updateMap) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(keys.prefTokenKey);

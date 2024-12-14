@@ -9,6 +9,7 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  bool isKeepSignedIn = true;
   final UserProvider userProvider;
   BackendService backendService = BackendService();
 
@@ -109,9 +110,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
-    on<AuthEventLogOut>((event, emit) {
+    on<AuthEventLogOut>((event, emit) async {
       debugPrint("AuthEventLogOut triggered");
       userProvider.userData = null;
+      await backendService.logOut(isKeepSignedIn);
       emit(AuthStateLoggedOut());
     });
   }

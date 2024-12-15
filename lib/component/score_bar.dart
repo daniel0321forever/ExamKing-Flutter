@@ -69,12 +69,12 @@ class _ScoreBarState extends State<ScoreBar> with SingleTickerProviderStateMixin
       children: [
         // Add score text above the bar
         SizedBox(
-          width: 40,
+          width: 45,
           child: Text(
             currentScore.toString(),
             textAlign: TextAlign.center,
             style: const TextStyle(
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),

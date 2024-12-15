@@ -42,10 +42,11 @@ class BackendService {
   /// The following behaviour is expected when the function has been called
   /// 1) An event including information about userID and score would be sent to server websocket
   /// 2) Server websocket would broadcast data about the scoring event
-  void answer(int score, int? optionIndex) {
+  void answer(int score, {int? optionIndex, required String userId}) {
+    debugPrint("backend | answer | triggered");
     Map<String, dynamic> payload = {
       'type': 'answer',
-      'userID': "daniel_00",
+      'userID': userId,
       'score': score,
     };
 

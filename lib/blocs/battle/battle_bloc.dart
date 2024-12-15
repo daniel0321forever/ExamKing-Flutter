@@ -43,8 +43,6 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   bool hasResponded = false;
   bool opnHasResponded = false;
 
-  String userId = "daniel_00";
-
   void initialize() {
     leftSec = null;
     playerScore = 0;
@@ -118,8 +116,9 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
               add(BattleStartBattleEvent());
               break;
             case 'answer':
+              debugPrint("on BattleStartEvent | get answer message: $decoded");
               add(BattleGetAnsRespondedEvent(
-                isPlayer: decoded['answered_user'] == userId,
+                isPlayer: decoded['answered_user'] == (userProvider.userData!.username ?? userProvider.userData!.googleUsername!),
                 addedScore: int.parse(decoded['added_score'].toString()),
                 answerIndex: decoded['option_index'],
               ));
@@ -170,7 +169,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         ));
 
         // send message to server
-        backendService.answer(addedScore, event.answerIndex);
+        backendService.answer(addedScore, optionIndex: event.answerIndex, userId: userProvider.userData!.username ?? userProvider.userData!.googleUsername!);
       } on Exception catch (e) {
         emit(BattleErrorState());
         initialize();
@@ -289,7 +288,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         hasResponded = true;
 
         // send message to server
-        backendService.answer(0, null);
+        backendService.answer(0, userId: userProvider.userData!.username ?? userProvider.userData!.googleUsername!);
 
         emit(BattleAnsweredState(
           playerAnswered: true,

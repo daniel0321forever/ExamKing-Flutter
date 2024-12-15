@@ -126,8 +126,8 @@ class _OptionTileState extends State<OptionTile> {
         curve: Curves.easeInOut,
         alignment: Alignment.center,
         height: 70,
-        width: MediaQuery.of(context).size.width * 0.8 - 40,
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+        width: MediaQuery.of(context).size.width * 0.8 - 60,
+        margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),

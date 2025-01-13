@@ -279,12 +279,12 @@ class _BattlePageState extends State<BattlePage> with SingleTickerProviderStateM
   Widget generalView(BuildContext context) {
     return Container(
       constraints: const BoxConstraints.expand(),
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage('https://i.pinimg.com/originals/62/f6/0e/62f60eb00055ce5a3580bd91559f9f94.gif'),
-          fit: BoxFit.cover,
-        ),
-      ),
+      // decoration: const BoxDecoration(
+      //   image: DecorationImage(
+      //     image: NetworkImage('https://i.pinimg.com/originals/62/f6/0e/62f60eb00055ce5a3580bd91559f9f94.gif'),
+      //     fit: BoxFit.cover,
+      //   ),
+      // ),
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -310,16 +310,16 @@ class _BattlePageState extends State<BattlePage> with SingleTickerProviderStateM
                 child: Text(
                   problem!.problem,
                   style: GoogleFonts.notoSansMono(
-                    fontSize: 19,
-                    color: Colors.white,
+                    fontSize: 15,
+                    color: Colors.black45,
                     fontWeight: FontWeight.bold,
-                    shadows: [
-                      Shadow(
-                        blurRadius: 3.0,
-                        color: Colors.black.withOpacity(0.5),
-                        offset: const Offset(1.0, 1.0),
-                      ),
-                    ],
+                    // shadows: [
+                    //   Shadow(
+                    //     blurRadius: 3.0,
+                    //     color: Colors.black.withOpacity(0.5),
+                    //     offset: const Offset(1.0, 1.0),
+                    //   ),
+                    // ],
                   ),
                 ),
               ),

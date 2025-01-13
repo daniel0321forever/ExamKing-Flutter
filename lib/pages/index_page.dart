@@ -123,17 +123,7 @@ class _IndexPageState extends State<IndexPage> with SingleTickerProviderStateMix
       body: SingleChildScrollView(
         child: Container(
           height: 240 * challenges.length.toDouble() + 200,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Color.fromARGB(198, 241, 182, 182),
-                Color.fromARGB(255, 250, 178, 178),
-                Color.fromARGB(255, 248, 172, 172),
-              ],
-            ),
-          ),
+          decoration: const BoxDecoration(),
           child: Stack(
             children: <Widget>[
                   const Positioned(
@@ -246,14 +236,15 @@ class _StartBattleDialogState extends State<StartBattleDialog> with SingleTicker
           width: double.infinity,
           height: 450,
           decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(widget.challenge.imageURL),
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.3),
-                BlendMode.darken,
-              ),
-            ),
+            // image: DecorationImage(
+            //   image: AssetImage(widget.challenge.imageURL),
+            //   fit: BoxFit.cover,
+            //   colorFilter: ColorFilter.mode(
+            //     Colors.black.withOpacity(0.3),
+            //     BlendMode.darken,
+            //   ),
+            // ),
+            color: widget.challenge.mainColor,
           ),
           padding: const EdgeInsets.all(24),
           child: FadeTransition(

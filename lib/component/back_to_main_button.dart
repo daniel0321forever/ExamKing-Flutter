@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:examKing/pages/main_page.dart';
 
 class AnimatedBackButton extends StatefulWidget {
-  const AnimatedBackButton({super.key});
+  final void Function()? onBack;
+  const AnimatedBackButton({super.key, this.onBack});
 
   @override
   State<AnimatedBackButton> createState() => _AnimatedBackButtonState();
@@ -58,9 +59,10 @@ class _AnimatedBackButtonState extends State<AnimatedBackButton> with SingleTick
             child: IconButton(
               icon: Icon(Icons.arrow_back, color: Colors.white),
               iconSize: 30,
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MainPage()));
-              },
+              onPressed: widget.onBack ??
+                  () {
+                    Navigator.pop(context);
+                  },
             ),
           ),
         ),

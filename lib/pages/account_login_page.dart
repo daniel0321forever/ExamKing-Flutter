@@ -9,7 +9,7 @@ import 'package:examKing/models/user.dart';
 import 'package:examKing/pages/ability_analyse_page.dart';
 import 'package:examKing/pages/login_page.dart';
 import 'package:examKing/pages/main_page.dart';
-import 'package:examKing/providers/user_provider.dart';
+import 'package:examKing/providers/global_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:examKing/component/main_page_button.dart';
 import 'package:examKing/pages/index_page.dart';

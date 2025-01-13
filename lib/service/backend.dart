@@ -16,6 +16,7 @@ import 'package:examKing/global/keys.dart' as keys;
 
 class BackendService {
   WebSocketChannel? channel;
+  WebSocketChannel? computerChannel;
   GoogleSignIn? googleSignIn;
   List<String> signInScope = [
     'openid',
@@ -27,13 +28,25 @@ class BackendService {
   /// The following behaviour are expected
   /// 1) The user might wait for a while without getting game-data before there is match for the user
   /// 2) The server would return game-data with following format by the key 'game-data' once the connection is built
-  Future<void> connectToBattle(Challenge challenge, {required String username}) async {
-    String gameSocketURL = "${dotenv.get('SOCKET_HOST')}battle?user=$username&challenge=${challenge.key}";
+  Future<void> connectToBattle(String challengeKey, {required String username, int? level}) async {
+    String gameSocketURL = "${dotenv.get('SOCKET_HOST')}battle?user=$username&challenge=$challengeKey";
+    gameSocketURL += level != null ? "&level=$level" : "";
     try {
       channel = WebSocketChannel.connect(Uri.parse(gameSocketURL));
       await channel?.ready;
     } catch (e) {
-      debugPrint("backend_service | connectToControllerSocket | error occurs when waiting for channel to be ready: $e");
+      debugPrint("backend_service | connectToBattle | error occurs when waiting for channel to be ready: $e");
+      throw const SocketException("fail to connect to game consumer");
+    }
+  }
+
+  Future<void> connectToComputerSocket(String challengeKey, {required String username}) async {
+    String gameSocketURL = "${dotenv.get('SOCKET_HOST')}battle?user=$username&challenge=$challengeKey";
+    try {
+      computerChannel = WebSocketChannel.connect(Uri.parse(gameSocketURL));
+      await computerChannel?.ready;
+    } catch (e) {
+      debugPrint("backend_service | connectToComputerSocket | error occurs when waiting for channel to be ready: $e");
       throw const SocketException("fail to connect to game consumer");
     }
   }
@@ -63,7 +76,14 @@ class BackendService {
   /// 2) The connection would be close
   void closeConnection() {
     channel?.sink.close();
+    computerChannel?.sink.close();
     channel = null;
+    computerChannel = null;
+  }
+
+  void closeComputerConnection() {
+    computerChannel?.sink.close();
+    computerChannel = null;
   }
 
   /// Signing in with google

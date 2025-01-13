@@ -24,3 +24,15 @@ const String analysisCorrectRatekey = "correctRate";
 const String analysisFieldKey = "field";
 
 const String prefTokenKey = "token";
+
+const String statTypeCorrectRate = "correct_rate";
+const String statTypeWinRate = "win_rate";
+const String statTypeAvgWords = "avg_words";
+const String statTypeAvgHesitation = "avg_hesitation";
+const String statTypeEstimatedScore = "estimated_score";
+
+const String statTitleKey = "title";
+const String statValKey = "val";
+const String statMaxValKey = "maxVal";
+
+const String todayWordProgressKey = "today_word_progress";

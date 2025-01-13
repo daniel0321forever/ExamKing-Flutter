@@ -65,3 +65,5 @@ class BattleEndGameState extends BattleState {
     this.opponentName,
   });
 }
+
+class BattleTimerTickedState extends BattleState {}

@@ -18,41 +18,15 @@ class TimerWidget extends StatefulWidget {
 class _TimerWidgetState extends State<TimerWidget> {
   late BattleBloc battleBloc;
   late StreamSubscription battleListener;
-  Timer? timer;
-
-  void startTimer() {
-    setState(() {
-      battleBloc.leftSec = widget.seconds;
-    });
-    timer = Timer.periodic(
-      const Duration(seconds: 1),
-      (timer) {
-        if (battleBloc.leftSec == 0) {
-          if (!battleBloc.hasResponded) battleBloc.add(BattleTimesUpEvent());
-          timer.cancel();
-          return;
-        }
-        setState(() {
-          battleBloc.leftSec = battleBloc.leftSec! - 1;
-        });
-      },
-    );
-  }
 
   @override
   void initState() {
     super.initState();
     battleBloc = context.read<BattleBloc>();
 
-    startTimer();
-
     battleListener = battleBloc.stream.listen((state) {
-      if (state is BattleShowOpponentAnswerState) {
-        timer?.cancel();
-      } else if (state is BattleNextRoundState) {
-        startTimer();
-      } else if (state is BattleEndGameState) {
-        timer?.cancel();
+      if (state is BattleTimerTickedState) {
+        setState(() {});
       }
     });
   }
@@ -60,7 +34,6 @@ class _TimerWidgetState extends State<TimerWidget> {
   @override
   void dispose() {
     battleListener.cancel();
-    timer?.cancel();
     super.dispose();
   }
 
@@ -79,7 +52,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         Text(
           battleBloc.leftSec.toString(),
           style: const TextStyle(
-            color: Colors.white,
+            color: Colors.black45,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
@@ -98,7 +71,7 @@ class TimerPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.white
+      ..color = Colors.black26
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3.0;
 

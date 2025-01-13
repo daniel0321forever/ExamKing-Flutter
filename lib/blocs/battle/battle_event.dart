@@ -45,3 +45,12 @@ class BattleTimesUpEvent extends BattleEvent {}
 /// The following behavior is expected as the event occurs
 /// 1) The initialize() method should be triggered, which cancel the backend channel
 class BattleCancelEvent extends BattleEvent {}
+
+/// The following behavior is expected as the event occurs
+/// 1) Emit the BattleNextRoundState to the UI code
+/// 2) Restart computer aggent if the opponent is the computer
+class BattleRoundStartEvent extends BattleEvent {}
+
+/// The following behavior is expected as the event occurs
+/// 1) Emit the BattleTimerTickedState to the UI code
+class BattleTimerTickedEvent extends BattleEvent {}

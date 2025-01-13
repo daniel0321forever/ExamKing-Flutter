@@ -76,7 +76,7 @@ class _ScoreBarState extends State<ScoreBar> with SingleTickerProviderStateMixin
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Color.fromARGB(255, 0, 0, 0),
             ),
           ),
         ),
@@ -88,7 +88,7 @@ class _ScoreBarState extends State<ScoreBar> with SingleTickerProviderStateMixin
           width: 20,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: const Color.fromARGB(111, 255, 236, 236),
+            color: const Color.fromARGB(108, 158, 158, 158),
           ),
           clipBehavior: Clip.hardEdge,
           child: Stack(
@@ -104,32 +104,11 @@ class _ScoreBarState extends State<ScoreBar> with SingleTickerProviderStateMixin
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        const Color.fromARGB(255, 255, 218, 243).withOpacity(0.6),
+                        const Color.fromRGBO(255, 200, 193, 1).withOpacity(0.6),
                         const Color.fromARGB(255, 255, 218, 243),
                       ],
                     ),
                   ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: AnimatedBuilder(
-                  animation: _glowAnimation,
-                  builder: (context, child) {
-                    return Container(
-                      height: barHeight * currentScore / widget.maxScore,
-                      decoration: BoxDecoration(
-                        gradient: RadialGradient(
-                          center: Alignment.center,
-                          radius: _glowAnimation.value,
-                          colors: [
-                            Colors.white.withOpacity(0.3),
-                            Colors.transparent,
-                          ],
-                        ),
-                      ),
-                    );
-                  },
                 ),
               ),
             ],

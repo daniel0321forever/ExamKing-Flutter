@@ -27,9 +27,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   late final Animation<double> _scaleAnimation;
   late final Animation<double> _opacityAnimation;
   late final Animation<double> _backgroundFadeAnimation;
-  bool _imageLoaded = false;
-
-  ImageProvider backgroundImageProvider = const NetworkImage('https://media.tenor.com/3hKQ_ZtSPd4AAAAM/luffy-snake-man.gif');
 
   void preloadImages() {
     List<String> preloadPaths = [
@@ -48,13 +45,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
     // Setup animations
     _contentController = AnimationController(
-      duration: const Duration(milliseconds: 4000),
+      duration: const Duration(milliseconds: 3000),
       vsync: this,
     );
 
     // Add new background controller
     _backgroundController = AnimationController(
-      duration: const Duration(milliseconds: 3000),
+      duration: const Duration(milliseconds: 2000),
       vsync: this,
     );
 
@@ -99,16 +96,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    precacheImage(backgroundImageProvider, context).then((_) {
-      if (mounted) {
-        setState(() {
-          _imageLoaded = true;
-          _backgroundController.forward().then((_) {
-            _contentController.forward();
-          });
-        });
-      }
-    });
+    if (mounted) {
+      _backgroundController.forward().then((_) {
+        _contentController.forward();
+      });
+    }
   }
 
   @override
@@ -146,10 +138,15 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             opacity: _backgroundFadeAnimation,
             child: Container(
               width: double.infinity,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: backgroundImageProvider,
-                  fit: BoxFit.cover,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Color.fromARGB(198, 241, 182, 182),
+                    Color.fromARGB(255, 250, 178, 178),
+                    Color.fromARGB(255, 248, 172, 172),
+                  ],
                 ),
               ),
               child: FadeTransition(
@@ -161,8 +158,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'The King of Exam',
-                        style: GoogleFonts.yuseiMagic(
+                        'GRE Master',
+                        style: GoogleFonts.khand(
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,

@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:convert';
 
 import 'package:examKing/blocs/words/words_bloc.dart';
 import 'package:examKing/global/keys.dart' as keys;
@@ -7,45 +8,85 @@ import 'package:examKing/global/properties.dart';
 import 'package:examKing/models/stat.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 
 class AnalysisService {
   AnalysisService();
 
   Future<List<Stat>> getStats() async {
-    Map<String, dynamic> stats = {
-      keys.statTypeCorrectRate: {
-        keys.statValKey: 70.0,
-        keys.statMaxValKey: 100.0,
-      },
-      keys.statTypeWinRate: {
-        keys.statValKey: 44.0,
-        keys.statMaxValKey: 100.0,
-      },
-      keys.statTypeAvgWords: {
-        keys.statValKey: 25.0,
-        keys.statMaxValKey: 100.0,
-      },
-    };
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(keys.prefTokenKey);
 
-    List<Stat> statList = [];
-    for (var key in stats.keys) {
-      statList.add(
-        Stat(
-          key: key,
-          title: statProperties[key]![keys.statTitleKey],
-          val: stats[key]![keys.statValKey],
-          maxVal: stats[key]![keys.statMaxValKey],
-        ),
-      );
+    if (token == null) {
+      throw UnAuthenticatedException();
     }
-    return statList;
+
+    Uri url = Uri.parse("${dotenv.get('HTTP_HOST')}record");
+    var res = await http.get(
+      url,
+      headers: {
+        "Content-type": "Application/json",
+        "Authorization": "Bearer $token",
+      },
+    );
+
+    switch (res.statusCode) {
+      case 200:
+        debugPrint("backend service | updateUserInfo | get success response ${res.body}");
+        List<Stat> statList = List<Stat>.from(json.decode(res.body).map((statMap) {
+          debugPrint("statMap ${statMap[keys.statKeyKey]}");
+          statMap[keys.statTitleKey] = statProperties[statMap[keys.statKeyKey]]![keys.statTitleKey];
+          return Stat.fromMap(statMap);
+        }));
+        return statList;
+
+      case 404:
+        debugPrint("service | updateUserInfo | end point not found");
+        throw PageNotFoundException();
+      case 401:
+        debugPrint("backend service | updateUserInfo | ${res.body}");
+        throw UnAuthenticatedException();
+      default:
+        debugPrint("backend service | updateUserInfo | error status ${res.statusCode}");
+        debugPrint("body ${res.body}");
+        throw UnhandledStatusException();
+    }
   }
 
   Future<List<int>> getMonthlyWordProgress() async {
-    DateTime now = DateTime.now();
-    int daysInMonth = now.day;
-    List<int> wordProgress = [45, 10, 80, 23, 41, 19, 30];
-    return wordProgress;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(keys.prefTokenKey);
+
+    if (token == null) {
+      throw UnAuthenticatedException();
+    }
+
+    Uri url = Uri.parse("${dotenv.get('HTTP_HOST')}word_progress");
+    var res = await http.get(
+      url,
+      headers: {
+        "Content-type": "Application/json",
+        "Authorization": "Bearer $token",
+      },
+    );
+
+    switch (res.statusCode) {
+      case 200:
+        debugPrint("backend service | updateUserInfo | get success response ${res.body}");
+        return List<int>.from(json.decode(res.body));
+
+      case 404:
+        debugPrint("service | updateUserInfo | end point not found");
+        throw PageNotFoundException();
+      case 401:
+        debugPrint("backend service | updateUserInfo | ${res.body}");
+        throw UnAuthenticatedException();
+      default:
+        debugPrint("backend service | updateUserInfo | error status ${res.statusCode}");
+        debugPrint("body ${res.body}");
+        throw UnhandledStatusException();
+    }
   }
 
   Future<List<int>> getPreviousMonthWordProgress(int month, int year) async {
@@ -56,21 +97,37 @@ class AnalysisService {
   }
 
   Future<List<List<double>>> getSevenDaysCorrectRate() async {
-    DateTime now = DateTime.now();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(keys.prefTokenKey);
 
-    List<List<double>> correctRate = List<List<double>>.generate(
-      4,
-      (index) => List<double>.generate(7, (index) => Random().nextDouble() * 100),
-    );
-    return correctRate;
-  }
+    if (token == null) {
+      throw UnAuthenticatedException();
+    }
 
-  Future<List<List<double>>> getPreviousDaysCorrectRate(int startDay, int endDay) async {
-    DateTime now = DateTime.now();
-    List<List<double>> correctRate = List<List<double>>.generate(
-      4,
-      (index) => List<double>.generate(endDay - startDay + 1, (index) => Random().nextDouble() * 100),
+    Uri url = Uri.parse("${dotenv.get('HTTP_HOST')}correct_rate");
+    var res = await http.get(
+      url,
+      headers: {
+        "Content-type": "Application/json",
+        "Authorization": "Bearer $token",
+      },
     );
-    return correctRate;
+
+    switch (res.statusCode) {
+      case 200:
+        debugPrint("backend service | updateUserInfo | get success response ${res.body}");
+        return List<List<double>>.from(json.decode(res.body).map((l) => List<double>.from(l.map((e) => e.toDouble()))));
+
+      case 404:
+        debugPrint("service | updateUserInfo | end point not found");
+        throw PageNotFoundException();
+      case 401:
+        debugPrint("backend service | updateUserInfo | ${res.body}");
+        throw UnAuthenticatedException();
+      default:
+        debugPrint("backend service | updateUserInfo | error status ${res.statusCode}");
+        debugPrint("body ${res.body}");
+        throw UnhandledStatusException();
+    }
   }
 }

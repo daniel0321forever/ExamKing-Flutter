@@ -32,7 +32,7 @@ class LearnWordIndexPage extends StatelessWidget {
   Widget _buildLevelList() {
     return Column(
       children: [
-        for (int level = 0; level < levels.length; level++) LearnIndexItem(level: levels[level], isLocked: level >= 8),
+        for (int lv = 0; lv < levels.length; lv++) LearnIndexItem(level: levels[lv], isLocked: lv >= 15),
       ],
     );
   }

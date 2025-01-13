@@ -303,7 +303,7 @@ class _StartBattleDialogState extends State<StartBattleDialog> with SingleTicker
                           : DialogButton(
                               title: "Continue",
                               onPressed: () {
-                                battleBloc.add(BattleStartEvent(challenge: widget.challenge));
+                                battleBloc.add(BattleStartEvent(challenge: widget.challenge, level: widget.challenge.level));
                               }),
                     ],
                   )

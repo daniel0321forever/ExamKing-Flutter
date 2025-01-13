@@ -4,10 +4,10 @@ import 'package:examKing/models/challenge.dart';
 import 'package:examKing/global/keys.dart' as keys;
 
 Map<String, Challenge> challenges = {
-  "1": const Challenge(name: "High School", key: "gre", mainColor: Color.fromARGB(255, 138, 190, 233), imageURL: "assets/sanrio.webp"),
-  "2": const Challenge(name: "Community College", key: "gre", mainColor: Color.fromARGB(255, 70, 70, 70), imageURL: "assets/nurse.webp"),
-  "3": const Challenge(name: "Ivy League", key: "gre", mainColor: Color.fromARGB(255, 235, 180, 78), imageURL: "assets/animal.webp"),
-  "4": const Challenge(name: "MIT", key: "gre", mainColor: Color.fromARGB(255, 113, 0, 148), imageURL: "assets/highschool.webp"),
+  "1": const Challenge(name: "High School", key: "gre", level: 0, mainColor: Color.fromARGB(255, 138, 190, 233), imageURL: "assets/sanrio.webp"),
+  "2": const Challenge(name: "Community College", key: "gre", level: 1, mainColor: Color.fromARGB(255, 70, 70, 70), imageURL: "assets/nurse.webp"),
+  "3": const Challenge(name: "Ivy League", key: "gre", level: 2, mainColor: Color.fromARGB(255, 235, 180, 78), imageURL: "assets/animal.webp"),
+  "4": const Challenge(name: "MIT", key: "gre", level: 3, mainColor: Color.fromARGB(255, 113, 0, 148), imageURL: "assets/highschool.webp"),
 };
 
 Map<String, Map<String, dynamic>> statProperties = {
@@ -19,12 +19,12 @@ Map<String, Map<String, dynamic>> statProperties = {
 };
 
 List<Level> levels = [
-  Level(level: 0, title: "Basic 1", description: "Words we need to know", color: const Color.fromARGB(255, 138, 190, 233)),
-  Level(level: 1, title: "Basic 2", description: "Words we need to know", color: const Color.fromARGB(255, 138, 190, 233)),
-  Level(level: 2, title: "Basic 3", description: "Words we need to know", color: const Color.fromARGB(255, 138, 190, 233)),
-  Level(level: 3, title: "Basic 4", description: "Words we need to know", color: const Color.fromARGB(255, 138, 190, 233)),
-  Level(level: 4, title: "Basic 5", description: "Words we need to know", color: const Color.fromARGB(255, 138, 190, 233)),
-  Level(level: 5, title: "Basic 6", description: "Words we need to know", color: const Color.fromARGB(255, 138, 190, 233)),
+  Level(level: 1, title: "Basic 1", description: "Words we need to know", color: const Color.fromARGB(255, 138, 190, 233)),
+  Level(level: 2, title: "Basic 2", description: "Words we need to know", color: const Color.fromARGB(255, 138, 190, 233)),
+  Level(level: 3, title: "Basic 3", description: "Words we need to know", color: const Color.fromARGB(255, 138, 190, 233)),
+  Level(level: 4, title: "Basic 4", description: "Words we need to know", color: const Color.fromARGB(255, 138, 190, 233)),
+  Level(level: 5, title: "Basic 5", description: "Words we need to know", color: const Color.fromARGB(255, 138, 190, 233)),
+  Level(level: 6, title: "Basic 6", description: "Words we need to know", color: const Color.fromARGB(255, 138, 190, 233)),
   Level(level: 7, title: "Intermediate 1", description: "Common words", color: const Color.fromARGB(255, 70, 70, 70)),
   Level(level: 8, title: "Intermediate 2", description: "Common words", color: const Color.fromARGB(255, 70, 70, 70)),
   Level(level: 9, title: "Intermediate 3", description: "Common words", color: const Color.fromARGB(255, 70, 70, 70)),

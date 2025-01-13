@@ -24,8 +24,9 @@ class WordsBloc extends Bloc<WordsEvent, WordsState> {
     on<WordsEventInitialize>((event, emit) {
       initialize();
     });
+
     on<WordsEventLoad>((event, emit) async {
-      words = await wordService.getWords(0);
+      words = await wordService.getWords(event.level);
 
       currentLearned = words!.where((word) => word.isLearned).length;
       currentUnfamiliar = words!.where((word) => (!word.isLearned && word.seenCount > 0)).length;
@@ -33,18 +34,22 @@ class WordsBloc extends Bloc<WordsEvent, WordsState> {
       currentWord = (words!..shuffle()).first;
       emit(WordsStateGetWord(word: currentWord!));
     });
+
     on<WordsEventResponded>((event, emit) async {
       if (event.isKnown && !currentWord!.isLearned) {
         currentWord!.isLearned = true;
         currentLearned++;
         currentUnfamiliar -= currentWord!.seenCount == 0 ? 0 : 1;
-      } else if (!event.isKnown && currentWord!.isLearned) {
+      } else if (!event.isKnown) {
         currentWord!.isLearned = false;
-        currentLearned--;
-        currentUnfamiliar++;
-      }
 
-      currentWord!.seenCount++;
+        if (currentWord!.isLearned) {
+          currentLearned--;
+          currentUnfamiliar++;
+        } else if (currentWord!.seenCount == 0) {
+          currentUnfamiliar++;
+        }
+      }
 
       Word previousWord = currentWord!;
       do {

@@ -34,7 +34,8 @@ class BattleGetAnsRespondedEvent extends BattleEvent {
 /// 2) Define a stream listening to the server response
 class BattleStartEvent extends BattleEvent {
   final Challenge challenge;
-  BattleStartEvent({required this.challenge});
+  final int? level;
+  BattleStartEvent({required this.challenge, this.level});
 }
 
 /// The event is triggered when the player times up

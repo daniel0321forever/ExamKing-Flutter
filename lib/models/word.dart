@@ -1,4 +1,4 @@
-import 'package:examKing/models/level.dart';
+import 'package:examKing/global/keys.dart' as keys;
 
 class Word {
   final String word;
@@ -20,4 +20,17 @@ class Word {
     this.isLearned = false,
     this.seenCount = 0,
   });
+
+  factory Word.fromMap(Map<String, dynamic> map) {
+    return Word(
+      word: map[keys.wordWordKey],
+      definition: map[keys.wordDefinitionKey],
+      translation: map[keys.wordTranslationKey],
+      partOfSpeech: map[keys.wordPartOfSpeechKey],
+      example: map[keys.wordExampleKey],
+      level: map[keys.wordLevelKey],
+      isLearned: map[keys.wordIsLearnedKey],
+      seenCount: map[keys.wordSeenCountKey],
+    );
+  }
 }

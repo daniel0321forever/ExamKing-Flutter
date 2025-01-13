@@ -98,7 +98,11 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         add(BattleWaitingEvent());
         debugPrint("on BattleStartEvent | triggered");
         // connect to server
-        await backendService.connectToBattle(event.challenge.key, username: userProvider.userData!.username ?? userProvider.userData!.googleUsername!);
+        await backendService.connectToBattle(
+          event.challenge.key,
+          username: userProvider.userData!.username ?? userProvider.userData!.googleUsername!,
+          level: event.level,
+        );
         challengeKey = event.challenge.key;
 
         // define stream which listen to wait, start_game, answer and end-game type message

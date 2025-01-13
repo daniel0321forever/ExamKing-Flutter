@@ -45,11 +45,10 @@ class _HistogramState extends State<Histogram> {
                 reverse: true,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  children: globalProvider.wordProgress!.map((value) {
+                  children: List.generate(globalProvider.wordProgress!.length, (index) {
                     return BarWidget(
-                        date: DateTime.now().subtract(Duration(days: globalProvider.wordProgress!.length - globalProvider.wordProgress!.indexOf(value))),
-                        value: value);
-                  }).toList(),
+                        date: DateTime.now().subtract(Duration(days: globalProvider.wordProgress!.length - index)), value: globalProvider.wordProgress![index]);
+                  }),
                 ),
               );
             },

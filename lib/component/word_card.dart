@@ -71,9 +71,10 @@ class _WordCardState extends State<WordCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.word.translation,
+                    "${widget.word.word} ${widget.word.translation}",
                     style: GoogleFonts.inter(
-                      fontSize: 18,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                       color: const Color.fromARGB(255, 0, 0, 0),
                       fontStyle: FontStyle.italic,
                     ),
@@ -96,10 +97,13 @@ class _WordCardState extends State<WordCard> {
                         ),
                       ),
                       const SizedBox(width: 10),
-                      Text(
-                        widget.word.definition,
-                        style: GoogleFonts.inter(
-                          fontSize: 15,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        child: Text(
+                          widget.word.definition,
+                          style: GoogleFonts.inter(
+                            fontSize: 15,
+                          ),
                         ),
                       ),
                     ],
@@ -158,11 +162,19 @@ class _WordCardState extends State<WordCard> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
                       decoration: BoxDecoration(
-                        color: widget.word.isLearned ? const Color.fromARGB(255, 158, 199, 231) : const Color.fromARGB(255, 233, 158, 152),
+                        color: widget.word.seenCount > 0
+                            ? widget.word.isLearned
+                                ? const Color.fromARGB(255, 158, 199, 231)
+                                : const Color.fromARGB(255, 233, 158, 152)
+                            : Colors.grey[300],
                         borderRadius: BorderRadius.circular(7),
                       ),
                       child: Text(
-                        widget.word.isLearned ? "Learned" : "Reviewing",
+                        widget.word.seenCount > 0
+                            ? widget.word.isLearned
+                                ? "Reviewing"
+                                : "Learning"
+                            : "New",
                         style: GoogleFonts.inter(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,

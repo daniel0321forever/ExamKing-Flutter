@@ -32,7 +32,7 @@ class _LearnWordPageState extends State<LearnWordPage> {
       }
     });
 
-    wordsBloc.add(WordsEventLoad());
+    wordsBloc.add(WordsEventLoad(level: widget.level));
   }
 
   @override
@@ -58,7 +58,7 @@ class _LearnWordPageState extends State<LearnWordPage> {
                     // level title
                     const SizedBox(height: 20),
                     Text(
-                      "Level ${widget.level + 1}",
+                      "Level ${widget.level}",
                       style: GoogleFonts.barlowCondensed(
                         fontSize: 20,
                       ),

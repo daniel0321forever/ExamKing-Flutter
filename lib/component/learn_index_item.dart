@@ -21,6 +21,7 @@ class LearnIndexItem extends StatelessWidget {
         onTap: isLocked
             ? null
             : () {
+                debugPrint("level ${level.level}, name ${level.title}");
                 Navigator.push(context, MaterialPageRoute(builder: (context) => LearnWordPage(level: level.level)));
               },
         child: Row(

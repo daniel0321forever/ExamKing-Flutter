@@ -14,9 +14,6 @@ class _TrendChartState extends State<TrendChart> {
   late final GlobalProvider globalProvider;
   List<List<double>> correctRates = [
     List<double>.generate(7, (index) => 0),
-    List<double>.generate(7, (index) => 0),
-    List<double>.generate(7, (index) => 0),
-    List<double>.generate(7, (index) => 0),
   ];
 
   List<Color> lineColors = [

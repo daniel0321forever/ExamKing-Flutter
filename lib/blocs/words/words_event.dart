@@ -3,7 +3,10 @@ part of 'words_bloc.dart';
 @immutable
 sealed class WordsEvent {}
 
-class WordsEventLoad extends WordsEvent {}
+class WordsEventLoad extends WordsEvent {
+  final int level;
+  WordsEventLoad({required this.level});
+}
 
 class WordsEventInitialize extends WordsEvent {}
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:examKing/models/challenge.dart';
 import 'package:examKing/styling/clipper.dart';
 import 'package:examKing/styling/painters.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:morphable_shape/morphable_shape.dart';
 
 // NOTE: This would be change to fragment design afterward
@@ -48,22 +49,23 @@ class _ChallengTileState extends State<ChallengTile> {
           width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.all(30),
           decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(widget.challenge.imageURL),
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.3),
-                BlendMode.darken,
-              ),
-            ),
-            gradient: LinearGradient(
-              begin: widget.isLeft ? Alignment.centerLeft : Alignment.centerRight,
-              end: widget.isLeft ? Alignment.centerRight : Alignment.centerLeft,
-              colors: [
-                Colors.purple.withOpacity(0.6),
-                Colors.transparent,
-              ],
-            ),
+            // image: DecorationImage(
+            //   image: AssetImage(widget.challenge.imageURL),
+            //   fit: BoxFit.cover,
+            //   colorFilter: ColorFilter.mode(
+            //     Colors.black.withOpacity(0.3),
+            //     BlendMode.darken,
+            //   ),
+            // ),
+            // gradient: LinearGradient(
+            //   begin: widget.isLeft ? Alignment.centerLeft : Alignment.centerRight,
+            //   end: widget.isLeft ? Alignment.centerRight : Alignment.centerLeft,
+            //   colors: [
+            //     Colors.purple.withOpacity(0.6),
+            //     Colors.transparent,
+            //   ],
+            // ),
+            color: widget.challenge.mainColor,
           ),
           child: InkWell(
             onTap: widget.onPressed,
@@ -81,17 +83,10 @@ class _ChallengTileState extends State<ChallengTile> {
                   children: [
                     Text(
                       widget.challenge.name,
-                      style: const TextStyle(
-                        fontSize: 45,
+                      style: GoogleFonts.poppins(
+                        fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(220, 238, 226, 255),
-                        shadows: [
-                          Shadow(
-                            color: Colors.black54,
-                            offset: Offset(2, 2),
-                            blurRadius: 4,
-                          ),
-                        ],
+                        color: const Color.fromARGB(220, 238, 226, 255),
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -102,7 +97,7 @@ class _ChallengTileState extends State<ChallengTile> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: const Text(
-                        "點擊開始",
+                        "Click to Start",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,

@@ -18,6 +18,8 @@ class AuthStateError extends AuthState {
   AuthStateError({required this.exception});
 }
 
+class AuthStateUpdateUserName extends AuthState {}
+
 class AuthStateUsernameEmpty extends AuthState {}
 
 class AuthStateUsernameNotAvailable extends AuthState {}

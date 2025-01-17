@@ -1,3 +1,5 @@
+import 'package:examKing/global/keys.dart' as keys;
+
 class ProblemOption {
   final String description;
   final bool correct;
@@ -6,19 +8,21 @@ class ProblemOption {
 }
 
 class Problem {
+  final String problemID;
   final String problem;
   final List<ProblemOption> options;
 
-  Problem({required this.problem, required this.options});
+  Problem({required this.problemID, required this.problem, required this.options});
 
   factory Problem.fromMap(Map map) {
     List<ProblemOption> optionList = [];
-    for (int i = 0; i < map['options'].length; i++) {
-      optionList.add(ProblemOption(description: map['options'][i], correct: i == map['answer']));
+    for (int i = 0; i < map[keys.problemOptionsKey].length; i++) {
+      optionList.add(ProblemOption(description: map[keys.problemOptionsKey][i], correct: i == map[keys.problemAnswerKey]));
     }
 
     return Problem(
-      problem: map['problem'],
+      problemID: map[keys.problemIDKey],
+      problem: map[keys.problemProblemKey],
       options: optionList,
     );
   }

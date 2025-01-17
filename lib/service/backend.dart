@@ -4,7 +4,10 @@ import 'dart:convert';
 import 'package:examKing/global/exception.dart';
 import 'package:examKing/global/properties.dart';
 import 'package:examKing/models/ability_record.dart';
+import 'package:examKing/models/article_part.dart';
+import 'package:examKing/models/record.dart';
 import 'package:examKing/models/user.dart';
+import 'package:examKing/models/word.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:examKing/models/challenge.dart';
@@ -16,6 +19,7 @@ import 'package:examKing/global/keys.dart' as keys;
 
 class BackendService {
   WebSocketChannel? channel;
+  WebSocketChannel? computerChannel;
   GoogleSignIn? googleSignIn;
   List<String> signInScope = [
     'openid',
@@ -27,13 +31,26 @@ class BackendService {
   /// The following behaviour are expected
   /// 1) The user might wait for a while without getting game-data before there is match for the user
   /// 2) The server would return game-data with following format by the key 'game-data' once the connection is built
-  Future<void> connectToBattle(Challenge challenge, {required String username}) async {
-    String gameSocketURL = "${dotenv.get('SOCKET_HOST')}battle?user=$username&challenge=${challenge.key}";
+  Future<void> connectToBattle(String challengeKey, {required String username, int? level}) async {
+    String gameSocketURL = "${dotenv.get('SOCKET_HOST')}battle?user=$username&challenge=$challengeKey";
+    gameSocketURL += level != null ? "&level=$level" : "";
     try {
       channel = WebSocketChannel.connect(Uri.parse(gameSocketURL));
       await channel?.ready;
     } catch (e) {
-      debugPrint("backend_service | connectToControllerSocket | error occurs when waiting for channel to be ready: $e");
+      debugPrint("backend_service | connectToBattle | error occurs when waiting for channel to be ready: $e");
+      throw const SocketException("fail to connect to game consumer");
+    }
+  }
+
+  Future<void> connectToComputerSocket(String challengeKey, {required String username, int? level}) async {
+    String gameSocketURL = "${dotenv.get('SOCKET_HOST')}battle?user=$username&challenge=$challengeKey";
+    gameSocketURL += level != null ? "&level=$level" : "";
+    try {
+      computerChannel = WebSocketChannel.connect(Uri.parse(gameSocketURL));
+      await computerChannel?.ready;
+    } catch (e) {
+      debugPrint("backend_service | connectToComputerSocket | error occurs when waiting for channel to be ready: $e");
       throw const SocketException("fail to connect to game consumer");
     }
   }
@@ -63,7 +80,14 @@ class BackendService {
   /// 2) The connection would be close
   void closeConnection() {
     channel?.sink.close();
+    computerChannel?.sink.close();
     channel = null;
+    computerChannel = null;
+  }
+
+  void closeComputerConnection() {
+    computerChannel?.sink.close();
+    computerChannel = null;
   }
 
   /// Signing in with google
@@ -323,13 +347,7 @@ class BackendService {
     }
   }
 
-  Future<void> updatedBattleRecord({
-    required String opponentID,
-    required String field,
-    required int totCorrect,
-    required int totWrong,
-    required bool userWin,
-  }) async {
+  Future<void> updatedBattleRecord({required BattleRecord record}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(keys.prefTokenKey);
 
@@ -344,13 +362,7 @@ class BackendService {
         "Content-type": "Application/json",
         "Authorization": "Bearer $token",
       },
-      body: json.encode({
-        "field": field,
-        "totCorrect": totCorrect,
-        "totWrong": totWrong,
-        "opponent": opponentID,
-        "victory": userWin,
-      }),
+      body: json.encode(record.toMap()),
     );
 
     switch (res.statusCode) {
@@ -408,6 +420,50 @@ class BackendService {
       default:
         debugPrint("backend service | getAbilityRecord | error status ${res.statusCode}");
         debugPrint("body ${res.body}");
+        throw UnhandledStatusException();
+    }
+  }
+
+  Future<List<ArticlePart>> getArticle(int level) async {
+    debugPrint("backend | getArticle | triggered");
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(keys.prefTokenKey);
+
+    if (token == null) {
+      throw UnAuthenticatedException();
+    }
+
+    Uri url = Uri.parse("${dotenv.get('HTTP_HOST')}article?level=$level");
+    var res = await http.get(
+      url,
+      headers: {
+        "Content-type": "Application/json",
+        "Authorization": "Bearer $token",
+      },
+    );
+
+    switch (res.statusCode) {
+      case 200:
+        debugPrint("backend service | getArticle | get success response");
+        String article = json.decode(utf8.decode(res.bodyBytes))[keys.articleArticleKey];
+        List<ArticlePart> articleParts = [];
+        List<String> segments = article.split("@");
+        for (String segment in segments) {
+          if (segment.isEmpty) continue;
+          if (segment.contains("&")) {
+            List<String> parts = segment.split("&");
+            articleParts.add(ArticlePart(content: parts[0], word: parts[0]));
+            articleParts.add(ArticlePart(content: parts.length > 1 ? parts[1] : ""));
+          } else {
+            articleParts.add(ArticlePart(content: segment));
+          }
+        }
+        return articleParts;
+      case 404:
+        debugPrint("service | getArticle | end point not found");
+        throw PageNotFoundException();
+      default:
         throw UnhandledStatusException();
     }
   }

@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:examKing/global/exception.dart';
-import 'package:examKing/providers/user_provider.dart';
+import 'package:examKing/providers/global_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:examKing/service/backend.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +10,7 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   bool isKeepSignedIn = true;
-  final UserProvider userProvider;
+  final GlobalProvider userProvider;
   BackendService backendService = BackendService();
 
   AuthBloc({required this.userProvider}) : super(AuthInitial()) {
@@ -115,6 +115,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       userProvider.userData = null;
       await backendService.logOut(isKeepSignedIn);
       emit(AuthStateLoggedOut());
+    });
+
+    on<AuthEventUpdateUserName>((event, emit) async {
+      try {
+        debugPrint("on AuthEventUpdateUserName | triggered with name: ${event.name}");
+        userProvider.userData!.name = event.name;
+        await backendService.updateUserInfo({"name": event.name});
+
+        debugPrint("on AuthEventUpdateUserName | emitting AuthStateUpdateUserName");
+        emit(AuthStateUpdateUserName());
+      } on Exception catch (e) {
+        emit(AuthStateError(exception: e));
+        debugPrint("on AuthEventUpdateUserName | Unexcepted exception occurs: $e");
+      }
     });
   }
 }

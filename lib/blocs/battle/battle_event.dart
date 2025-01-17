@@ -34,7 +34,8 @@ class BattleGetAnsRespondedEvent extends BattleEvent {
 /// 2) Define a stream listening to the server response
 class BattleStartEvent extends BattleEvent {
   final Challenge challenge;
-  BattleStartEvent({required this.challenge});
+  final int? level;
+  BattleStartEvent({required this.challenge, this.level});
 }
 
 /// The event is triggered when the player times up
@@ -45,3 +46,12 @@ class BattleTimesUpEvent extends BattleEvent {}
 /// The following behavior is expected as the event occurs
 /// 1) The initialize() method should be triggered, which cancel the backend channel
 class BattleCancelEvent extends BattleEvent {}
+
+/// The following behavior is expected as the event occurs
+/// 1) Emit the BattleNextRoundState to the UI code
+/// 2) Restart computer aggent if the opponent is the computer
+class BattleRoundStartEvent extends BattleEvent {}
+
+/// The following behavior is expected as the event occurs
+/// 1) Emit the BattleTimerTickedState to the UI code
+class BattleTimerTickedEvent extends BattleEvent {}

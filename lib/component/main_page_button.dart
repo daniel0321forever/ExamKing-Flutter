@@ -41,7 +41,7 @@ class _MainPageButtonState extends State<MainPageButton> {
         child: Center(
           child: Text(
             widget.title,
-            style: GoogleFonts.yuseiMagic(
+            style: GoogleFonts.mandali(
               fontSize: 16,
               color: widget.textColor,
               fontWeight: FontWeight.w600,

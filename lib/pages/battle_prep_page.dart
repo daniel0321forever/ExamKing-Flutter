@@ -1,3 +1,5 @@
+import 'package:examKing/blocs/battle/battle_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:examKing/styling/router.dart';
 import 'package:flutter/material.dart';
 import 'package:examKing/pages/battle_page.dart';
@@ -21,12 +23,16 @@ class _BattlePrepPageState extends State<BattlePrepPage> with SingleTickerProvid
   late Animation<double> _slideInLeft;
   late Animation<double> _slideInRight;
   late Animation<double> _vsScaleAnimation;
+  late final BattleBloc battleBloc;
 
   @override
   void initState() {
     super.initState();
+
+    battleBloc = context.read<BattleBloc>();
+
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 5000),
+      duration: BattleBloc.battlePrepareDuration,
       vsync: this,
     );
 
@@ -52,7 +58,7 @@ class _BattlePrepPageState extends State<BattlePrepPage> with SingleTickerProvid
     );
 
     _controller.forward().then((_) {
-      Future.delayed(const Duration(milliseconds: 500), () {
+      Future.delayed(BattleBloc.battleNavPageDuration, () {
         if (mounted) {
           Navigator.of(context).pushReplacement(
             FadeScalePageRoute(page: const BattlePage()),
@@ -71,22 +77,12 @@ class _BattlePrepPageState extends State<BattlePrepPage> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      // backgroundColor: Colors.white,
       body: AnimatedBuilder(
         animation: _controller,
         builder: (context, child) {
           return Stack(
             children: [
-              // Background with some anime-style effects
-              Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage('https://i.pinimg.com/originals/62/f6/0e/62f60eb00055ce5a3580bd91559f9f94.gif'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-
               // Player 1
               Positioned(
                 left: MediaQuery.of(context).size.width * (_slideInLeft.value - 0.2),
@@ -126,7 +122,7 @@ class _BattlePrepPageState extends State<BattlePrepPage> with SingleTickerProvid
                           shadows: [
                             Shadow(
                               blurRadius: 10.0,
-                              color: Colors.blue,
+                              color: Colors.black38,
                               offset: Offset(2.0, 2.0),
                             ),
                           ],
@@ -176,7 +172,7 @@ class _BattlePrepPageState extends State<BattlePrepPage> with SingleTickerProvid
                           shadows: [
                             Shadow(
                               blurRadius: 10.0,
-                              color: Colors.red,
+                              color: Colors.black38,
                               offset: Offset(2.0, 2.0),
                             ),
                           ],
@@ -200,7 +196,7 @@ class _BattlePrepPageState extends State<BattlePrepPage> with SingleTickerProvid
                       shadows: [
                         Shadow(
                           blurRadius: 20.0,
-                          color: Colors.orange,
+                          color: Colors.black38,
                           offset: Offset(2.0, 2.0),
                         ),
                       ],

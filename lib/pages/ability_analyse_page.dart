@@ -1,8 +1,12 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:examKing/blocs/analysis/analysis_bloc.dart';
 import 'package:examKing/blocs/main/main_bloc.dart';
+import 'package:examKing/component/histogram.dart';
+import 'package:examKing/component/radar_chart.dart';
 import 'package:examKing/global/properties.dart';
+import 'package:examKing/models/stat.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +14,9 @@ import 'package:examKing/models/ability_record.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:examKing/global/keys.dart' as keys;
+import 'package:examKing/global/enumerator.dart';
+import 'package:examKing/component/trend_chart.dart';
 
 class AbilityAnalysePage extends StatefulWidget {
   const AbilityAnalysePage({super.key});
@@ -19,52 +26,103 @@ class AbilityAnalysePage extends StatefulWidget {
 }
 
 class _AbilityAnalysePageState extends State<AbilityAnalysePage> {
-  late final MainBloc mainBloc;
-  late final StreamSubscription mainBlocListener;
+  late final AnalysisBloc analysisBloc;
+  late final StreamSubscription<AnalysisState> analysisSubscription;
+  ChartType chartType = ChartType.dailyWords;
 
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-
-    mainBloc = context.read<MainBloc>();
-    mainBloc.add(MainEventGetRecord());
-
-    mainBlocListener = mainBloc.stream.listen((state) {
-      if (state is MainStateGetRecords) {
+    analysisBloc = context.read<AnalysisBloc>();
+    analysisSubscription = analysisBloc.stream.listen((state) {
+      if (state is AnalysisStateCompleteLoading) {
         setState(() {
           isLoading = false;
         });
       }
     });
+    analysisBloc.add(AnalysisEventLoading());
   }
 
   @override
   void dispose() {
-    mainBlocListener.cancel();
+    analysisSubscription.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '能力分析',
-          style: GoogleFonts.yuseiMagic(
-            color: Colors.black,
-          ),
-        ),
-      ),
+      appBar: AppBar(),
       body: isLoading
           ? loadingPage(context)
           : SingleChildScrollView(
               child: Column(
                 children: [
-                  const SizedBox(height: 50),
-                  _buildRadarChart(),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 40),
+
+                  // title
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.keyboard_arrow_left),
+                        onPressed: () {
+                          setState(() {
+                            if (chartType == ChartType.dailyWords) {
+                              chartType = ChartType.correctRateTrend;
+                            } else if (chartType == ChartType.correctRateTrend) {
+                              chartType = ChartType.dailyWords;
+                            }
+                          });
+                        },
+                      ),
+                      switch (chartType) {
+                        ChartType.dailyWords => Text(
+                            "Daily Words Progress",
+                            style: GoogleFonts.barlowCondensed(color: Colors.black, fontSize: 27),
+                          ),
+                        ChartType.correctRateTrend => Text(
+                            "Correct Rate Trend",
+                            style: GoogleFonts.barlowCondensed(color: Colors.black, fontSize: 27),
+                          ),
+                        ChartType.radar => Text(
+                            "Ability Radar",
+                            style: GoogleFonts.barlowCondensed(color: Colors.black, fontSize: 27),
+                          ),
+                        _ => const SizedBox.shrink(),
+                      },
+                      IconButton(
+                        icon: Icon(Icons.keyboard_arrow_right),
+                        onPressed: () {
+                          setState(() {
+                            if (chartType == ChartType.dailyWords) {
+                              chartType = ChartType.correctRateTrend;
+                            } else if (chartType == ChartType.correctRateTrend) {
+                              chartType = ChartType.radar;
+                            } else if (chartType == ChartType.radar) {
+                              chartType = ChartType.dailyWords;
+                            }
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+
+                  // histogram
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: switch (chartType) {
+                      ChartType.dailyWords => const Histogram(),
+                      ChartType.correctRateTrend => const TrendChart(),
+                      ChartType.radar => Container(),
+                    },
+                  ),
+
+                  const SizedBox(height: 40),
                   _buildStatsGrid(),
                 ],
               ),
@@ -87,7 +145,7 @@ class _AbilityAnalysePageState extends State<AbilityAnalysePage> {
           AnimatedTextKit(
             animatedTexts: [
               TypewriterAnimatedText(
-                '能力計算中',
+                'Calculating...',
                 speed: const Duration(milliseconds: 30),
                 textStyle: GoogleFonts.pressStart2p(
                   fontSize: 16,
@@ -103,74 +161,19 @@ class _AbilityAnalysePageState extends State<AbilityAnalysePage> {
     );
   }
 
-  Widget _buildRadarChart() {
-    return Center(
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.8,
-        height: MediaQuery.of(context).size.width * 0.8,
-        child: RadarChart(
-          RadarChartData(
-            radarShape: RadarShape.circle,
-            radarBackgroundColor: const Color.fromARGB(40, 76, 175, 80), // Light green background
-            ticksTextStyle: const TextStyle(
-              color: Colors.transparent,
-            ),
-            tickBorderData: const BorderSide(
-              color: Color.fromARGB(255, 129, 199, 132), // Lighter green for ticks
-              width: 0.5,
-            ),
-            gridBorderData: BorderSide(
-              color: const Color.fromARGB(255, 0, 204, 10).withOpacity(0.5), // Darker green for grid
-              width: 1.5,
-            ),
-            titleTextStyle: const TextStyle(
-              color: Color.fromARGB(255, 11, 50, 22),
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'PressStart2P',
-              decoration: TextDecoration.none,
-              decorationColor: Colors.white,
-              decorationThickness: 2,
-            ),
-            dataSets: [
-              RadarDataSet(
-                fillColor: const Color.fromARGB(172, 87, 255, 93).withOpacity(0.6), // Soft green fill
-                borderColor: const Color.fromARGB(255, 125, 255, 166), // Strong green border
-                entryRadius: 4,
-                borderWidth: 2.5,
-                dataEntries: List<RadarEntry>.from(mainBloc.abilityRecords!.map((e) => RadarEntry(value: e.correctRate))),
-              ),
-            ],
-            getTitle: (index, angle) {
-              String fieldKey = mainBloc.abilityRecords![index].field;
-              return RadarChartTitle(text: challenges[fieldKey]!.name, angle: angle);
-            },
-            borderData: FlBorderData(
-              show: false,
-              border: Border.all(
-                color: const Color.fromARGB(255, 27, 94, 32), // Dark green border
-                width: 2,
-              ),
-            ),
-            tickCount: 4, // Changed to 4 for more detailed gradations
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildStatsGrid() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: mainBloc.abilityRecords!.length,
+        itemCount: analysisBloc.stats!.length,
         itemBuilder: (context, index) {
-          final record = mainBloc.abilityRecords![index];
           return Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
-            child: AbilityStatCard(record: record),
+            child: StatCard(
+              stat: analysisBloc.stats![index],
+            ),
           );
         },
       ),
@@ -178,123 +181,69 @@ class _AbilityAnalysePageState extends State<AbilityAnalysePage> {
   }
 }
 
-class AbilityStatCard extends StatelessWidget {
-  final AbilityRecord record;
-
-  const AbilityStatCard({
-    super.key,
-    required this.record,
-  });
-
-  Color _getEvaluationColor(double score) {
-    if (score >= 0.9) return const Color.fromARGB(255, 171, 60, 202);
-    if (score >= 0.7) return const Color.fromARGB(255, 124, 227, 113);
-    if (score >= 0.5) return const Color.fromARGB(255, 240, 188, 105);
-    if (score >= 0.35) return const Color.fromARGB(255, 94, 94, 94);
-    return Colors.redAccent;
-  }
-
-  double _calculateScore() {
-    // Weight: 70% correctRate, 30% normalized total correct count
-    final normalizedTotalCorrect = min(1.0, record.totCorrect / 50); // Normalize with max 50 questions
-    // return (record.correctRate * 0.6) + (normalizedTotalCorrect * 0.4);
-    return record.correctRate;
-  }
+class StatCard extends StatefulWidget {
+  final Stat stat;
+  const StatCard({super.key, required this.stat});
 
   @override
-  Widget build(BuildContext context) {
-    final score = _calculateScore();
-    final totalAnswered = record.totCorrect + record.totWrong;
+  State<StatCard> createState() => _StatCardState();
+}
 
-    return Card(
-      elevation: 4,
-      color: const Color.fromARGB(255, 143, 143, 143),
-      shadowColor: const Color.fromARGB(137, 122, 122, 122),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0, bottom: 18.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Text(
-                    challenges[record.field]!.name,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
+class _StatCardState extends State<StatCard> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text(
+                widget.stat.title,
+                style: GoogleFonts.barlowCondensed(color: Colors.black, fontSize: 19),
+              ),
+              const Spacer(),
+              Text(
+                (widget.stat.val).toStringAsFixed(1),
+                style: GoogleFonts.barlowCondensed(color: Colors.black, fontSize: 27),
+              ),
+            ],
+          ),
+          Stack(
+            children: [
+              Container(
+                height: 8,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(79, 255, 255, 255),
+                  borderRadius: BorderRadius.circular(4),
                 ),
-                Expanded(
-                  child: RichText(
-                    textAlign: TextAlign.end,
-                    text: TextSpan(
-                      style: const TextStyle(color: Colors.white70),
-                      children: [
-                        TextSpan(
-                          text: '${record.totCorrect}',
-                          style: TextStyle(
-                            color: _getEvaluationColor(score),
-                            fontWeight: FontWeight.bold,
+              ),
+              TweenAnimationBuilder(
+                tween: Tween<double>(begin: 0.0, end: widget.stat.val / widget.stat.maxVal),
+                duration: const Duration(milliseconds: 1000),
+                curve: Curves.easeOutCubic,
+                builder: (context, double value, child) {
+                  return FractionallySizedBox(
+                    widthFactor: value,
+                    child: Container(
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 158, 199, 231),
+                        borderRadius: BorderRadius.circular(4),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color.fromARGB(146, 158, 199, 231),
+                            blurRadius: 4,
+                            offset: Offset(0, 2),
                           ),
-                        ),
-                        TextSpan(
-                          text: ' / $totalAnswered',
-                          style: const TextStyle(
-                            color: Colors.white54,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Stack(
-              children: [
-                Container(
-                  height: 8,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(79, 255, 255, 255),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-                TweenAnimationBuilder(
-                  tween: Tween<double>(begin: 0.0, end: score),
-                  duration: const Duration(milliseconds: 1000),
-                  curve: Curves.easeOutCubic,
-                  builder: (context, double value, child) {
-                    return FractionallySizedBox(
-                      widthFactor: value,
-                      child: Container(
-                        height: 8,
-                        decoration: BoxDecoration(
-                          color: _getEvaluationColor(score),
-                          borderRadius: BorderRadius.circular(4),
-                          boxShadow: [
-                            BoxShadow(
-                              color: _getEvaluationColor(score).withOpacity(0.6),
-                              blurRadius: 4,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
+                        ],
                       ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ],
-        ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

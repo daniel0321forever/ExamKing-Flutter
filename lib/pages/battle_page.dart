@@ -77,14 +77,9 @@ class _NextRoundAnimationState extends State<NextRoundAnimation> with SingleTick
         child: Padding(
           padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 5),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.purple.withOpacity(0.7),
-                  Colors.blue.withOpacity(0.7),
-                ],
-              ),
+              color: Colors.black,
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
                 BoxShadow(
@@ -100,20 +95,20 @@ class _NextRoundAnimationState extends State<NextRoundAnimation> with SingleTick
                 const Icon(
                   Icons.arrow_circle_right_outlined,
                   color: Colors.white,
-                  size: 24,
+                  size: 20,
                 ),
                 const SizedBox(width: 8),
                 Text(
                   "Next Round",
-                  style: GoogleFonts.pressStart2p(
-                    fontSize: 20,
+                  style: GoogleFonts.roboto(
+                    fontSize: 16,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     shadows: [
                       Shadow(
-                        blurRadius: 4.0,
+                        blurRadius: 2.0,
                         color: Colors.black.withOpacity(0.7),
-                        offset: const Offset(2.0, 2.0),
+                        offset: const Offset(1.0, 1.0),
                       ),
                     ],
                   ),
@@ -164,13 +159,8 @@ class _BattlePageState extends State<BattlePage> with SingleTickerProviderStateM
       if (state is BattleAnsweredState) {
         bool isCorrect = state.isCorrect;
         setState(() {
-          if (isCorrect) {
-            _showCorrectOverlay = true;
-            _showWrongOverlay = false;
-          } else {
-            _showCorrectOverlay = false;
-            _showWrongOverlay = true;
-          }
+          _showCorrectOverlay = isCorrect;
+          _showWrongOverlay = !isCorrect;
         });
 
         _animationController.forward(from: 0).then((_) {

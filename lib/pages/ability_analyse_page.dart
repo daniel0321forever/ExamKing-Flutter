@@ -72,11 +72,9 @@ class _AbilityAnalysePageState extends State<AbilityAnalysePage> {
                         onPressed: () {
                           setState(() {
                             if (chartType == ChartType.dailyWords) {
-                              chartType = ChartType.radar;
+                              chartType = ChartType.correctRateTrend;
                             } else if (chartType == ChartType.correctRateTrend) {
                               chartType = ChartType.dailyWords;
-                            } else if (chartType == ChartType.radar) {
-                              chartType = ChartType.correctRateTrend;
                             }
                           });
                         },
@@ -116,10 +114,10 @@ class _AbilityAnalysePageState extends State<AbilityAnalysePage> {
 
                   // histogram
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: switch (chartType) {
-                      ChartType.dailyWords => Histogram(),
-                      ChartType.correctRateTrend => TrendChart(),
+                      ChartType.dailyWords => const Histogram(),
+                      ChartType.correctRateTrend => const TrendChart(),
                       ChartType.radar => Container(),
                     },
                   ),
@@ -205,7 +203,7 @@ class _StatCardState extends State<StatCard> {
               ),
               const Spacer(),
               Text(
-                "${widget.stat.val}",
+                (widget.stat.val).toStringAsFixed(1),
                 style: GoogleFonts.barlowCondensed(color: Colors.black, fontSize: 27),
               ),
             ],

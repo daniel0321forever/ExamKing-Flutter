@@ -4,10 +4,10 @@ import 'package:examKing/models/challenge.dart';
 import 'package:examKing/global/keys.dart' as keys;
 
 Map<String, Challenge> challenges = {
-  "1": const Challenge(name: "High School", key: "gre", level: 0, mainColor: Color.fromARGB(255, 138, 190, 233), imageURL: "assets/sanrio.webp"),
-  "2": const Challenge(name: "Community College", key: "gre", level: 1, mainColor: Color.fromARGB(255, 70, 70, 70), imageURL: "assets/nurse.webp"),
-  "3": const Challenge(name: "Ivy League", key: "gre", level: 2, mainColor: Color.fromARGB(255, 235, 180, 78), imageURL: "assets/animal.webp"),
-  "4": const Challenge(name: "MIT", key: "gre", level: 3, mainColor: Color.fromARGB(255, 113, 0, 148), imageURL: "assets/highschool.webp"),
+  "gre1": const Challenge(name: "FCU", key: "gre", level: 0, mainColor: Color.fromARGB(255, 138, 190, 233), imageURL: "assets/sanrio.webp"),
+  "gre2": const Challenge(name: "NTU", key: "gre", level: 1, mainColor: Color.fromARGB(255, 70, 70, 70), imageURL: "assets/nurse.webp"),
+  "gre3": const Challenge(name: "Ivy League", key: "gre", level: 2, mainColor: Color.fromARGB(255, 235, 180, 78), imageURL: "assets/animal.webp"),
+  "gre4": const Challenge(name: "MIT", key: "gre", level: 3, mainColor: Color.fromARGB(255, 113, 0, 148), imageURL: "assets/highschool.webp"),
 };
 
 Map<String, Map<String, dynamic>> statProperties = {

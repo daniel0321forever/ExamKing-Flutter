@@ -1,4 +1,5 @@
 import 'package:examKing/blocs/analysis/analysis_bloc.dart';
+import 'package:examKing/blocs/article/article_bloc.dart';
 import 'package:examKing/blocs/words/words_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,11 +39,12 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => BattleBloc(userProvider: context.read<GlobalProvider>())),
           BlocProvider(create: (context) => IndexBloc()),
           BlocProvider(create: (context) => MainBloc(context.read<GlobalProvider>())),
-          BlocProvider(create: (context) => WordsBloc()),
+          BlocProvider(create: (context) => WordsBloc(context.read<GlobalProvider>())),
           BlocProvider(create: (context) => AnalysisBloc(context.read<GlobalProvider>())),
+          BlocProvider(create: (context) => ArticleBloc()),
         ],
         child: MaterialApp(
-          title: '考試王',
+          title: 'GRE AI',
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 202, 0, 0)).copyWith(
               // surface: const Color.fromARGB(255, 255, 234, 245),

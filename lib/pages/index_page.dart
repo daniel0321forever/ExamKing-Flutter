@@ -295,6 +295,7 @@ class _StartBattleDialogState extends State<StartBattleDialog> with SingleTicker
                       DialogButton(
                           title: "Cancel",
                           onPressed: () {
+                            battleBloc.add(BattleCancelEvent());
                             Navigator.pop(context);
                           }),
                       _isWaiting ? const SizedBox() : const SizedBox(width: 24),

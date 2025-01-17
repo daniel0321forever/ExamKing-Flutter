@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:examKing/global/properties.dart';
+import 'package:examKing/models/record.dart';
 import 'package:examKing/providers/global_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:examKing/models/challenge.dart';
@@ -26,6 +27,8 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
   static const Duration roundDuration = Duration(milliseconds: 10000);
   static const String computerID = "Adjff13026887732F1";
+  static const int maxWaitingSecs = 6;
+
   BackendService backendService = BackendService();
   Stream? battleStream;
   StreamSubscription? battleBlocListener;
@@ -33,28 +36,36 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   Timer? waitingTimer;
   Timer? roundTimer;
 
+  int waitingTime = 0;
   int? leftSec;
 
   int playerScore = 0;
   int playerCombo = 0;
   int playerMaxCombo = 0;
-  int playerCorrect = 0;
-  int playerWrong = 0;
   int opponentScore = 0;
   int opponentCombo = 0;
   int opponentMaxCombo = 0;
   String? opponentName;
   String? opponentID;
 
+  bool startGameClicked = false;
   String? challengeKey;
+  int? challengeLevel;
   List<Problem>? problems;
   int round = 0;
   bool isOppnComputer = false;
+  BattleRecord? record;
 
   bool hasResponded = false;
   bool opnHasResponded = false;
 
   void initialize() {
+    debugPrint("initializing battle bloc");
+    startGameClicked = false;
+
+    record = null;
+
+    waitingTime = 0;
     waitingTimer?.cancel();
     waitingTimer = null;
     cancelRoundTimer();
@@ -63,14 +74,14 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     playerScore = 0;
     playerCombo = 0;
     playerMaxCombo = 0;
-    playerCorrect = 0;
-    playerWrong = 0;
+
     opponentScore = 0;
     opponentCombo = 0;
     opponentMaxCombo = 0;
     opponentName = null;
     opponentID = null;
     challengeKey = null;
+    challengeLevel = null;
     problems = null;
     round = 0;
     isOppnComputer = false;
@@ -88,69 +99,121 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     roundTimer = null;
   }
 
+  Future<void> endRound(BattleEvent event, Emitter<BattleState> emit) async {
+    {
+      emit(BattleShowCorrectAnswerState());
+      await Future.delayed(showCorrectAnswerDuration);
+      emit(BattleShowNextRoundLabelState());
+
+      await Future.delayed(showNextRoundLabelDuration);
+
+      hasResponded = false;
+      opnHasResponded = false;
+      debugPrint("on BattleGetAnsRespondedEvent | triggering BattleRoundStartEvent");
+      add(BattleRoundStartEvent());
+    }
+  }
+
+  Future<void> endGame(BattleEvent event, Emitter<BattleState> emit) async {
+    {
+      hasResponded = false;
+      opnHasResponded = false;
+
+      int moneyAdded = playerScore - opponentScore;
+
+      if (playerScore > opponentScore) {
+        userProvider.userData!.winRecord += 1;
+        record!.victory = true;
+      } else {
+        userProvider.userData!.loseRecord += 1;
+        record!.victory = false;
+      }
+
+      emit(BattleShowCorrectAnswerState());
+      await Future.delayed(showCorrectAnswerDuration);
+
+      await backendService.updatedBattleRecord(record: record!);
+
+      emit(BattleEndGameState(
+        playerWin: playerScore > opponentScore,
+        playerScore: playerScore,
+        opponentScore: opponentScore,
+        moneyAdded: moneyAdded,
+        opponentName: opponentName,
+      ));
+    }
+  }
+
+  Future<void> startGame(BattleEvent event, Emitter<BattleState> emit, {required Map decoded}) async {
+    {
+      waitingTimer?.cancel();
+      waitingTimer = null;
+
+      String userID = userProvider.userData!.username ?? userProvider.userData!.googleUsername!;
+
+      debugPrint("on BattleStartEvent | get start game message: $decoded");
+
+      for (int i = 0; i < 2; i++) {
+        if (decoded[keys.battleUsernamesKey][i] != userID) {
+          opponentID = decoded[keys.battleUsernamesKey][i];
+          opponentName = decoded[keys.battleNamesKey][i];
+          break;
+        }
+      }
+
+      if (isOppnComputer && opponentID != computerID) {
+        backendService.closeComputerConnection();
+        isOppnComputer = false;
+      }
+
+      problems = List<Problem>.generate(
+        decoded['problems'].length, // TODO: change here
+        (i) => Problem.fromMap(decoded['problems'][i]),
+      );
+
+      record = BattleRecord(challengeKey: challengeKey!, opponentID: opponentID!);
+      add(BattleStartBattleEvent());
+    }
+  }
+
   BattleBloc({required this.userProvider}) : super(BattleWaitingState()) {
     /// The following behaviour is expected as the battle start
     /// 1) Client connecting to socket server
     /// 2) Define a stream listening to the server response
     on<BattleStartEvent>((event, emit) async {
       try {
-        initialize();
-        add(BattleWaitingEvent());
         debugPrint("on BattleStartEvent | triggered");
+
+        // initialize
+        initialize();
+        startGameClicked = true;
+
         // connect to server
         await backendService.connectToBattle(
           event.challenge.key,
           username: userProvider.userData!.username ?? userProvider.userData!.googleUsername!,
           level: event.level,
         );
+
+        // set up variables
         challengeKey = event.challenge.key;
+        challengeLevel = event.level;
+        // start waiting
+        add(BattleWaitingEvent());
 
         // define stream which listen to wait, start_game, answer and end-game type message
         battleStream = backendService.channel!.stream.asBroadcastStream();
         battleBlocListener = battleStream!.listen((message) async {
           Map decoded = json.decode(utf8.decode(message.codeUnits));
 
-          if (decoded['type'] == null) {
-            debugPrint("on BattleStartEvent | error: there is no 'type' field in socket message");
-            debugPrint("on BattleStartEvent | decoded message $decoded");
-            return;
-          }
-
           // NOTE: Triggered state based on answer type
-          switch (decoded['type']) {
+          switch (decoded['type'] ?? 'noTypeDefault') {
             case 'wait':
-              // add(BattleWaitingEvent());
               break;
             case 'start_game':
-              // stop waiting timer
-              waitingTimer?.cancel();
-              waitingTimer = null;
-
-              String userID = userProvider.userData!.username ?? userProvider.userData!.googleUsername!;
-
-              debugPrint("on BattleStartEvent | get start game message: $decoded");
-
-              for (int i = 0; i < 2; i++) {
-                if (decoded[keys.battleUsernamesKey][i] != userID) {
-                  opponentID = decoded[keys.battleUsernamesKey][i];
-                  opponentName = decoded[keys.battleNamesKey][i];
-                  break;
-                }
-              }
-
-              if (isOppnComputer && opponentID != computerID) {
-                backendService.closeComputerConnection();
-                isOppnComputer = false;
-              }
-
-              problems = List<Problem>.generate(
-                decoded['problems'].length, // TODO: change here
-                (i) => Problem.fromMap(decoded['problems'][i]),
-              );
-              add(BattleStartBattleEvent());
+              await startGame(event, emit, decoded: decoded);
               break;
             case 'answer':
-              debugPrint("on BattleStartEvent | get answer message: $decoded");
               add(BattleGetAnsRespondedEvent(
                 isPlayer: decoded['answered_user'] == (userProvider.userData!.username ?? userProvider.userData!.googleUsername!),
                 addedScore: int.parse(decoded['added_score'].toString()),
@@ -190,9 +253,9 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         if (problems![round].options[event.answerIndex].correct) {
           addedScore = 200 * (leftSec! ~/ 2 * 2) ~/ roundDuration.inSeconds;
           playerScore += addedScore;
-          playerCorrect += 1;
+          record!.answerRecords.add(AnswerRecord(problemID: problems![round].problemID, correct: true));
         } else {
-          playerWrong += 1;
+          record!.answerRecords.add(AnswerRecord(problemID: problems![round].problemID, correct: false));
         }
 
         emit(BattleAnsweredState(
@@ -213,12 +276,8 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
     on<BattleGetAnsRespondedEvent>((event, emit) async {
       try {
-        // case: if the answer response is from the player
-        if (event.isPlayer) {
-          debugPrint("on BattleGetAnsRespondedEvent | get player answer response");
-        }
         // if the answer response is from the opponent
-        else {
+        if (!event.isPlayer) {
           debugPrint("on BattleGetAnsRespondedEvent | get opponent answer response");
 
           // update opponent record
@@ -241,55 +300,17 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
           cancelRoundTimer();
           round += 1;
 
+          emit(BattleShowOpponentAnswerState());
+          await Future.delayed(showOpponentAnswerDuration);
+
           // case: end game
           if (round >= (problems?.length ?? round + 1)) {
-            hasResponded = false;
-            opnHasResponded = false;
-
-            int moneyAdded = playerScore - opponentScore;
-
-            if (playerScore > opponentScore) {
-              userProvider.userData!.winRecord += 1;
-            } else {
-              userProvider.userData!.loseRecord += 1;
-            }
-
-            await backendService.updatedBattleRecord(
-              opponentID: opponentID!,
-              field: challengeKey!,
-              totCorrect: playerCorrect,
-              totWrong: playerWrong,
-              userWin: playerScore > opponentScore,
-            );
-
-            emit(BattleShowOpponentAnswerState());
-            await Future.delayed(showOpponentAnswerDuration);
-            emit(BattleShowCorrectAnswerState());
-            await Future.delayed(showCorrectAnswerDuration);
-
-            emit(BattleEndGameState(
-              playerWin: playerScore > opponentScore,
-              playerScore: playerScore,
-              opponentScore: opponentScore,
-              moneyAdded: moneyAdded,
-              opponentName: opponentName,
-            ));
+            await endGame(event, emit);
           }
 
           // case: not ending, going to next round
           else {
-            emit(BattleShowOpponentAnswerState());
-            await Future.delayed(showOpponentAnswerDuration);
-            emit(BattleShowCorrectAnswerState());
-            await Future.delayed(showCorrectAnswerDuration);
-            emit(BattleShowNextRoundLabelState());
-
-            await Future.delayed(showNextRoundLabelDuration);
-
-            hasResponded = false;
-            opnHasResponded = false;
-            debugPrint("on BattleGetAnsRespondedEvent | triggering BattleRoundStartEvent");
-            add(BattleRoundStartEvent());
+            await endRound(event, emit);
           }
         }
       } on Exception catch (e) {
@@ -303,10 +324,23 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       debugPrint("on BattleWaitingEvent | emitting BattleWaitingEvent");
       emit(BattleWaitingState());
 
-      waitingTimer = Timer(const Duration(milliseconds: 5000), () {
-        if (opponentID != null) return;
-        isOppnComputer = true;
-        backendService.connectToComputerSocket(challengeKey!, username: computerID);
+      waitingTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        waitingTime++;
+
+        if (waitingTime < maxWaitingSecs) return;
+        if (!startGameClicked || opponentID != null) return;
+        if (waitingTime == maxWaitingSecs) {
+          debugPrint("on BattleWaitingEvent | connecting computer agent");
+          isOppnComputer = true;
+          backendService.connectToComputerSocket(challengeKey!, username: computerID, level: challengeLevel);
+          waitingTimer?.cancel();
+          waitingTimer = null;
+        }
+
+        if (waitingTime > maxWaitingSecs) {
+          waitingTimer?.cancel();
+          waitingTimer = null;
+        }
       });
     });
 
@@ -331,7 +365,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       if (round >= 0) emit(BattleNextRoundState(problem: problems![round]));
 
       var random = Random();
-      int oppAnsTime = random.nextInt(10);
+      int oppAnsTime = random.nextInt(10 - 1) + 1;
 
       debugPrint("on BattleRoundStartEvent | restarting round timer");
 

@@ -122,7 +122,7 @@ class _BattlePrepPageState extends State<BattlePrepPage> with SingleTickerProvid
                           shadows: [
                             Shadow(
                               blurRadius: 10.0,
-                              color: Colors.blue,
+                              color: Colors.black38,
                               offset: Offset(2.0, 2.0),
                             ),
                           ],
@@ -172,7 +172,7 @@ class _BattlePrepPageState extends State<BattlePrepPage> with SingleTickerProvid
                           shadows: [
                             Shadow(
                               blurRadius: 10.0,
-                              color: Colors.red,
+                              color: Colors.black38,
                               offset: Offset(2.0, 2.0),
                             ),
                           ],
@@ -196,7 +196,7 @@ class _BattlePrepPageState extends State<BattlePrepPage> with SingleTickerProvid
                       shadows: [
                         Shadow(
                           blurRadius: 20.0,
-                          color: Colors.orange,
+                          color: Colors.black38,
                           offset: Offset(2.0, 2.0),
                         ),
                       ],

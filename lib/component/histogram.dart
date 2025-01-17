@@ -47,7 +47,8 @@ class _HistogramState extends State<Histogram> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: List.generate(globalProvider.wordProgress!.length, (index) {
                     return BarWidget(
-                        date: DateTime.now().subtract(Duration(days: globalProvider.wordProgress!.length - index)), value: globalProvider.wordProgress![index]);
+                        date: DateTime.now().subtract(Duration(days: globalProvider.wordProgress!.length - index - 1)),
+                        value: globalProvider.wordProgress![index]);
                   }),
                 ),
               );

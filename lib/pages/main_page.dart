@@ -7,6 +7,7 @@ import 'package:examKing/component/histogram.dart';
 import 'package:examKing/component/logout_icon.dart';
 import 'package:examKing/models/user.dart';
 import 'package:examKing/pages/ability_analyse_page.dart';
+import 'package:examKing/pages/article_index.dart';
 import 'package:examKing/pages/learn_word_index.dart';
 import 'package:examKing/pages/login_page.dart';
 import 'package:examKing/providers/global_provider.dart';
@@ -81,6 +82,19 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                     title: "Learn Words",
                     backgroundColor: const Color.fromARGB(255, 158, 199, 231),
                     textColor: const Color.fromARGB(255, 0, 0, 0),
+                  ),
+
+                  // Review Article Button
+                  const SizedBox(height: 30),
+                  MainPageButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const ArticleIndexPage(),
+                      ));
+                    },
+                    backgroundColor: const Color.fromARGB(255, 226, 139, 139),
+                    textColor: const Color.fromARGB(255, 112, 22, 0),
+                    title: "Review Article",
                   ),
                   // Battle Arena Button
                   const SizedBox(height: 30),

@@ -74,10 +74,10 @@ class _TrendChartState extends State<TrendChart> {
               tooltipBgColor: Color.fromARGB(95, 214, 214, 214),
             ),
           ),
-          lineBarsData: List<LineChartBarData>.generate(2, (i) {
+          lineBarsData: List<LineChartBarData>.generate(1, (i) {
             return LineChartBarData(
               color: lineColors[i],
-              spots: correctRates![i].map((e) => FlSpot(correctRates![i].indexOf(e).toDouble(), e)).toList(),
+              spots: correctRates[i].map((e) => FlSpot(correctRates[i].indexOf(e).toDouble(), e)).toList(),
               isCurved: true,
               dotData: FlDotData(
                 show: true,

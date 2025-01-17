@@ -46,3 +46,17 @@ const String wordExampleKey = "example";
 const String wordLevelKey = "level";
 const String wordIsLearnedKey = "isLearned";
 const String wordSeenCountKey = "seenCount";
+
+const String problemProblemKey = "problem";
+const String problemOptionsKey = "options";
+const String problemAnswerKey = "answer";
+const String problemIDKey = "problem_id";
+
+const String recordProblemIDKey = "problem_id";
+const String recordCorrectKey = "correct";
+const String recordChallengeKey = "field";
+const String recordOpponentIDKey = "opponent";
+const String recordVictoryKey = "victory";
+const String recordAnswerRecordsKey = "records";
+
+const String articleArticleKey = "article";

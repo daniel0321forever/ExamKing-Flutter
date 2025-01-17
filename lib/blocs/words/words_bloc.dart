@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:examKing/models/word.dart';
+import 'package:examKing/providers/global_provider.dart';
 import 'package:examKing/service/backend.dart';
 import 'package:examKing/service/word_service.dart';
 import 'package:meta/meta.dart';
@@ -14,13 +15,14 @@ class WordsBloc extends Bloc<WordsEvent, WordsState> {
   int currentUnfamiliar = 0;
 
   final WordService wordService = WordService();
+  final GlobalProvider globalProvider;
 
   void initialize() {
     words = [];
     currentWord = null;
   }
 
-  WordsBloc() : super(WordsInitial()) {
+  WordsBloc(this.globalProvider) : super(WordsInitial()) {
     on<WordsEventInitialize>((event, emit) {
       initialize();
     });
@@ -36,19 +38,17 @@ class WordsBloc extends Bloc<WordsEvent, WordsState> {
     });
 
     on<WordsEventResponded>((event, emit) async {
+      globalProvider.pushProgress();
       if (event.isKnown && !currentWord!.isLearned) {
         currentWord!.isLearned = true;
         currentLearned++;
         currentUnfamiliar -= currentWord!.seenCount == 0 ? 0 : 1;
-      } else if (!event.isKnown) {
+      } else if (!event.isKnown && currentWord!.isLearned) {
         currentWord!.isLearned = false;
-
-        if (currentWord!.isLearned) {
-          currentLearned--;
-          currentUnfamiliar++;
-        } else if (currentWord!.seenCount == 0) {
-          currentUnfamiliar++;
-        }
+        currentLearned--;
+        currentUnfamiliar++;
+      } else if (!event.isKnown && currentWord!.seenCount == 0) {
+        currentUnfamiliar++;
       }
 
       Word previousWord = currentWord!;

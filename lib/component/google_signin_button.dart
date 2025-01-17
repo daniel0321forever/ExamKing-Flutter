@@ -16,7 +16,7 @@ class GoogleSigninButton extends StatelessWidget {
       },
       child: Container(
         height: 46,
-        width: 250,
+        width: 260,
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 255, 255, 255),
           borderRadius: BorderRadius.circular(8),

@@ -91,7 +91,7 @@ class _WordCardState extends State<WordCard> {
                         child: Text(
                           widget.word.partOfSpeech,
                           style: GoogleFonts.inter(
-                            fontSize: 16,
+                            fontSize: 12,
                             fontWeight: FontWeight.w600,
                           ),
                         ),

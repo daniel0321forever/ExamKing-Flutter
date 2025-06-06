@@ -61,6 +61,7 @@ class BackendService {
   /// 2) Server websocket would broadcast data about the scoring event
   void answer(int score, {int? optionIndex, required String userId}) {
     debugPrint("backend | answer | triggered");
+
     Map<String, dynamic> payload = {
       'type': 'answer',
       'userID': userId,

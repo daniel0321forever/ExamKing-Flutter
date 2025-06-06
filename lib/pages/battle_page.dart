@@ -209,10 +209,10 @@ class _BattlePageState extends State<BattlePage> with SingleTickerProviderStateM
           if (problem != null) {
             return Stack(
               children: [
-                generalView(context),
                 if (_showCorrectOverlay) correctAnimation(context),
                 if (_showWrongOverlay) wrongAnimation(context),
                 if (_showNextRoundText) const NextRoundAnimation(),
+                generalView(context),
               ],
             );
           }
@@ -227,11 +227,11 @@ class _BattlePageState extends State<BattlePage> with SingleTickerProviderStateM
       animation: _animationController,
       builder: (context, child) {
         return Container(
-          color: Colors.green.withOpacity(0.3 * (1 - _animationController.value)),
+          color: const Color.fromARGB(255, 154, 194, 89).withOpacity(0.3 * (1 - _animationController.value)),
           child: Center(
             child: Transform.scale(
               scale: 1 + _animationController.value,
-              child: const Icon(Icons.check_circle, color: Colors.green, size: 100),
+              child: const Icon(Icons.check_circle, color: Color.fromARGB(255, 157, 223, 96), size: 100),
             ),
           ),
         );
@@ -244,7 +244,7 @@ class _BattlePageState extends State<BattlePage> with SingleTickerProviderStateM
       animation: _animationController,
       builder: (context, child) {
         return Container(
-          color: Colors.red.withOpacity(0.3 * (1 - _animationController.value)),
+          color: const Color.fromARGB(255, 161, 66, 59).withOpacity(0.6 * (1 - _animationController.value)),
           child: Center(
             child: Transform.scale(
               scale: 1 + _animationController.value * 0.3,

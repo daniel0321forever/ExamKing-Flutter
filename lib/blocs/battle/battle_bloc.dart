@@ -95,6 +95,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   }
 
   void cancelRoundTimer() {
+    debugPrint("canceling round timer");
     roundTimer?.cancel();
     roundTimer = null;
   }
@@ -296,7 +297,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
         // check going to next round
         if (hasResponded && opnHasResponded) {
-          debugPrint("on BattleGetAnsRespondedEvent | going to next round");
+          debugPrint("on BattleGetAnsRespondedEvent | going to next round from round $round");
           cancelRoundTimer();
           round += 1;
 
@@ -362,10 +363,12 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     on<BattleRoundStartEvent>((event, emit) async {
       debugPrint("on BattleRoundStartEvent | emitting BattleNextRoundState");
 
+      debugPrint("on BattleRoundStartEvent | round: $round");
+
       if (round >= 0) emit(BattleNextRoundState(problem: problems![round]));
 
       var random = Random();
-      int oppAnsTime = random.nextInt(10 - 1) + 1;
+      int oppAnsTime = random.nextInt(3 - 1) + 4;
 
       debugPrint("on BattleRoundStartEvent | restarting round timer");
 
@@ -382,8 +385,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         }
 
         if (leftSec! == oppAnsTime && isOppnComputer) {
-          int computerAddedScore = random.nextInt(4) % 4 == 0 ? 0 : 200 * ((leftSec! ~/ 2 * 2) ~/ roundDuration.inSeconds);
-          opponentScore += computerAddedScore;
+          int computerAddedScore = (random.nextInt(2) % 2 == 0 ? 0 : 200 * ((leftSec! ~/ 2 * 2) / roundDuration.inSeconds)).toInt();
           backendService.answer(computerAddedScore, userId: opponentID!);
           return;
         }
@@ -399,9 +401,12 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     /// 1) Send answer type data with zero score while emitting times up state to the UI code
     on<BattleTimesUpEvent>((event, emit) {
       try {
+        debugPrint("on BattleTimesUpEvent | emitting BattleTimesUpEvent");
+
         cancelRoundTimer();
 
-        debugPrint("on BattleTimesUpEvent | emitting BattleTimesUpEvent");
+        if (hasResponded) return;
+
         hasResponded = true;
 
         // send message to server

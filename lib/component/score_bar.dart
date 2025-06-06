@@ -99,16 +99,7 @@ class _ScoreBarState extends State<ScoreBar> with SingleTickerProviderStateMixin
                   curve: Curves.elasticOut,
                   duration: const Duration(milliseconds: 1500),
                   height: barHeight * currentScore / widget.maxScore,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        const Color.fromRGBO(255, 200, 193, 1).withOpacity(0.6),
-                        const Color.fromARGB(255, 255, 218, 243),
-                      ],
-                    ),
-                  ),
+                  color: Colors.black,
                 ),
               ),
             ],

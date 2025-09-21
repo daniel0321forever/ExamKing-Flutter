@@ -5,7 +5,8 @@ sealed class WordsEvent {}
 
 class WordsEventLoad extends WordsEvent {
   final int level;
-  WordsEventLoad({required this.level});
+  final String testType;
+  WordsEventLoad({required this.level, required this.testType});
 }
 
 class WordsEventInitialize extends WordsEvent {}

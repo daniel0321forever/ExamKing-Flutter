@@ -10,7 +10,7 @@ import 'package:examKing/pages/login_page.dart';
 import 'package:examKing/providers/global_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:examKing/component/main_page_button.dart';
-import 'package:examKing/pages/index_page.dart';
+import 'package:examKing/pages/battle_index_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,7 +21,8 @@ class SettingPage extends StatefulWidget {
   State<SettingPage> createState() => _SettingPageState();
 }
 
-class _SettingPageState extends State<SettingPage> with SingleTickerProviderStateMixin {
+class _SettingPageState extends State<SettingPage>
+    with SingleTickerProviderStateMixin {
   late AuthBloc authBloc;
   late StreamSubscription authBlocListener;
   late UserData user;
@@ -31,7 +32,8 @@ class _SettingPageState extends State<SettingPage> with SingleTickerProviderStat
   bool _isEditing = false;
   final TextEditingController _nameController = TextEditingController();
 
-  ImageProvider backgroundImageProvider = const NetworkImage('https://media.tenor.com/bx7hbOEm4gMAAAAj/sakura-leaves.gif');
+  ImageProvider backgroundImageProvider = const NetworkImage(
+      'https://media.tenor.com/bx7hbOEm4gMAAAAj/sakura-leaves.gif');
 
   @override
   void initState() {
@@ -41,7 +43,9 @@ class _SettingPageState extends State<SettingPage> with SingleTickerProviderStat
     authBlocListener = authBloc.stream.listen((state) {
       if (state is AuthStateLoggedOut) {
         if (mounted) {
-          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (route) => false);
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => const LoginPage()),
+              (route) => false);
         }
       }
     });
@@ -137,7 +141,8 @@ class _SettingPageState extends State<SettingPage> with SingleTickerProviderStat
                         ),
                         onSubmitted: (value) {
                           if (value.trim().isNotEmpty) {
-                            authBloc.add(AuthEventUpdateUserName(name: value.trim()));
+                            authBloc.add(
+                                AuthEventUpdateUserName(name: value.trim()));
                             setState(() {
                               _isEditing = false;
                             });

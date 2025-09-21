@@ -24,13 +24,13 @@ class _MainPageButtonState extends State<MainPageButton> {
     return InkWell(
       onTap: widget.onPressed,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 15),
         decoration: BoxDecoration(
-          color: widget.backgroundColor.withOpacity(0.6),
+          color: widget.backgroundColor.withValues(alpha: 0.6),
           borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(
-              color: widget.backgroundColor.withOpacity(0.5),
+              color: widget.backgroundColor.withValues(alpha: 0.5),
               spreadRadius: 1,
               blurRadius: 8,
               offset: const Offset(0, 4),
@@ -42,7 +42,7 @@ class _MainPageButtonState extends State<MainPageButton> {
           child: Text(
             widget.title,
             style: GoogleFonts.mandali(
-              fontSize: 16,
+              fontSize: 20,
               color: widget.textColor,
               fontWeight: FontWeight.w600,
             ),

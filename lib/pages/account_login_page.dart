@@ -12,7 +12,7 @@ import 'package:examKing/pages/main_page.dart';
 import 'package:examKing/providers/global_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:examKing/component/main_page_button.dart';
-import 'package:examKing/pages/index_page.dart';
+import 'package:examKing/pages/battle_index_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,7 +23,8 @@ class AccountLoginPage extends StatefulWidget {
   State<AccountLoginPage> createState() => _AccountLoginPageState();
 }
 
-class _AccountLoginPageState extends State<AccountLoginPage> with SingleTickerProviderStateMixin {
+class _AccountLoginPageState extends State<AccountLoginPage>
+    with SingleTickerProviderStateMixin {
   late AuthBloc authBloc;
   late StreamSubscription authBlocListener;
   late AnimationController _controller;
@@ -31,10 +32,13 @@ class _AccountLoginPageState extends State<AccountLoginPage> with SingleTickerPr
 
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _signUpPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _signUpPasswordController =
+      TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _signUpUsernameController = TextEditingController();
+  final TextEditingController _signUpUsernameController =
+      TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   bool isSignUp = false;
   int signUpStep = 0;
@@ -47,7 +51,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> with SingleTickerPr
   bool isLogInFailed = false;
   bool isNameEmpty = false;
 
-  ImageProvider backgroundImageProvider = const NetworkImage('https://media.tenor.com/bx7hbOEm4gMAAAAj/sakura-leaves.gif');
+  ImageProvider backgroundImageProvider = const NetworkImage(
+      'https://media.tenor.com/bx7hbOEm4gMAAAAj/sakura-leaves.gif');
 
   @override
   void initState() {
@@ -87,7 +92,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> with SingleTickerPr
         });
       } else if (state is AuthStateAuthenticated) {
         if (mounted) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const MainPage()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const MainPage()));
         }
       } else if (state is AuthStateFailed) {
         setState(() {
@@ -160,7 +166,13 @@ class _AccountLoginPageState extends State<AccountLoginPage> with SingleTickerPr
                   ),
                   const SizedBox(height: 20),
 
-                  isSignUp ? [buildSignUpForm1(), buildSignUpForm2(), buildSignUpForm3()][signUpStep] : buildLoginForm(),
+                  isSignUp
+                      ? [
+                          buildSignUpForm1(),
+                          buildSignUpForm2(),
+                          buildSignUpForm3()
+                        ][signUpStep]
+                      : buildLoginForm(),
                 ],
               ),
             ),
@@ -168,7 +180,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> with SingleTickerPr
               top: 10,
               right: 10,
               child: LogoutIcon(onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()));
               }),
             ),
           ],
@@ -269,7 +282,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> with SingleTickerPr
                     });
                     return;
                   }
-                  authBloc.add(AuthEventCheckUsername(username: _signUpUsernameController.text));
+                  authBloc.add(AuthEventCheckUsername(
+                      username: _signUpUsernameController.text));
                 },
                 title: "下一步",
               ),
@@ -323,7 +337,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> with SingleTickerPr
                   scale: _scaleAnimation.value,
                   child: LoginButton(
                     onPressed: () {
-                      authBloc.add(AuthEventCheckEmail(email: _emailController.text));
+                      authBloc.add(
+                          AuthEventCheckEmail(email: _emailController.text));
                     },
                     title: "下一步",
                   ),
@@ -377,7 +392,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> with SingleTickerPr
                     return;
                   }
 
-                  if (_signUpPasswordController.text != _confirmPasswordController.text) {
+                  if (_signUpPasswordController.text !=
+                      _confirmPasswordController.text) {
                     setState(() {
                       isPasswordEmpty = false;
                       isPasswordDifferent = true;
@@ -423,7 +439,11 @@ class _AccountLoginPageState extends State<AccountLoginPage> with SingleTickerPr
         const SizedBox(height: 10),
 
         // username field
-        AccountTextField(controller: _usernameController, labelText: '帳號', prefixIcon: Icons.person, obscureText: false),
+        AccountTextField(
+            controller: _usernameController,
+            labelText: '帳號',
+            prefixIcon: Icons.person,
+            obscureText: false),
         AccountTextField(
           controller: _passwordController,
           labelText: '密碼',
@@ -481,7 +501,9 @@ class _AccountLoginPageState extends State<AccountLoginPage> with SingleTickerPr
               scale: _scaleAnimation.value,
               child: LoginButton(
                 onPressed: () {
-                  authBloc.add(AuthEventLogIn(username: _usernameController.text, password: _passwordController.text));
+                  authBloc.add(AuthEventLogIn(
+                      username: _usernameController.text,
+                      password: _passwordController.text));
                 },
                 title: "登入",
               ),

@@ -32,7 +32,7 @@ class _LearnWordPageState extends State<LearnWordPage> {
       }
     });
 
-    wordsBloc.add(WordsEventLoad(level: widget.level));
+    wordsBloc.add(WordsEventLoad(level: widget.level, testType: "gre"));
   }
 
   @override
@@ -170,12 +170,14 @@ class _StatCardState extends State<StatCard> {
             children: [
               Text(
                 widget.stat.title,
-                style: GoogleFonts.barlowCondensed(color: Colors.black, fontSize: 19),
+                style: GoogleFonts.barlowCondensed(
+                    color: Colors.black, fontSize: 19),
               ),
               const Spacer(),
               Text(
                 "${(widget.stat.val).toInt()}/${widget.stat.maxVal.toInt()}",
-                style: GoogleFonts.barlowCondensed(color: Colors.black, fontSize: 16),
+                style: GoogleFonts.barlowCondensed(
+                    color: Colors.black, fontSize: 16),
               ),
             ],
           ),
@@ -189,7 +191,8 @@ class _StatCardState extends State<StatCard> {
                 ),
               ),
               TweenAnimationBuilder(
-                tween: Tween<double>(begin: 0.0, end: widget.stat.val / widget.stat.maxVal),
+                tween: Tween<double>(
+                    begin: 0.0, end: widget.stat.val / widget.stat.maxVal),
                 duration: const Duration(milliseconds: 1000),
                 curve: Curves.easeOutCubic,
                 builder: (context, double value, child) {
@@ -198,7 +201,8 @@ class _StatCardState extends State<StatCard> {
                     child: Container(
                       height: 8,
                       decoration: BoxDecoration(
-                        color: widget.color ?? const Color.fromARGB(255, 158, 199, 231),
+                        color: widget.color ??
+                            const Color.fromARGB(255, 158, 199, 231),
                         borderRadius: BorderRadius.circular(4),
                         boxShadow: const [
                           BoxShadow(

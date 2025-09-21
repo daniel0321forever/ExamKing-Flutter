@@ -45,9 +45,13 @@ class _HistogramState extends State<Histogram> {
                 reverse: true,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  children: List.generate(globalProvider.wordProgress!.length, (index) {
+                  children: List.generate(globalProvider.wordProgress!.length,
+                      (index) {
                     return BarWidget(
-                        date: DateTime.now().subtract(Duration(days: globalProvider.wordProgress!.length - index - 1)),
+                        date: DateTime.now().subtract(Duration(
+                            days: globalProvider.wordProgress!.length -
+                                index -
+                                1)),
                         value: globalProvider.wordProgress![index]);
                   }),
                 ),
@@ -60,36 +64,7 @@ class _HistogramState extends State<Histogram> {
   }
 
   Widget buildShimmer() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(5, (index) {
-              return Container(
-                width: 50,
-                height: 150,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Shimmer.fromColors(
-                  baseColor: Colors.grey.shade300,
-                  highlightColor: Colors.grey.shade100,
-                  child: Container(
-                    width: 50,
-                    height: 150,
-                    color: Colors.grey.shade300,
-                  ),
-                ),
-              );
-            }),
-          ),
-        ],
-      ),
-    );
+    return Container();
   }
 }
 
@@ -102,7 +77,8 @@ class BarWidget extends StatefulWidget {
   State<BarWidget> createState() => _BarWidgetState();
 }
 
-class _BarWidgetState extends State<BarWidget> with SingleTickerProviderStateMixin {
+class _BarWidgetState extends State<BarWidget>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   Color color = Colors.black;

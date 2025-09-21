@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:examKing/component/back_to_main_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:morphable_shape/morphable_shape.dart';
 
 // bloc
 import 'package:examKing/blocs/battle/battle_bloc.dart';
@@ -28,14 +27,15 @@ import 'package:examKing/global/properties.dart';
 // 1. make it a big wheel animation
 // 2. when click on one element of the wheel, it will animate into a page that contains smaller challenge of the item
 
-class IndexPage extends StatefulWidget {
-  const IndexPage({super.key});
+class BattleIndexPage extends StatefulWidget {
+  const BattleIndexPage({super.key});
 
   @override
-  State<IndexPage> createState() => _IndexPageState();
+  State<BattleIndexPage> createState() => _IndexPageState();
 }
 
-class _IndexPageState extends State<IndexPage> with SingleTickerProviderStateMixin {
+class _IndexPageState extends State<BattleIndexPage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late List<Animation<double>> _fadeAnimations;
   late List<Animation<double>> _scaleAnimations;
@@ -87,7 +87,8 @@ class _IndexPageState extends State<IndexPage> with SingleTickerProviderStateMix
     super.dispose();
   }
 
-  Future<void> showStartBattleDialog(Challenge challenge, {required bool isLeft}) async {
+  Future<void> showStartBattleDialog(Challenge challenge,
+      {required bool isLeft}) async {
     await showGeneralDialog(
       context: context,
       pageBuilder: (context, animation, secondaryAnimation) {
@@ -105,7 +106,8 @@ class _IndexPageState extends State<IndexPage> with SingleTickerProviderStateMix
         return ScaleTransition(
           scale: Tween<double>(begin: 0.8, end: 1.0).animate(curvedAnimation),
           child: FadeTransition(
-            opacity: Tween<double>(begin: 0.0, end: 1.0).animate(curvedAnimation),
+            opacity:
+                Tween<double>(begin: 0.0, end: 1.0).animate(curvedAnimation),
             child: child,
           ),
         );
@@ -143,7 +145,8 @@ class _IndexPageState extends State<IndexPage> with SingleTickerProviderStateMix
                         child: ChallengTile(
                           challenge: challenges.values.toList()[i],
                           onPressed: () {
-                            showStartBattleDialog(challenges.values.toList()[i], isLeft: i % 2 == 1);
+                            showStartBattleDialog(challenges.values.toList()[i],
+                                isLeft: i % 2 == 1);
                           },
                           isLeft: i % 2 == 1,
                         ),
@@ -161,13 +164,15 @@ class _IndexPageState extends State<IndexPage> with SingleTickerProviderStateMix
 class StartBattleDialog extends StatefulWidget {
   final Challenge challenge;
   final bool isLeft;
-  const StartBattleDialog({super.key, required this.challenge, required this.isLeft});
+  const StartBattleDialog(
+      {super.key, required this.challenge, required this.isLeft});
 
   @override
   State<StartBattleDialog> createState() => _StartBattleDialogState();
 }
 
-class _StartBattleDialogState extends State<StartBattleDialog> with SingleTickerProviderStateMixin {
+class _StartBattleDialogState extends State<StartBattleDialog>
+    with SingleTickerProviderStateMixin {
   late final BattleBloc battleBloc;
   late final StreamSubscription<BattleState> battleSubscription;
   late final AnimationController _controller;
@@ -304,7 +309,9 @@ class _StartBattleDialogState extends State<StartBattleDialog> with SingleTicker
                           : DialogButton(
                               title: "Continue",
                               onPressed: () {
-                                battleBloc.add(BattleStartEvent(challenge: widget.challenge, level: widget.challenge.level));
+                                battleBloc.add(BattleStartEvent(
+                                    challenge: widget.challenge,
+                                    level: widget.challenge.level));
                               }),
                     ],
                   )

@@ -4,8 +4,8 @@ import 'package:examKing/global/properties.dart';
 import 'package:examKing/pages/learn_word_page.dart';
 import 'package:flutter/material.dart';
 
-class LearnWordIndexPage extends StatelessWidget {
-  const LearnWordIndexPage({super.key});
+class GREMainPage extends StatelessWidget {
+  const GREMainPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,8 @@ class LearnWordIndexPage extends StatelessWidget {
   Widget _buildLevelList() {
     return Column(
       children: [
-        for (int lv = 0; lv < levels.length; lv++) LearnIndexItem(level: levels[lv]),
+        for (int lv = 0; lv < levels.length; lv++)
+          LearnIndexItem(level: levels[lv]),
       ],
     );
   }

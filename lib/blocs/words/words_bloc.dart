@@ -28,10 +28,12 @@ class WordsBloc extends Bloc<WordsEvent, WordsState> {
     });
 
     on<WordsEventLoad>((event, emit) async {
-      words = await wordService.getWords(event.level);
+      words = await wordService.getWords(event.level, event.testType);
 
       currentLearned = words!.where((word) => word.isLearned).length;
-      currentUnfamiliar = words!.where((word) => (!word.isLearned && word.seenCount > 0)).length;
+      currentUnfamiliar = words!
+          .where((word) => (!word.isLearned && word.seenCount > 0))
+          .length;
 
       currentWord = (words!..shuffle()).first;
       emit(WordsStateGetWord(word: currentWord!));

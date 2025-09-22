@@ -1,5 +1,6 @@
 import 'package:examKing/blocs/analysis/analysis_bloc.dart';
 import 'package:examKing/blocs/article/article_bloc.dart';
+import 'package:examKing/blocs/subject/subject_bloc.dart';
 import 'package:examKing/blocs/words/words_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(const MyApp());
 }
 
@@ -35,18 +37,29 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => AuthBloc(userProvider: context.read<GlobalProvider>())),
-          BlocProvider(create: (context) => BattleBloc(userProvider: context.read<GlobalProvider>())),
+          BlocProvider(create: (context) => SubjectBloc()),
+          BlocProvider(
+              create: (context) =>
+                  AuthBloc(userProvider: context.read<GlobalProvider>())),
+          BlocProvider(
+              create: (context) =>
+                  BattleBloc(userProvider: context.read<GlobalProvider>())),
           BlocProvider(create: (context) => IndexBloc()),
-          BlocProvider(create: (context) => MainBloc(context.read<GlobalProvider>())),
-          BlocProvider(create: (context) => WordsBloc(context.read<GlobalProvider>())),
-          BlocProvider(create: (context) => AnalysisBloc(context.read<GlobalProvider>())),
+          BlocProvider(
+              create: (context) => MainBloc(context.read<GlobalProvider>())),
+          BlocProvider(
+              create: (context) => WordsBloc(context.read<GlobalProvider>())),
+          BlocProvider(
+              create: (context) =>
+                  AnalysisBloc(context.read<GlobalProvider>())),
           BlocProvider(create: (context) => ArticleBloc()),
         ],
         child: MaterialApp(
           title: 'GRE AI',
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 202, 0, 0)).copyWith(
+            colorScheme: ColorScheme.fromSeed(
+                    seedColor: const Color.fromARGB(255, 202, 0, 0))
+                .copyWith(
               // surface: const Color.fromARGB(255, 255, 234, 245),
               surface: Colors.white,
             ),

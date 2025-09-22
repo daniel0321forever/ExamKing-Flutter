@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:examKing/blocs/words/words_bloc.dart';
 import 'package:examKing/component/back_to_main_button.dart';
 import 'package:examKing/component/word_card.dart';
+import 'package:examKing/models/level.dart';
 import 'package:examKing/models/stat.dart';
 import 'package:examKing/models/word.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
 
 class LearnWordPage extends StatefulWidget {
-  final int level;
+  final Level level;
   const LearnWordPage({super.key, required this.level});
 
   @override
@@ -32,7 +33,7 @@ class _LearnWordPageState extends State<LearnWordPage> {
       }
     });
 
-    wordsBloc.add(WordsEventLoad(level: widget.level, testType: "gre"));
+    wordsBloc.add(WordsEventLoad(level: widget.level));
   }
 
   @override
@@ -58,14 +59,14 @@ class _LearnWordPageState extends State<LearnWordPage> {
                     // level title
                     const SizedBox(height: 20),
                     Text(
-                      "Level ${widget.level}",
+                      "Level ${widget.level.level}",
                       style: GoogleFonts.barlowCondensed(
                         fontSize: 20,
                       ),
                     ),
 
                     // word card
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 20),
                     WordCard(word: wordsBloc.currentWord!),
 
                     // stat card
@@ -110,7 +111,7 @@ class _LearnWordPageState extends State<LearnWordPage> {
           // level title
           const SizedBox(height: 20),
           Text(
-            "Level ${widget.level + 1}",
+            "Level ${widget.level.level + 1}",
             style: GoogleFonts.barlowCondensed(
               fontSize: 20,
             ),

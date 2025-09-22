@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:examKing/models/level.dart';
 import 'package:examKing/models/word.dart';
 import 'package:examKing/providers/global_provider.dart';
 import 'package:examKing/service/backend.dart';
@@ -28,7 +29,7 @@ class WordsBloc extends Bloc<WordsEvent, WordsState> {
     });
 
     on<WordsEventLoad>((event, emit) async {
-      words = await wordService.getWords(event.level, event.testType);
+      words = await wordService.getWords(event.level);
 
       currentLearned = words!.where((word) => word.isLearned).length;
       currentUnfamiliar = words!
@@ -60,7 +61,7 @@ class WordsBloc extends Bloc<WordsEvent, WordsState> {
 
       emit(WordsStateGetWord(word: currentWord!));
 
-      await wordService.updateWord(currentWord!);
+      await wordService.updateWord(previousWord);
     });
   }
 }

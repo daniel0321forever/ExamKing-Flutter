@@ -51,39 +51,34 @@ class _WordCardState extends State<WordCard> {
     return GestureDetector(
       onTap: flipCard,
       child: Container(
-        height: 350,
-        width: MediaQuery.of(context).size.width * 0.8,
-        padding: const EdgeInsets.all(16.0),
+        height: 400,
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
         ),
         child: isFlipped
-            ? Column(
+            ?
+            // flipped card
+            Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "${widget.word.word} ${widget.word.translation}",
-                    style: GoogleFonts.inter(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: const Color.fromARGB(255, 0, 0, 0),
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
+                  // word and part of speech
                   Row(
                     children: [
+                      Text(
+                        "${widget.word.word} ${widget.word.translation}",
+                        style: GoogleFonts.inter(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: const Color.fromARGB(255, 0, 0, 0),
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
                       Container(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4.0, horizontal: 8.0),
                         decoration: BoxDecoration(
                           color: Colors.yellow[100],
                           borderRadius: BorderRadius.circular(7),
@@ -96,27 +91,21 @@ class _WordCardState extends State<WordCard> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 10),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.45,
-                        child: Text(
-                          widget.word.definition,
-                          style: GoogleFonts.inter(
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+
+                  // example
+                  const SizedBox(height: 20),
                   Text(
                     widget.word.example,
                     style: GoogleFonts.inter(
-                      fontSize: 14,
+                      fontSize: 16,
                       color: Colors.grey[600],
                       fontStyle: FontStyle.italic,
                     ),
                   ),
+
+                  // action buttons
                   const Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -131,7 +120,8 @@ class _WordCardState extends State<WordCard> {
                             // 1) first update the word locally
                             // 2) then get a new word, and emit state that set isFlipped to false
                             // 3) finally send update to the server
-                            wordsBloc.add(WordsEventResponded(isKnown: false, word: widget.word.word));
+                            wordsBloc.add(WordsEventResponded(
+                                isKnown: false, word: widget.word.word));
                             setState(() {
                               isFlipped = false;
                             });
@@ -145,7 +135,8 @@ class _WordCardState extends State<WordCard> {
                             // 1) first update the word locally
                             // 2) then get a new word, and emit state that set isFlipped to false
                             // 3) finally send update to the server
-                            wordsBloc.add(WordsEventResponded(isKnown: true, word: widget.word.word));
+                            wordsBloc.add(WordsEventResponded(
+                                isKnown: true, word: widget.word.word));
                             setState(() {
                               isFlipped = false;
                             });
@@ -155,12 +146,17 @@ class _WordCardState extends State<WordCard> {
                   ),
                 ],
               )
-            : Column(
+            :
+            // unflipped card
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  // level and word
                   Align(
-                    alignment: Alignment.centerRight,
+                    alignment: Alignment.center,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4.0, horizontal: 12.0),
                       decoration: BoxDecoration(
                         color: widget.word.seenCount > 0
                             ? widget.word.isLearned
@@ -176,21 +172,25 @@ class _WordCardState extends State<WordCard> {
                                 : "Learning"
                             : "New",
                         style: GoogleFonts.inter(
-                          fontSize: 12,
+                          fontSize: 14,
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
                         ),
                       ),
                     ),
                   ),
-                  const Spacer(),
+
+                  // example
+                  const SizedBox(height: 10),
                   Text(
                     widget.word.word,
                     style: GoogleFonts.inter(
-                      fontSize: 24,
+                      fontSize: 38,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
+                  // tap to see definition
                   const SizedBox(height: 10),
                   Text(
                     "Tap to see definition",
@@ -199,7 +199,6 @@ class _WordCardState extends State<WordCard> {
                       color: const Color.fromARGB(216, 168, 168, 168),
                     ),
                   ),
-                  const Spacer(),
                 ],
               ),
       ),
@@ -212,7 +211,12 @@ class WordCardActionButton extends StatelessWidget {
   final IconData icon;
   final Color color;
   final VoidCallback onTap;
-  const WordCardActionButton({super.key, required this.label, required this.icon, required this.color, required this.onTap});
+  const WordCardActionButton(
+      {super.key,
+      required this.label,
+      required this.icon,
+      required this.color,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -221,18 +225,19 @@ class WordCardActionButton extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+            padding:
+                const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
             decoration: BoxDecoration(
               color: color,
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, color: Colors.white, size: 30),
+            child: Icon(icon, color: Colors.white, size: 40),
           ),
           const SizedBox(height: 4),
           Text(
             label,
             style: GoogleFonts.inter(
-              fontSize: 10,
+              fontSize: 13,
               fontWeight: FontWeight.w600,
               color: color.withOpacity(0.8),
             ),

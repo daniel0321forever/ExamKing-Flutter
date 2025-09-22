@@ -86,7 +86,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     authBlocListener = authBloc.stream.listen((state) {
       if (state is AuthStateAuthenticated) {
         if (mounted) {
-          Navigator.of(context).push(FadeScalePageRoute(page: const MainPage()));
+          Navigator.of(context)
+              .push(FadeScalePageRoute(page: const MainPage()));
         }
         authBlocListener.cancel();
       }
@@ -143,9 +144,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                   colors: [
-                    Color.fromARGB(198, 241, 182, 182),
-                    Color.fromARGB(255, 250, 178, 178),
-                    Color.fromARGB(255, 248, 172, 172),
+                    Color.fromARGB(197, 247, 254, 255),
+                    Color.fromARGB(255, 178, 225, 250),
+                    Color.fromARGB(255, 58, 139, 211),
                   ],
                 ),
               ),

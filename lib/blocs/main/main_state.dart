@@ -7,6 +7,8 @@ final class MainInitial extends MainState {}
 
 final class MainStateGetDailyProgress extends MainState {}
 
+final class MainStateInitialize extends MainState {}
+
 final class MainStateError extends MainState {
   final Exception exception;
   MainStateError({required this.exception});

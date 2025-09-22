@@ -2,7 +2,8 @@ import 'package:examKing/pages/setting_page.dart';
 import 'package:flutter/material.dart';
 
 class AccountButton extends StatelessWidget {
-  const AccountButton({super.key});
+  final double radius;
+  const AccountButton({super.key, this.radius = 20});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class AccountButton extends StatelessWidget {
         ));
       },
       child: CircleAvatar(
-        radius: 20,
+        radius: radius,
         backgroundImage: AssetImage('assets/player1.webp'),
       ),
     );

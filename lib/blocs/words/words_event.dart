@@ -4,9 +4,8 @@ part of 'words_bloc.dart';
 sealed class WordsEvent {}
 
 class WordsEventLoad extends WordsEvent {
-  final int level;
-  final String testType;
-  WordsEventLoad({required this.level, required this.testType});
+  final Level level;
+  WordsEventLoad({required this.level});
 }
 
 class WordsEventInitialize extends WordsEvent {}

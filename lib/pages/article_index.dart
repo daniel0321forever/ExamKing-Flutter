@@ -2,7 +2,6 @@ import 'package:examKing/component/article_index_item.dart';
 import 'package:examKing/component/back_to_main_button.dart';
 import 'package:examKing/component/learn_index_item.dart';
 import 'package:examKing/global/properties.dart';
-import 'package:examKing/pages/learn_word_page.dart';
 import 'package:flutter/material.dart';
 
 class ArticleIndexPage extends StatelessWidget {
@@ -33,7 +32,8 @@ class ArticleIndexPage extends StatelessWidget {
   Widget _buildLevelList() {
     return Column(
       children: [
-        for (int lv = 0; lv < levels.length; lv++) ArticleIndexItem(level: levels[lv]),
+        for (int lv = 0; lv < greLevels.length; lv++)
+          ArticleIndexItem(level: greLevels[lv]),
       ],
     );
   }

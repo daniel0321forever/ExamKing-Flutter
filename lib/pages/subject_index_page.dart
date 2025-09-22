@@ -1,53 +1,16 @@
+import 'dart:async';
+
+import 'package:examKing/blocs/subject/subject_bloc.dart';
 import 'package:examKing/component/back_to_main_button.dart';
+import 'package:examKing/global/properties.dart';
 import 'package:examKing/models/subject.dart';
 import 'package:examKing/pages/gre_main_page.dart';
+import 'package:examKing/pages/hs_main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:expandable_page_view/expandable_page_view.dart';
-
-const List<Subject> subjects = [
-  Subject(
-    name: "GRE",
-    key: "gre",
-    color: Color.fromARGB(255, 138, 170, 196),
-    subColor: Color.fromARGB(255, 8, 60, 105),
-    progress: 0.3,
-    intro: "GRE常見1000單字",
-    icon: Icons.grade,
-    linkedPage: GREMainPage(),
-  ),
-  Subject(
-    name: "7000單",
-    key: "7000",
-    color: Color.fromARGB(255, 255, 195, 66),
-    subColor: Color.fromARGB(255, 176, 120, 0),
-    progress: 0.5,
-    intro: "學測、分科必備英文單字",
-    icon: Icons.book,
-    linkedPage: GREMainPage(),
-  ),
-  // Subject(
-  //   name: "MATH",
-  //   key: "toefl",
-  //   color: Color.fromARGB(255, 119, 181, 145),
-  //   subColor: Color.fromARGB(255, 0, 30, 57),
-  //   progress: 0.6,
-  //   intro: "開發中...",
-  //   icon: Icons.calculate,
-  //   linkedPage: GREMainPage(),
-  // ),
-  // Subject(
-  //   name: "Biology",
-  //   key: "sat",
-  //   color: Color.fromARGB(255, 181, 132, 119),
-  //   subColor: Color.fromARGB(255, 0, 30, 57),
-  //   progress: 0.8,
-  //   intro: "開發中...",
-  //   icon: Icons.book,
-  //   linkedPage: GREMainPage(),
-  // ),
-];
 
 class SubjectIndexPage extends StatefulWidget {
   const SubjectIndexPage({super.key});
@@ -59,6 +22,8 @@ class SubjectIndexPage extends StatefulWidget {
 class _SubjectIndexPageState extends State<SubjectIndexPage> {
   late final ScrollController subjectListScrollController;
   late final PageController subjectItemPageController;
+  late final SubjectBloc subjectBloc;
+  late final StreamSubscription<SubjectState> subjectSubscription;
 
   double subjectOptionWidth = 170.0;
   int currentSubjectIndex = 1;
@@ -83,6 +48,14 @@ class _SubjectIndexPageState extends State<SubjectIndexPage> {
               duration: const Duration(milliseconds: 100),
               curve: Curves.linear);
         });
+      }
+    });
+
+    subjectBloc = context.read<SubjectBloc>();
+    subjectBloc.add(SubjectEventGetSubjectInitialData());
+    subjectSubscription = subjectBloc.stream.listen((state) {
+      if (state is SubjectStateInitialDataLoaded) {
+        setState(() {});
       }
     });
   }
@@ -259,6 +232,8 @@ class SubjectCard extends StatelessWidget {
   }
 
   Widget _buildProgressBar(BuildContext context, Subject subject) {
+    debugPrint("subject | subject ${subject.name} | ${subject.progress}");
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

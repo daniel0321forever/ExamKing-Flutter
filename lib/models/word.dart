@@ -6,7 +6,6 @@ class Word {
   final String translation;
   final String partOfSpeech;
   final String example;
-  final int level;
   bool isLearned;
   int seenCount;
 
@@ -16,7 +15,6 @@ class Word {
     required this.translation,
     required this.partOfSpeech,
     required this.example,
-    required this.level,
     this.isLearned = false,
     this.seenCount = 0,
   });
@@ -24,11 +22,10 @@ class Word {
   factory Word.fromMap(Map<String, dynamic> map) {
     return Word(
       word: map[keys.wordWordKey],
-      definition: map[keys.wordDefinitionKey],
+      definition: map[keys.wordDefinitionKey] ?? "",
       translation: map[keys.wordTranslationKey],
-      partOfSpeech: map[keys.wordPartOfSpeechKey],
-      example: map[keys.wordExampleKey],
-      level: map[keys.wordLevelKey],
+      partOfSpeech: map[keys.wordPartOfSpeechKey] ?? "",
+      example: map[keys.wordExampleKey] ?? "",
       isLearned: map[keys.wordIsLearnedKey],
       seenCount: map[keys.wordSeenCountKey],
     );

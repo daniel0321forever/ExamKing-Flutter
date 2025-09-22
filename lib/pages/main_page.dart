@@ -28,16 +28,53 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage>
     with SingleTickerProviderStateMixin {
   late MainBloc mainBloc;
+  late StreamSubscription mainBlocListener;
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
 
   @override
   void initState() {
     super.initState();
     mainBloc = context.read<MainBloc>();
+    mainBloc.add(MainEventInitialize());
     mainBloc.add(MainEventGetDailyProgress());
+
+    mainBlocListener = mainBloc.stream.listen((state) {
+      if (state is MainStateInitialize) {
+        setState(() {});
+      }
+    });
+
+    // Initialize animation controller for the loading text
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.3,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
+
+    // Start the repeating animation
+    _animationController.repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (!mainBloc.isWordInitialized) {
+      return buildInitLoading();
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -108,6 +145,34 @@ class _MainPageState extends State<MainPage>
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget buildInitLoading() {
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AccountButton(radius: 80),
+          const SizedBox(
+            height: 20,
+            width: double.infinity,
+          ),
+          AnimatedBuilder(
+            animation: _fadeAnimation,
+            builder: (context, child) {
+              return Opacity(
+                opacity: _fadeAnimation.value,
+                child: Text(
+                  "Initializing...",
+                  style: GoogleFonts.barlowCondensed(
+                      fontSize: 20, fontWeight: FontWeight.w600),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

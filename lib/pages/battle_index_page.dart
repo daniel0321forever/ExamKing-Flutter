@@ -143,9 +143,9 @@ class _IndexPageState extends State<BattleIndexPage>
                       child: ScaleTransition(
                         scale: _scaleAnimations[i],
                         child: ChallengTile(
-                          challenge: challenges.values.toList()[i],
+                          challenge: challenges[i],
                           onPressed: () {
-                            showStartBattleDialog(challenges.values.toList()[i],
+                            showStartBattleDialog(challenges.toList()[i],
                                 isLeft: i % 2 == 1);
                           },
                           isLeft: i % 2 == 1,

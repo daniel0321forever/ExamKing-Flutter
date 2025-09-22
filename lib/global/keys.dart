@@ -24,6 +24,10 @@ const String analysisCorrectRatekey = "correctRate";
 const String analysisFieldKey = "field";
 
 const String prefTokenKey = "token";
+const String prefWordVersionKey = "wordVersion";
+const String prefWordIndexPrefixKey = "wordpref";
+const String prefWordIsLearnedPrefixKey = "wordIsLearned";
+const String prefWordSeenCountPrefixKey = "wordSeenCount";
 
 const String statTypeCorrectRate = "correct_rate";
 const String statTypeWinRate = "win_rate";
@@ -41,8 +45,9 @@ const String todayWordProgressKey = "today_word_progress";
 const String wordWordKey = "word";
 const String wordDefinitionKey = "definition";
 const String wordTranslationKey = "translation";
-const String wordPartOfSpeechKey = "partOfSpeech";
+const String wordPartOfSpeechKey = "part_of_speech";
 const String wordExampleKey = "example";
+const String wordTestTypeKey = "test_type";
 const String wordLevelKey = "level";
 const String wordIsLearnedKey = "isLearned";
 const String wordSeenCountKey = "seenCount";

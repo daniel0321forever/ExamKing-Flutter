@@ -9,15 +9,16 @@ import 'package:google_fonts/google_fonts.dart';
 class OptionTile extends StatefulWidget {
   final String optionTitle;
   final int optionIndex;
-  const OptionTile({super.key, required this.optionTitle, required this.optionIndex});
+  const OptionTile(
+      {super.key, required this.optionTitle, required this.optionIndex});
 
   @override
   State<OptionTile> createState() => _OptionTileState();
 }
 
 class _OptionTileState extends State<OptionTile> {
-  static const Color initialColor = Color.fromARGB(129, 96, 94, 94);
-  static const Color correctColor = Color.fromARGB(197, 108, 126, 92);
+  static const Color initialColor = Color.fromARGB(143, 96, 94, 94);
+  static const Color correctColor = Color.fromARGB(255, 109, 163, 0);
   static const Color wrongColor = Color.fromARGB(255, 154, 3, 0);
   Color color = initialColor;
 
@@ -63,7 +64,8 @@ class _OptionTileState extends State<OptionTile> {
   }
 
   void showCorrectAnswer() {
-    if (battleBloc.problems![battleBloc.round - 1].options[widget.optionIndex].correct) {
+    if (battleBloc
+        .problems![battleBloc.round - 1].options[widget.optionIndex].correct) {
       setState(() {
         color = correctColor;
       });
@@ -88,7 +90,8 @@ class _OptionTileState extends State<OptionTile> {
         }
 
         // NOTE: opponent tapped
-        else if (!state.playerAnswered && state.answerIndex == widget.optionIndex) {
+        else if (!state.playerAnswered &&
+            state.answerIndex == widget.optionIndex) {
           setState(() {
             opponentTappedCorrect = state.isCorrect;
           });
@@ -125,10 +128,10 @@ class _OptionTileState extends State<OptionTile> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
         alignment: Alignment.center,
-        height: 70,
-        width: MediaQuery.of(context).size.width * 0.8 - 60,
-        margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        height: 90,
+        width: MediaQuery.of(context).size.width * 0.8 - 50,
+        margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: color,
@@ -141,7 +144,7 @@ class _OptionTileState extends State<OptionTile> {
               child: Text(
                 widget.optionTitle,
                 style: GoogleFonts.notoSansMono(
-                  fontSize: 16,
+                  fontSize: 20,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),

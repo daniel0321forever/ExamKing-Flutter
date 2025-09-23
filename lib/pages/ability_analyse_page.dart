@@ -73,7 +73,8 @@ class _AbilityAnalysePageState extends State<AbilityAnalysePage> {
                           setState(() {
                             if (chartType == ChartType.dailyWords) {
                               chartType = ChartType.correctRateTrend;
-                            } else if (chartType == ChartType.correctRateTrend) {
+                            } else if (chartType ==
+                                ChartType.correctRateTrend) {
                               chartType = ChartType.dailyWords;
                             }
                           });
@@ -82,15 +83,13 @@ class _AbilityAnalysePageState extends State<AbilityAnalysePage> {
                       switch (chartType) {
                         ChartType.dailyWords => Text(
                             "Daily Words Progress",
-                            style: GoogleFonts.barlowCondensed(color: Colors.black, fontSize: 27),
+                            style: GoogleFonts.barlowCondensed(
+                                color: Colors.black, fontSize: 27),
                           ),
                         ChartType.correctRateTrend => Text(
                             "Correct Rate Trend",
-                            style: GoogleFonts.barlowCondensed(color: Colors.black, fontSize: 27),
-                          ),
-                        ChartType.radar => Text(
-                            "Ability Radar",
-                            style: GoogleFonts.barlowCondensed(color: Colors.black, fontSize: 27),
+                            style: GoogleFonts.barlowCondensed(
+                                color: Colors.black, fontSize: 27),
                           ),
                         _ => const SizedBox.shrink(),
                       },
@@ -100,9 +99,8 @@ class _AbilityAnalysePageState extends State<AbilityAnalysePage> {
                           setState(() {
                             if (chartType == ChartType.dailyWords) {
                               chartType = ChartType.correctRateTrend;
-                            } else if (chartType == ChartType.correctRateTrend) {
-                              chartType = ChartType.radar;
-                            } else if (chartType == ChartType.radar) {
+                            } else if (chartType ==
+                                ChartType.correctRateTrend) {
                               chartType = ChartType.dailyWords;
                             }
                           });
@@ -118,7 +116,7 @@ class _AbilityAnalysePageState extends State<AbilityAnalysePage> {
                     child: switch (chartType) {
                       ChartType.dailyWords => const Histogram(),
                       ChartType.correctRateTrend => const TrendChart(),
-                      ChartType.radar => Container(),
+                      _ => const SizedBox.shrink(),
                     },
                   ),
 
@@ -199,12 +197,14 @@ class _StatCardState extends State<StatCard> {
             children: [
               Text(
                 widget.stat.title,
-                style: GoogleFonts.barlowCondensed(color: Colors.black, fontSize: 19),
+                style: GoogleFonts.barlowCondensed(
+                    color: Colors.black, fontSize: 19),
               ),
               const Spacer(),
               Text(
                 (widget.stat.val).toStringAsFixed(1),
-                style: GoogleFonts.barlowCondensed(color: Colors.black, fontSize: 27),
+                style: GoogleFonts.barlowCondensed(
+                    color: Colors.black, fontSize: 27),
               ),
             ],
           ),
@@ -218,7 +218,8 @@ class _StatCardState extends State<StatCard> {
                 ),
               ),
               TweenAnimationBuilder(
-                tween: Tween<double>(begin: 0.0, end: widget.stat.val / widget.stat.maxVal),
+                tween: Tween<double>(
+                    begin: 0.0, end: widget.stat.val / widget.stat.maxVal),
                 duration: const Duration(milliseconds: 1000),
                 curve: Curves.easeOutCubic,
                 builder: (context, double value, child) {

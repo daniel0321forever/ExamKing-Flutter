@@ -205,7 +205,7 @@ List<Subject> subjects = [
   ),
   Subject(
     name: "7000單",
-    key: "7000",
+    key: "hs7000",
     color: const Color.fromARGB(255, 255, 195, 66),
     subColor: const Color.fromARGB(255, 176, 120, 0),
     intro: "學測、分科必備英文單字",

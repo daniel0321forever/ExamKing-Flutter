@@ -14,8 +14,7 @@ class WordService {
   Future<void> initializeWords() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // int wordVersion = prefs.getInt(keys.prefWordVersionKey) ?? 0;
-    int wordVersion = 0;
+    int wordVersion = prefs.getInt(keys.prefWordVersionKey) ?? 0;
 
     if (wordVersion != config.wordVersion) {
       // Retrieve words.json from assets

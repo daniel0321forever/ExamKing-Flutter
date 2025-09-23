@@ -232,8 +232,6 @@ class SubjectCard extends StatelessWidget {
   }
 
   Widget _buildProgressBar(BuildContext context, Subject subject) {
-    debugPrint("subject | subject ${subject.name} | ${subject.progress}");
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

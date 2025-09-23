@@ -18,10 +18,14 @@ part 'battle_state.dart';
 class BattleBloc extends Bloc<BattleEvent, BattleState> {
   final GlobalProvider userProvider;
 
-  static const Duration battlePrepareStartDuration = Duration(milliseconds: 1000);
-  static const Duration showOpponentAnswerDuration = Duration(milliseconds: 1000);
-  static const Duration showCorrectAnswerDuration = Duration(milliseconds: 1300);
-  static const Duration showNextRoundLabelDuration = Duration(milliseconds: 1900);
+  static const Duration battlePrepareStartDuration =
+      Duration(milliseconds: 1000);
+  static const Duration showOpponentAnswerDuration =
+      Duration(milliseconds: 1000);
+  static const Duration showCorrectAnswerDuration =
+      Duration(milliseconds: 1300);
+  static const Duration showNextRoundLabelDuration =
+      Duration(milliseconds: 1900);
   static const Duration battlePrepareDuration = Duration(milliseconds: 5000);
   static const Duration battleNavPageDuration = Duration(milliseconds: 500);
 
@@ -110,7 +114,8 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
       hasResponded = false;
       opnHasResponded = false;
-      debugPrint("on BattleGetAnsRespondedEvent | triggering BattleRoundStartEvent");
+      debugPrint(
+          "on BattleGetAnsRespondedEvent | triggering BattleRoundStartEvent");
       add(BattleRoundStartEvent());
     }
   }
@@ -145,12 +150,14 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     }
   }
 
-  Future<void> startGame(BattleEvent event, Emitter<BattleState> emit, {required Map decoded}) async {
+  Future<void> startGame(BattleEvent event, Emitter<BattleState> emit,
+      {required Map decoded}) async {
     {
       waitingTimer?.cancel();
       waitingTimer = null;
 
-      String userID = userProvider.userData!.username ?? userProvider.userData!.googleUsername!;
+      String userID = userProvider.userData!.username ??
+          userProvider.userData!.googleUsername!;
 
       debugPrint("on BattleStartEvent | get start game message: $decoded");
 
@@ -172,7 +179,8 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         (i) => Problem.fromMap(decoded['problems'][i]),
       );
 
-      record = BattleRecord(challengeKey: challengeKey!, opponentID: opponentID!);
+      record =
+          BattleRecord(challengeKey: challengeKey!, opponentID: opponentID!);
       add(BattleStartBattleEvent());
     }
   }
@@ -192,7 +200,8 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         // connect to server
         await backendService.connectToBattle(
           event.challenge.key,
-          username: userProvider.userData!.username ?? userProvider.userData!.googleUsername!,
+          username: userProvider.userData!.username ??
+              userProvider.userData!.googleUsername!,
           level: event.level,
         );
 
@@ -216,14 +225,17 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
               break;
             case 'answer':
               add(BattleGetAnsRespondedEvent(
-                isPlayer: decoded['answered_user'] == (userProvider.userData!.username ?? userProvider.userData!.googleUsername!),
+                isPlayer: decoded['answered_user'] ==
+                    (userProvider.userData!.username ??
+                        userProvider.userData!.googleUsername!),
                 addedScore: int.parse(decoded['added_score'].toString()),
                 answerIndex: decoded['option_index'],
               ));
               break;
 
             default:
-              debugPrint("on BattleStartEvent | error: cannot recognize return type ${decoded['type']}");
+              debugPrint(
+                  "on BattleStartEvent | error: cannot recognize return type ${decoded['type']}");
               throw Exception();
           }
         });
@@ -254,9 +266,11 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         if (problems![round].options[event.answerIndex].correct) {
           addedScore = 200 * (leftSec! ~/ 2 * 2) ~/ roundDuration.inSeconds;
           playerScore += addedScore;
-          record!.answerRecords.add(AnswerRecord(problemID: problems![round].problemID, correct: true));
+          record!.answerRecords.add(AnswerRecord(
+              problemID: problems![round].problemID, correct: true));
         } else {
-          record!.answerRecords.add(AnswerRecord(problemID: problems![round].problemID, correct: false));
+          record!.answerRecords.add(AnswerRecord(
+              problemID: problems![round].problemID, correct: false));
         }
 
         emit(BattleAnsweredState(
@@ -267,7 +281,10 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         ));
 
         // send message to server
-        backendService.answer(addedScore, optionIndex: event.answerIndex, userId: userProvider.userData!.username ?? userProvider.userData!.googleUsername!);
+        backendService.answer(addedScore,
+            optionIndex: event.answerIndex,
+            userId: userProvider.userData!.username ??
+                userProvider.userData!.googleUsername!);
       } on Exception catch (e) {
         emit(BattleErrorState());
         initialize();
@@ -279,13 +296,15 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       try {
         // if the answer response is from the opponent
         if (!event.isPlayer) {
-          debugPrint("on BattleGetAnsRespondedEvent | get opponent answer response");
+          debugPrint(
+              "on BattleGetAnsRespondedEvent | get opponent answer response");
 
           // update opponent record
           opnHasResponded = true;
           opponentScore += event.addedScore;
 
-          debugPrint("on BattleGetAnsRespondedEvent | emitting BattleAnsweredState for opponent");
+          debugPrint(
+              "on BattleGetAnsRespondedEvent | emitting BattleAnsweredState for opponent");
           emit(BattleAnsweredState(
             playerAnswered: false,
             opponentScore: opponentScore,
@@ -297,7 +316,8 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
         // check going to next round
         if (hasResponded && opnHasResponded) {
-          debugPrint("on BattleGetAnsRespondedEvent | going to next round from round $round");
+          debugPrint(
+              "on BattleGetAnsRespondedEvent | going to next round from round $round");
           cancelRoundTimer();
           round += 1;
 
@@ -317,7 +337,8 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       } on Exception catch (e) {
         emit(BattleErrorState());
         initialize();
-        debugPrint("on BattleGetAnsRespondedEvent | Unexcepted exception occurs: $e");
+        debugPrint(
+            "on BattleGetAnsRespondedEvent | Unexcepted exception occurs: $e");
       }
     });
 
@@ -333,7 +354,8 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         if (waitingTime == maxWaitingSecs) {
           debugPrint("on BattleWaitingEvent | connecting computer agent");
           isOppnComputer = true;
-          backendService.connectToComputerSocket(challengeKey!, username: computerID, level: challengeLevel);
+          backendService.connectToComputerSocket(challengeKey!,
+              username: computerID, level: challengeLevel);
           waitingTimer?.cancel();
           waitingTimer = null;
         }
@@ -347,16 +369,19 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
     on<BattleStartBattleEvent>((event, emit) async {
       // NOTE: the 'problems' would be decoded in the listener, to save me from passing the decoded data as parameter
-      debugPrint("on BattleStartBattleEvent | emitting battle BattleStartBattleState");
+      debugPrint(
+          "on BattleStartBattleEvent | emitting battle BattleStartBattleState");
 
-      await Future.delayed(battlePrepareStartDuration); // wait a few seconds just for the UI effect
+      await Future.delayed(
+          battlePrepareStartDuration); // wait a few seconds just for the UI effect
 
       debugPrint("on BattleStartBattleEvent | emitting BattleStartBattleState");
       emit(BattleStartBattleState());
 
       await Future.delayed(battlePrepareDuration + battleNavPageDuration);
 
-      debugPrint("on BattleStartBattleEvent | triggering BattleRoundStartEvent");
+      debugPrint(
+          "on BattleStartBattleEvent | triggering BattleRoundStartEvent");
       add(BattleRoundStartEvent());
     });
 
@@ -385,7 +410,10 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         }
 
         if (leftSec! == oppAnsTime && isOppnComputer) {
-          int computerAddedScore = (random.nextInt(2) % 2 == 0 ? 0 : 200 * ((leftSec! ~/ 2 * 2) / roundDuration.inSeconds)).toInt();
+          int computerAddedScore = (random.nextInt(2) % 2 == 0
+                  ? 0
+                  : 200 * ((leftSec! ~/ 2 * 2) / roundDuration.inSeconds))
+              .toInt();
           backendService.answer(computerAddedScore, userId: opponentID!);
           return;
         }
@@ -410,7 +438,9 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         hasResponded = true;
 
         // send message to server
-        backendService.answer(0, userId: userProvider.userData!.username ?? userProvider.userData!.googleUsername!);
+        backendService.answer(0,
+            userId: userProvider.userData!.username ??
+                userProvider.userData!.googleUsername!);
 
         emit(BattleAnsweredState(
           playerAnswered: true,

@@ -37,6 +37,8 @@ class _TrendChartState extends State<TrendChart> {
     globalProvider = context.read<GlobalProvider>();
 
     if (globalProvider.correctRates != null) {
+      debugPrint(
+          "TrendChart | globalProvider.correctRates: ${globalProvider.correctRates}");
       animateToData(globalProvider.correctRates!);
     }
 
@@ -77,7 +79,8 @@ class _TrendChartState extends State<TrendChart> {
           lineBarsData: List<LineChartBarData>.generate(1, (i) {
             return LineChartBarData(
               color: lineColors[i],
-              spots: correctRates[i].map((e) => FlSpot(correctRates[i].indexOf(e).toDouble(), e)).toList(),
+              spots: List<FlSpot>.generate(correctRates[i].length,
+                  (index) => FlSpot(index.toDouble(), correctRates[i][index])),
               isCurved: true,
               dotData: FlDotData(
                 show: true,
@@ -92,9 +95,12 @@ class _TrendChartState extends State<TrendChart> {
               ),
               belowBarData: BarAreaData(
                 show: true,
-                color: lineColors[i].withOpacity(0.2),
+                color: lineColors[i].withValues(alpha: 0.2),
                 gradient: LinearGradient(
-                  colors: [lineColors[i].withOpacity(0.2), Colors.transparent],
+                  colors: [
+                    lineColors[i].withValues(alpha: 0.2),
+                    Colors.transparent
+                  ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),

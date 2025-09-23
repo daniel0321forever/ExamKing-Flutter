@@ -13,6 +13,7 @@ import 'package:examKing/blocs/main/main_bloc.dart';
 import 'package:examKing/pages/login_page.dart';
 import 'package:examKing/providers/global_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
 
 void main() async {

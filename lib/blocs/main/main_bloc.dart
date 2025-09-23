@@ -31,10 +31,13 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     });
 
     on<MainEventInitialize>((event, emit) async {
-      await wordService.initializeWords();
+      isWordInitialized = false;
+      emit(MainStateInitializing());
+
+      await wordService.initializeWords(force: event.force);
       isWordInitialized = true;
 
-      emit(MainStateInitialize());
+      emit(MainStateInitialized());
     });
   }
 }

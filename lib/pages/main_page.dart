@@ -40,7 +40,9 @@ class _MainPageState extends State<MainPage>
     mainBloc.add(MainEventGetDailyProgress());
 
     mainBlocListener = mainBloc.stream.listen((state) {
-      if (state is MainStateInitialize) {
+      if (state is MainStateInitialized) {
+        setState(() {});
+      } else if (state is MainStateInitializing) {
         setState(() {});
       }
     });
@@ -165,7 +167,7 @@ class _MainPageState extends State<MainPage>
               return Opacity(
                 opacity: _fadeAnimation.value,
                 child: Text(
-                  "Initializing...",
+                  "Syncing...",
                   style: GoogleFonts.barlowCondensed(
                       fontSize: 20, fontWeight: FontWeight.w600),
                 ),

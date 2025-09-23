@@ -7509,1004 +7509,1204 @@
         {
           "part_of_speech": "v",
           "translation": "編排或安排成某種形式",
-          "word": "format"
+          "word": "format",
+          "example": "Please format the document before submitting it."
         },
         {
           "part_of_speech": "n",
           "translation": "癌症",
-          "word": "cancer"
+          "word": "cancer",
+          "example": "He was diagnosed with cancer last year."
         },
         {
           "part_of_speech": "n",
           "translation": "對手;敵手,反對者",
-          "word": "opponent"
+          "word": "opponent",
+          "example": "She defeated her opponent in the final match."
         },
         {
           "part_of_speech": "n",
           "translation": "粉碎;瓦解;(演出等的成功",
-          "word": "smash"
+          "word": "smash",
+          "example": "The movie was a smash at the box office."
         },
         {
           "part_of_speech": "adj",
           "translation": "非常貴重的;無價的",
-          "word": "invaluable"
+          "word": "invaluable",
+          "example": "Her advice was invaluable to my success."
         },
         {
           "part_of_speech": "adj",
           "translation": "過敏的",
-          "word": "allergic"
+          "word": "allergic",
+          "example": "He is allergic to peanuts."
         },
         {
           "part_of_speech": "n",
           "translation": "指點,建議",
-          "word": "steer"
+          "word": "steer",
+          "example": "He gave me some useful steer on my project."
         },
         {
           "part_of_speech": "n",
           "translation": "旅遊者,觀光者",
-          "word": "tourist"
+          "word": "tourist",
+          "example": "The museum is always crowded with tourists."
         },
         {
           "part_of_speech": "v",
           "translation": "帶...作巡迴演出",
-          "word": "tour"
+          "word": "tour",
+          "example": "The band will tour Europe next summer."
         },
         {
           "part_of_speech": "v",
           "translation": "接近;近似;大致估計",
-          "word": "approximate"
+          "word": "approximate",
+          "example": "Can you approximate the total cost?"
         },
         {
           "part_of_speech": "n",
           "translation": "主修",
-          "word": "major"
+          "word": "major",
+          "example": "She chose biology as her major."
         },
         {
           "part_of_speech": "n",
           "translation": "鬱金香",
-          "word": "tulip"
+          "word": "tulip",
+          "example": "The garden is full of colorful tulips."
         },
         {
           "part_of_speech": "v",
           "translation": "塗奶油於;以花言巧語討好",
-          "word": "butter"
+          "word": "butter",
+          "example": "He tried to butter up his boss with compliments."
         },
         {
           "part_of_speech": "n",
           "translation": "附件;配件;從犯",
-          "word": "accessory"
+          "word": "accessory",
+          "example": "She bought a new accessory for her phone."
         },
         {
           "part_of_speech": "n",
           "translation": "連接詞;結合;關聯",
-          "word": "conjunction"
+          "word": "conjunction",
+          "example": "‘And’ is a common conjunction in English."
         },
         {
           "part_of_speech": "v",
           "translation": "看護,護理;給...餵奶;培育;當奶媽",
-          "word": "nurse"
+          "word": "nurse",
+          "example": "She nursed the injured bird back to health."
         },
         {
           "part_of_speech": "n",
           "translation": "出價",
-          "word": "bid"
+          "word": "bid",
+          "example": "He made the highest bid at the auction."
         },
         {
           "part_of_speech": "v",
           "translation": "註冊,申報",
-          "word": "register"
+          "word": "register",
+          "example": "You need to register for the course online."
         },
         {
           "part_of_speech": "n",
           "translation": "風道;氣道;航空公司",
-          "word": "airway"
+          "word": "airway",
+          "example": "The doctor checked if his airway was clear."
         },
         {
           "part_of_speech": "v",
           "translation": "教",
-          "word": "teach"
+          "word": "teach",
+          "example": "She will teach English in Japan next year."
         },
         {
           "part_of_speech": "v",
           "translation": "搜尋;搜查",
-          "word": "search"
+          "word": "search",
+          "example": "The police searched the house for evidence."
         },
         {
           "part_of_speech": "n",
           "translation": "梅乾;深紫紅色",
-          "word": "prune"
+          "word": "prune",
+          "example": "She ate a prune as a healthy snack."
         },
         {
           "part_of_speech": "n",
           "translation": "偷偷看;一瞥",
-          "word": "peek"
+          "word": "peek",
+          "example": "He took a quick peek at the answers."
         },
         {
           "part_of_speech": "n",
           "translation": "漁夫",
-          "word": "fisherman"
+          "word": "fisherman",
+          "example": "The fisherman caught a big fish this morning."
         },
         {
           "part_of_speech": "n",
           "translation": "蘇打;汽水",
-          "word": "soda"
+          "word": "soda",
+          "example": "Would you like a glass of soda?"
         },
         {
           "part_of_speech": "n",
           "translation": "沙",
-          "word": "sand"
+          "word": "sand",
+          "example": "The children built a castle out of sand."
         },
         {
           "part_of_speech": "n",
           "translation": "祖父;外祖父",
-          "word": "grandpa"
+          "word": "grandpa",
+          "example": "I visit my grandpa every weekend."
         },
         {
           "part_of_speech": "n",
           "translation": "會員身分",
-          "word": "membership"
+          "word": "membership",
+          "example": "She applied for membership at the gym."
         },
         {
           "part_of_speech": "v",
           "translation": "用拳猛擊",
-          "word": "punch"
+          "word": "punch",
+          "example": "He punched the bag to release his anger."
         },
         {
           "part_of_speech": "n",
           "translation": "製造;生產",
-          "word": "production"
+          "word": "production",
+          "example": "The factory increased its production last year."
         },
         {
           "part_of_speech": "n",
           "translation": "稻草;吸管",
-          "word": "straw"
+          "word": "straw",
+          "example": "She drank her juice through a straw."
         },
         {
           "part_of_speech": "n",
           "translation": "人;凡人",
-          "word": "mortal"
+          "word": "mortal",
+          "example": "All mortals must face death someday."
         },
         {
           "part_of_speech": "n",
           "translation": "孤獨;隱居",
-          "word": "solitude"
+          "word": "solitude",
+          "example": "He enjoyed the solitude of the mountains."
         },
         {
           "part_of_speech": "v",
           "translation": "解釋",
-          "word": "interpret"
+          "word": "interpret",
+          "example": "Can you interpret this sentence for me?"
         },
         {
           "part_of_speech": "n",
           "translation": "介入;干預;調停",
-          "word": "intervention"
+          "word": "intervention",
+          "example": "The teacher's intervention stopped the fight."
         },
         {
           "part_of_speech": "n",
           "translation": "衝擊,撞擊;影響",
-          "word": "impact"
+          "word": "impact",
+          "example": "The new law had a big impact on society."
         },
         {
           "part_of_speech": "adj",
           "translation": "好吃的",
-          "word": "delicious"
+          "word": "delicious",
+          "example": "The cake was absolutely delicious."
         },
         {
           "part_of_speech": "v",
           "translation": "襲擊;劫掠",
-          "word": "raid"
+          "word": "raid",
+          "example": "The police raided the building at dawn."
         },
         {
           "part_of_speech": "n",
           "translation": "傾斜;坡度",
-          "word": "slope"
+          "word": "slope",
+          "example": "The children went sledding down the slope."
         },
         {
           "part_of_speech": "n",
           "translation": "鑽石",
-          "word": "diamond"
+          "word": "diamond",
+          "example": "She wore a diamond ring on her finger."
         },
         {
           "part_of_speech": "n",
           "translation": "濕氣,濕度",
-          "word": "humidity"
+          "word": "humidity",
+          "example": "The humidity is very high in summer."
         },
         {
           "part_of_speech": "n",
           "translation": "白膚金髮碧眼的女人",
-          "word": "blonde"
+          "word": "blonde",
+          "example": "The actress is a famous blonde."
         },
         {
           "part_of_speech": "v",
           "translation": "提;搬運",
-          "word": "carry"
+          "word": "carry",
+          "example": "Can you help me carry these boxes?"
         },
         {
           "part_of_speech": "v",
           "translation": "嘲笑;戲弄",
-          "word": "ridicule"
+          "word": "ridicule",
+          "example": "They ridiculed his strange ideas."
         },
         {
           "part_of_speech": "adj",
           "translation": "當時的",
-          "word": "then"
+          "word": "then",
+          "example": "He was the president then."
         },
         {
           "part_of_speech": "adj",
           "translation": "文法的;合乎文法的",
-          "word": "grammatical"
+          "word": "grammatical",
+          "example": "Your sentence is not grammatical."
         },
         {
           "part_of_speech": "n",
           "translation": "交通",
-          "word": "traffic"
+          "word": "traffic",
+          "example": "The traffic was heavy this morning."
         },
         {
           "part_of_speech": "n",
           "translation": "胸;箱子,盒子",
-          "word": "chest"
+          "word": "chest",
+          "example": "He kept his valuables in a wooden chest."
         },
         {
           "part_of_speech": "n",
           "translation": "人們",
-          "word": "people"
+          "word": "people",
+          "example": "Many people attended the concert."
         },
         {
           "part_of_speech": "n",
           "translation": "寬容,寬大",
-          "word": "tolerance"
+          "word": "tolerance",
+          "example": "Tolerance is important in a diverse society."
         },
         {
           "part_of_speech": "adj",
           "translation": "愉快的,興高采烈的",
-          "word": "merry"
+          "word": "merry",
+          "example": "They had a merry time at the party."
         },
         {
           "part_of_speech": "n",
           "translation": "原木;木料;工作記錄簿",
-          "word": "log"
+          "word": "log",
+          "example": "The captain wrote in the ship's log every day."
         },
         {
           "part_of_speech": "v",
           "translation": "吹著微風",
-          "word": "breeze"
+          "word": "breeze",
+          "example": "A cool wind breezed through the open window."
         },
         {
           "part_of_speech": "adv",
           "translation": "即,那就是",
-          "word": "namely"
+          "word": "namely",
+          "example": "He has two sisters, namely, Anna and Kate."
         },
         {
           "part_of_speech": "adj",
           "translation": "潛在的,可能的",
-          "word": "potential"
+          "word": "potential",
+          "example": "She is a potential leader."
         },
         {
           "part_of_speech": "adj",
           "translation": "瑣細的;平凡的",
-          "word": "trivial"
+          "word": "trivial",
+          "example": "Don't waste time on trivial matters."
         },
         {
           "part_of_speech": "v",
           "translation": "祝賀;恭禧",
-          "word": "congratulate"
+          "word": "congratulate",
+          "example": "I want to congratulate you on your success."
         },
         {
           "part_of_speech": "v",
           "translation": "尖叫;發出尖聲",
-          "word": "shriek"
+          "word": "shriek",
+          "example": "She shrieked when she saw the spider."
         },
         {
           "part_of_speech": "v",
           "translation": "補救;糾正;去除(弊病等",
-          "word": "remedy"
+          "word": "remedy",
+          "example": "We must remedy the situation quickly."
         },
         {
           "part_of_speech": "adj",
           "translation": "靜止的",
-          "word": "still"
+          "word": "still",
+          "example": "The lake was very still in the morning."
         },
         {
           "part_of_speech": "adj",
           "translation": "晴朗的;有光澤的",
-          "word": "shiny"
+          "word": "shiny",
+          "example": "She wore shiny black shoes."
         },
         {
           "part_of_speech": "n",
           "translation": "吉他",
-          "word": "guitar"
+          "word": "guitar",
+          "example": "He plays the guitar in a band."
         },
         {
           "part_of_speech": "n",
           "translation": "蒸氣",
-          "word": "steam"
+          "word": "steam",
+          "example": "Steam rose from the hot soup."
         },
         {
           "part_of_speech": "adv",
           "translation": "順時針方向地;右旋地",
-          "word": "clockwise"
+          "word": "clockwise",
+          "example": "Turn the screw clockwise to tighten it."
         },
         {
           "part_of_speech": "n",
           "translation": "提供;供奉;捐獻物;供物;課程",
-          "word": "offering"
+          "word": "offering",
+          "example": "The company launched a new product offering."
         },
         {
           "part_of_speech": "n",
           "translation": "可能性",
-          "word": "possibility"
+          "word": "possibility",
+          "example": "There is a possibility of rain tomorrow."
         },
         {
           "part_of_speech": "n",
           "translation": "城市商業區",
-          "word": "downtown"
+          "word": "downtown",
+          "example": "They went shopping downtown."
         },
         {
           "part_of_speech": "v",
           "translation": "延長;拉長;拖延",
-          "word": "prolong"
+          "word": "prolong",
+          "example": "They tried to prolong the meeting."
         },
         {
           "part_of_speech": "n",
           "translation": "肥皂",
-          "word": "soap"
+          "word": "soap",
+          "example": "She washed her hands with soap and water."
         },
         {
           "part_of_speech": "adj",
           "translation": "圖畫般的;美麗的",
-          "word": "picturesque"
+          "word": "picturesque",
+          "example": "The village is very picturesque."
         },
         {
           "part_of_speech": "v",
           "translation": "刺激;激勵;使興奮;促使",
-          "word": "stimulate"
+          "word": "stimulate",
+          "example": "Coffee can stimulate the nervous system."
         },
         {
           "part_of_speech": "v",
           "translation": "爭論",
-          "word": "argue"
+          "word": "argue",
+          "example": "They often argue about politics."
         },
         {
           "part_of_speech": "adj",
           "translation": "歇斯底里的;極可笑的",
-          "word": "hysterical"
+          "word": "hysterical",
+          "example": "The comedian's jokes made the audience hysterical."
         },
         {
           "part_of_speech": "adj",
           "translation": "匿名的",
-          "word": "anonymous"
+          "word": "anonymous",
+          "example": "The letter was signed by an anonymous person."
         },
         {
           "part_of_speech": "v",
           "translation": "使不平,使粗糙;草擬;粗魯行事",
-          "word": "rough"
+          "word": "rough",
+          "example": "He roughly sketched the plan on a napkin."
         },
         {
           "part_of_speech": "v",
           "translation": "吸收(液體,氣體,光,聲等",
-          "word": "absorb"
+          "word": "absorb",
+          "example": "A sponge absorbs water quickly."
         },
         {
           "part_of_speech": "n",
           "translation": "罪犯",
-          "word": "criminal"
+          "word": "criminal",
+          "example": "The criminal was arrested by the police."
         },
         {
           "part_of_speech": "n",
           "translation": "比率;比例",
-          "word": "ratio"
+          "word": "ratio",
+          "example": "The ratio of men to women is 2 to 1."
         },
         {
           "part_of_speech": "n",
           "translation": "治療;治療法;藥物",
-          "word": "remedy"
+          "word": "remedy",
+          "example": "Honey is a common remedy for a sore throat."
         },
         {
           "part_of_speech": "n",
           "translation": "細咬;啃;少量",
-          "word": "nibble"
+          "word": "nibble",
+          "example": "She took a nibble of the cookie."
         },
         {
           "part_of_speech": "n",
           "translation": "部份",
-          "word": "part"
+          "word": "part",
+          "example": "He played a big part in the project."
         },
         {
           "part_of_speech": "n",
           "translation": "摩擦,擦;阻難;疑難點",
-          "word": "rub"
+          "word": "rub",
+          "example": "Give your hands a good rub to warm them up."
         },
         {
           "part_of_speech": "n",
           "translation": "筆跡;(戲劇、廣播等的腳本",
-          "word": "script"
+          "word": "script",
+          "example": "The actor memorized his script."
         },
         {
           "part_of_speech": "n",
           "translation": "外科醫生",
-          "word": "surgeon"
+          "word": "surgeon",
+          "example": "The surgeon performed a difficult operation."
         },
         {
           "part_of_speech": "n",
           "translation": "男演員",
-          "word": "actor"
+          "word": "actor",
+          "example": "He is a famous actor in Hollywood."
         },
         {
           "part_of_speech": "v",
           "translation": "投入;將...插入;急降",
-          "word": "plunge"
+          "word": "plunge",
+          "example": "She plunged into the cold water."
         },
         {
           "part_of_speech": "n",
           "translation": "紫色",
-          "word": "purple"
+          "word": "purple",
+          "example": "She wore a beautiful purple dress."
         },
         {
           "part_of_speech": "n",
           "translation": "鏈條;項圈",
-          "word": "chain"
+          "word": "chain",
+          "example": "He wore a gold chain around his neck."
         },
         {
           "part_of_speech": "n",
           "translation": "爐灶",
-          "word": "stove"
+          "word": "stove",
+          "example": "She cooked dinner on the stove."
         },
         {
           "part_of_speech": "adj",
           "translation": "最小的,最少的",
-          "word": "minimum"
+          "word": "minimum",
+          "example": "The minimum age for driving is 18."
         },
         {
           "part_of_speech": "n",
           "translation": "同輩,同事",
-          "word": "peer"
+          "word": "peer",
+          "example": "He is respected by his peers."
         },
         {
           "part_of_speech": "n",
           "translation": "好天氣; 罰金,罰款",
-          "word": "fine"
+          "word": "fine",
+          "example": "He had to pay a fine for speeding."
         },
         {
           "part_of_speech": "n",
           "translation": "冰河",
-          "word": "glacier"
+          "word": "glacier",
+          "example": "The glacier is slowly melting due to climate change."
         },
         {
           "part_of_speech": "adj",
           "translation": "省的;鄉氣的",
-          "word": "provincial"
+          "word": "provincial",
+          "example": "He has a very provincial attitude."
         },
         {
           "part_of_speech": "n",
           "translation": "頭;首長",
-          "word": "head"
+          "word": "head",
+          "example": "She is the head of the department."
         },
         {
           "part_of_speech": "n",
           "translation": "濫用;虐待",
-          "word": "abuse"
+          "word": "abuse",
+          "example": "Child abuse is a serious crime."
         },
         {
           "part_of_speech": "v",
           "translation": "使聾;淹沒(聲音",
-          "word": "deafen"
+          "word": "deafen",
+          "example": "The explosion deafened everyone nearby."
         },
         {
           "part_of_speech": "prep",
           "translation": "減（去）",
-          "word": "minus"
+          "word": "minus",
+          "example": "Three minus one equals two."
         },
         {
           "part_of_speech": "v",
           "translation": "取...的樣品;抽樣檢查",
-          "word": "sample"
+          "word": "sample",
+          "example": "They sampled the water for testing."
         },
         {
           "part_of_speech": "adj",
           "translation": "圓形的",
-          "word": "round"
+          "word": "round",
+          "example": "The table has a round top."
         }
       ],
       "1": [
         {
           "part_of_speech": "v",
           "translation": "勝過;突出",
-          "word": "excel"
+          "word": "excel",
+          "example": "She excels in mathematics."
         },
         {
           "part_of_speech": "adj",
           "translation": "無所事事的",
-          "word": "idle"
+          "word": "idle",
+          "example": "He remained idle all afternoon."
         },
         {
           "part_of_speech": "adj",
           "translation": "無罪的,清白的",
-          "word": "innocent"
+          "word": "innocent",
+          "example": "The jury found him innocent."
         },
         {
           "part_of_speech": "n",
           "translation": "殺蟲劑",
-          "word": "pesticide"
+          "word": "pesticide",
+          "example": "Farmers use pesticide to protect crops."
         },
         {
           "part_of_speech": "n",
           "translation": "代表",
-          "word": "behalf"
+          "word": "behalf",
+          "example": "She spoke on behalf of the team."
         },
         {
           "part_of_speech": "n",
           "translation": "記號",
-          "word": "sign"
+          "word": "sign",
+          "example": "He gave me a sign to stop."
         },
         {
           "part_of_speech": "n",
           "translation": "鳥",
-          "word": "bird"
+          "word": "bird",
+          "example": "A bird is singing in the tree."
         },
         {
           "part_of_speech": "n",
           "translation": "女房東",
-          "word": "landlady"
+          "word": "landlady",
+          "example": "The landlady collects the rent every month."
         },
         {
           "part_of_speech": "n",
           "translation": "顫動;振動;震動",
-          "word": "vibration"
+          "word": "vibration",
+          "example": "The vibration from the engine was strong."
         },
         {
           "part_of_speech": "n",
           "translation": "動量;氣勢;動力",
-          "word": "momentum"
+          "word": "momentum",
+          "example": "The car gained momentum as it rolled downhill."
         },
         {
           "part_of_speech": "n",
           "translation": "石灰;酸橙",
-          "word": "lime"
+          "word": "lime",
+          "example": "She added a slice of lime to her drink."
         },
         {
           "part_of_speech": "v",
           "translation": "起身;升起",
-          "word": "rise"
+          "word": "rise",
+          "example": "The sun will rise at six o'clock."
         },
         {
           "part_of_speech": "prep",
           "translation": "在…裡面",
-          "word": "inside"
+          "word": "inside",
+          "example": "The keys are inside the drawer."
         },
         {
           "part_of_speech": "n",
           "translation": "垂直;豎立;直立的東西",
-          "word": "upright"
+          "word": "upright",
+          "example": "Keep your back upright while sitting."
         },
         {
           "part_of_speech": "v",
           "translation": "計算",
-          "word": "calculate"
+          "word": "calculate",
+          "example": "Can you calculate the total cost?"
         },
         {
           "part_of_speech": "n",
           "translation": "白色",
-          "word": "white"
+          "word": "white",
+          "example": "She wore a white dress."
         },
         {
           "part_of_speech": "v",
           "translation": "寬恕",
-          "word": "pardon"
+          "word": "pardon",
+          "example": "Please pardon my mistake."
         },
         {
           "part_of_speech": "n",
           "translation": "墮落;腐化;貪污;賄賂",
-          "word": "corruption"
+          "word": "corruption",
+          "example": "The government is fighting against corruption."
         },
         {
           "part_of_speech": "adj",
           "translation": "多餘的;過剩的",
-          "word": "redundant"
+          "word": "redundant",
+          "example": "Many workers became redundant after the factory closed."
         },
         {
           "part_of_speech": "n",
           "translation": "姿勢;表示",
-          "word": "gesture"
+          "word": "gesture",
+          "example": "He made a friendly gesture."
         },
         {
           "part_of_speech": "v",
           "translation": "追獵",
-          "word": "hunt"
+          "word": "hunt",
+          "example": "They hunt deer in the forest."
         },
         {
           "part_of_speech": "v",
           "translation": "向高處升;達到頂點;高出;超越",
-          "word": "top"
+          "word": "top",
+          "example": "She topped the class in science."
         },
         {
           "part_of_speech": "n",
           "translation": "犁;除雪機",
-          "word": "plow"
+          "word": "plow",
+          "example": "The farmer used a plow to prepare the field."
         },
         {
           "part_of_speech": "v",
           "translation": "偷偷靠近;追蹤",
-          "word": "stalk"
+          "word": "stalk",
+          "example": "The cat stalked the mouse quietly."
         },
         {
           "part_of_speech": "n",
           "translation": "十",
-          "word": "ten"
+          "word": "ten",
+          "example": "There are ten apples in the basket."
         },
         {
           "part_of_speech": "n",
           "translation": "意圖;目的",
-          "word": "intent"
+          "word": "intent",
+          "example": "He acted with good intent."
         },
         {
           "part_of_speech": "n",
           "translation": "學問;知識",
-          "word": "knowledge"
+          "word": "knowledge",
+          "example": "Knowledge is power."
         },
         {
           "part_of_speech": "v",
           "translation": "關上",
-          "word": "close"
+          "word": "close",
+          "example": "Please close the door."
         },
         {
           "part_of_speech": "n",
           "translation": "空;空白;空房;空缺",
-          "word": "vacancy"
+          "word": "vacancy",
+          "example": "There is a vacancy at the hotel."
         },
         {
           "part_of_speech": "n",
           "translation": "衛生;衛生學;保健法",
-          "word": "hygiene"
+          "word": "hygiene",
+          "example": "Good hygiene is important for health."
         },
         {
           "part_of_speech": "n",
           "translation": "決賽;期末考;(當日報紙的末版",
-          "word": "final"
+          "word": "final",
+          "example": "She passed the final exam."
         },
         {
           "part_of_speech": "adj",
           "translation": "相似的",
-          "word": "similar"
+          "word": "similar",
+          "example": "These two paintings are very similar."
         },
         {
           "part_of_speech": "adv",
           "translation": "這麼,這樣地",
-          "word": "this"
+          "word": "this",
+          "example": "I have never seen it done this way."
         },
         {
           "part_of_speech": "adj",
           "translation": "流行的;受歡迎的",
-          "word": "popular"
+          "word": "popular",
+          "example": "Soccer is a popular sport."
         },
         {
           "part_of_speech": "n",
           "translation": "高低不平的地面;粗製品;梗概;草圖",
-          "word": "rough"
+          "word": "rough",
+          "example": "The road was rough and bumpy."
         },
         {
           "part_of_speech": "n",
           "translation": "謙遜,虛心",
-          "word": "modesty"
+          "word": "modesty",
+          "example": "Her modesty is admirable."
         },
         {
           "part_of_speech": "n",
           "translation": "倉庫;批發店",
-          "word": "warehouse"
+          "word": "warehouse",
+          "example": "The goods are stored in a warehouse."
         },
         {
           "part_of_speech": "adj",
           "translation": "宗教的;虔誠的",
-          "word": "religious"
+          "word": "religious",
+          "example": "He comes from a religious family."
         },
         {
           "part_of_speech": "n",
           "translation": "浴缸",
-          "word": "tub"
+          "word": "tub",
+          "example": "She filled the tub with hot water."
         },
         {
           "part_of_speech": "n",
           "translation": "vigor",
-          "word": "vigor"
+          "word": "vigor",
+          "example": "He worked with great vigor."
         },
         {
           "part_of_speech": "v",
           "translation": "把(汽車等送入車庫(或修理廠",
-          "word": "garage"
+          "word": "garage",
+          "example": "He garaged his car for the winter."
         },
         {
           "part_of_speech": "n",
           "translation": "顫抖;抖動;箭袋內的箭",
-          "word": "quiver"
+          "word": "quiver",
+          "example": "She felt a quiver of excitement."
         },
         {
           "part_of_speech": "v",
           "translation": "放棄",
-          "word": "abandon"
+          "word": "abandon",
+          "example": "They had to abandon the project."
         },
         {
           "part_of_speech": "adj",
           "translation": "農村的;田園的",
-          "word": "rural"
+          "word": "rural",
+          "example": "She grew up in a rural area."
         },
         {
           "part_of_speech": "adj",
           "translation": "未來的,將來的;將來(時的",
-          "word": "future"
+          "word": "future",
+          "example": "He is worried about his future."
         },
         {
           "part_of_speech": "n",
           "translation": "遺產;繼承物;傳統",
-          "word": "heritage"
+          "word": "heritage",
+          "example": "The castle is part of our national heritage."
         },
         {
           "part_of_speech": "n",
           "translation": "藤;藤蔓;葡萄樹",
-          "word": "vine"
+          "word": "vine",
+          "example": "Grapes grow on a vine."
         },
         {
           "part_of_speech": "n",
           "translation": "描繪,素描;製圖;抽籤;提款",
-          "word": "drawing"
+          "word": "drawing",
+          "example": "She made a drawing of the house."
         },
         {
           "part_of_speech": "v",
           "translation": "大量存在;富足;充滿",
-          "word": "abound"
+          "word": "abound",
+          "example": "Opportunities abound in the city."
         },
         {
           "part_of_speech": "v",
           "translation": "否定(陳述等;反駁;與...矛盾",
-          "word": "contradict"
+          "word": "contradict",
+          "example": "His actions contradict his words."
         },
         {
           "part_of_speech": "n",
           "translation": "關稅;稅率",
-          "word": "tariff"
+          "word": "tariff",
+          "example": "The government raised the tariff on imports."
         },
         {
           "part_of_speech": "v",
           "translation": "毀壞,破壞",
-          "word": "destroy"
+          "word": "destroy",
+          "example": "The fire destroyed the building."
         },
         {
           "part_of_speech": "v",
           "translation": "反對",
-          "word": "object"
+          "word": "object",
+          "example": "I object to your proposal."
         },
         {
           "part_of_speech": "prep",
           "translation": "在...以後",
-          "word": "following"
+          "word": "following",
+          "example": "We went home following the meeting."
         },
         {
           "part_of_speech": "n",
           "translation": "心愛的人",
-          "word": "beloved"
+          "word": "beloved",
+          "example": "She lost her beloved pet."
         },
         {
           "part_of_speech": "n",
           "translation": "化學",
-          "word": "chemistry"
+          "word": "chemistry",
+          "example": "He is studying chemistry at university."
         },
         {
           "part_of_speech": "n",
           "translation": "長袍,浴衣,睡袍;學士服",
-          "word": "robe"
+          "word": "robe",
+          "example": "He wore a black graduation robe."
         },
         {
           "part_of_speech": "v",
           "translation": "顯露,呈現;起床,露面",
-          "word": "surface"
+          "word": "surface",
+          "example": "Old memories began to surface."
         },
         {
           "part_of_speech": "n",
           "translation": "兄弟關係;同志關係",
-          "word": "brotherhood"
+          "word": "brotherhood",
+          "example": "They formed a brotherhood to support each other."
         },
         {
           "part_of_speech": "n",
           "translation": "愛好;迷戀;想像;怪念頭",
-          "word": "fancy"
+          "word": "fancy",
+          "example": "He has a fancy for fast cars."
         },
         {
           "part_of_speech": "adj",
           "translation": "生病的",
-          "word": "ill"
+          "word": "ill",
+          "example": "She has been ill for a week."
         },
         {
           "part_of_speech": "v",
           "translation": "模仿",
-          "word": "imitate"
+          "word": "imitate",
+          "example": "Children often imitate their parents."
         },
         {
           "part_of_speech": "n",
           "translation": "鎚",
-          "word": "hammer"
+          "word": "hammer",
+          "example": "He hit the nail with a hammer."
         },
         {
           "part_of_speech": "n",
           "translation": "重量",
-          "word": "weight"
+          "word": "weight",
+          "example": "The weight of the box is five kilograms."
         },
         {
           "part_of_speech": "n",
           "translation": "一輪,一回合,一場,一局;圓形物",
-          "word": "round"
+          "word": "round",
+          "example": "He won the first round of the match."
         },
         {
           "part_of_speech": "n",
           "translation": "八月",
-          "word": "August"
+          "word": "August",
+          "example": "My birthday is in August."
         },
         {
           "part_of_speech": "n",
           "translation": "摔角;角力;搏鬥",
-          "word": "wrestle"
+          "word": "wrestle",
+          "example": "They watched a wrestling match on TV."
         },
         {
           "part_of_speech": "v",
           "translation": "換新;修補",
-          "word": "renew"
+          "word": "renew",
+          "example": "I need to renew my passport."
         },
         {
           "part_of_speech": "v",
           "translation": "插入;嵌入",
-          "word": "insert"
+          "word": "insert",
+          "example": "Please insert your card into the machine."
         },
         {
           "part_of_speech": "n",
           "translation": "蓆子;墊子",
-          "word": "mat"
+          "word": "mat",
+          "example": "Wipe your feet on the mat."
         },
         {
           "part_of_speech": "n",
           "translation": "體積;容積;大塊;大多數",
-          "word": "bulk"
+          "word": "bulk",
+          "example": "The bulk of the work is finished."
         },
         {
           "part_of_speech": "n",
           "translation": "移民,僑民",
-          "word": "immigrant"
+          "word": "immigrant",
+          "example": "He is an immigrant from Canada."
         },
         {
           "part_of_speech": "v",
           "translation": "用管道輸送;吹奏管樂;尖聲叫嚷",
-          "word": "pipe"
+          "word": "pipe",
+          "example": "They piped water to the village."
         },
         {
           "part_of_speech": "v",
           "translation": "沾污;察出",
-          "word": "spot"
+          "word": "spot",
+          "example": "Can you spot the difference between these pictures?"
         },
         {
           "part_of_speech": "n",
           "translation": "交易",
-          "word": "deal"
+          "word": "deal",
+          "example": "They made a business deal."
         },
         {
           "part_of_speech": "n",
           "translation": "種子",
-          "word": "seed"
+          "word": "seed",
+          "example": "Plant the seed in the soil."
         },
         {
           "part_of_speech": "n",
           "translation": "選票;候選人名單",
-          "word": "ballot"
+          "word": "ballot",
+          "example": "Voters cast their ballot in the election."
         },
         {
           "part_of_speech": "n",
           "translation": "壓力",
-          "word": "stress"
+          "word": "stress",
+          "example": "He felt a lot of stress before the exam."
         },
         {
           "part_of_speech": "n",
           "translation": "符號;象徵",
-          "word": "symbol"
+          "word": "symbol",
+          "example": "The dove is a symbol of peace."
         },
         {
           "part_of_speech": "v",
           "translation": "珍愛",
-          "word": "treasure"
+          "word": "treasure",
+          "example": "She treasures her childhood memories."
         },
         {
           "part_of_speech": "adj",
           "translation": "忠誠的,忠心的",
-          "word": "loyal"
+          "word": "loyal",
+          "example": "He is a loyal friend."
         },
         {
           "part_of_speech": "v",
           "translation": "燒;燙傷",
-          "word": "burn"
+          "word": "burn",
+          "example": "Be careful not to burn yourself."
         },
         {
           "part_of_speech": "n",
           "translation": "國王",
-          "word": "king"
+          "word": "king",
+          "example": "The king ruled the country for many years."
         },
         {
           "part_of_speech": "n",
           "translation": "比較,對照",
-          "word": "comparison"
+          "word": "comparison",
+          "example": "A comparison of the two products shows many differences."
         },
         {
           "part_of_speech": "n",
           "translation": "暴風雨;暴風雪;騷動",
-          "word": "tempest"
+          "word": "tempest",
+          "example": "The ship was caught in a tempest."
         },
         {
           "part_of_speech": "adv",
           "translation": "在室內,在屋裡",
-          "word": "indoors"
+          "word": "indoors",
+          "example": "We stayed indoors because of the rain."
         },
         {
           "part_of_speech": "v",
           "translation": "辯論",
-          "word": "debate"
+          "word": "debate",
+          "example": "They will debate the issue tomorrow."
         },
         {
           "part_of_speech": "n",
           "translation": "命令",
-          "word": "command"
+          "word": "command",
+          "example": "He gave a command to start."
         },
         {
           "part_of_speech": "adj",
           "translation": "營養的,滋養的",
-          "word": "nutrient"
+          "word": "nutrient",
+          "example": "Milk is a nutrient food."
         },
         {
           "part_of_speech": "n",
           "translation": "一致;合意;輿論",
-          "word": "consensus"
+          "word": "consensus",
+          "example": "The group reached a consensus."
         },
         {
           "part_of_speech": "n",
           "translation": "飛機場",
-          "word": "airport"
+          "word": "airport",
+          "example": "We arrived at the airport early."
         },
         {
           "part_of_speech": "adj",
           "translation": "傑出的;未償付的",
-          "word": "outstanding"
+          "word": "outstanding",
+          "example": "She is an outstanding student."
         },
         {
           "part_of_speech": "n",
           "translation": "調查;調查報告",
-          "word": "survey"
+          "word": "survey",
+          "example": "They conducted a survey of customer satisfaction."
         },
         {
           "part_of_speech": "v",
           "translation": "處在邊沿;瀕臨",
-          "word": "verge"
+          "word": "verge",
+          "example": "The company is on the verge of bankruptcy."
         },
         {
           "part_of_speech": "n",
           "translation": "艦隊;機群;車隊",
-          "word": "fleet"
+          "word": "fleet",
+          "example": "The navy has a large fleet of ships."
         },
         {
           "part_of_speech": "adj",
           "translation": "有效的",
-          "word": "effective"
+          "word": "effective",
+          "example": "This medicine is very effective."
         },
         {
           "part_of_speech": "adj",
           "translation": "第一的",
-          "word": "first"
+          "word": "first",
+          "example": "She won first prize."
         },
         {
           "part_of_speech": "n",
           "translation": "餐",
-          "word": "meal"
+          "word": "meal",
+          "example": "We had a delicious meal."
         },
         {
           "part_of_speech": "adj",
           "translation": "幸運的",
-          "word": "lucky"
+          "word": "lucky",
+          "example": "He was lucky to find his wallet."
         },
         {
           "part_of_speech": "n",
           "translation": "作物",
-          "word": "crop"
+          "word": "crop",
+          "example": "Wheat is the main crop in this region."
         }
       ],
       "2": [
@@ -12531,501 +12731,601 @@
         {
           "part_of_speech": "n",
           "translation": "比賽,競賽;對手;相配者;火柴",
+          "example": "The match ended in a draw after both teams scored two goals each, despite several close attempts in the final minutes.",
           "word": "match"
         },
         {
           "part_of_speech": "n",
           "translation": "(動物或嬰兒的一餐;飼料",
+          "example": "The farmer prepared the feed for the chickens every morning.",
           "word": "feed"
         },
         {
           "part_of_speech": "n",
           "translation": "竹子",
+          "example": "Pandas love to eat bamboo as their main food source.",
           "word": "bamboo"
         },
         {
           "part_of_speech": "adj",
           "translation": "最終的",
+          "example": "The final decision will be announced tomorrow.",
           "word": "final"
         },
         {
           "part_of_speech": "n",
           "translation": "博物館",
+          "example": "We visited the art museum to see the new exhibition.",
           "word": "museum"
         },
         {
           "part_of_speech": "n",
           "translation": "管理;監督",
+          "example": "The project was completed under the supervision of an experienced engineer.",
           "word": "supervision"
         },
         {
           "part_of_speech": "n",
           "translation": "戲劇",
+          "example": "She starred in a popular drama on television.",
           "word": "drama"
         },
         {
           "part_of_speech": "n",
           "translation": "圖表;(曲線圖",
+          "example": "The teacher drew a diagram on the board to explain the process.",
           "word": "diagram"
         },
         {
           "part_of_speech": "n",
           "translation": "口琴",
+          "example": "He played a tune on his harmonica during the campfire.",
           "word": "harmonica"
         },
         {
           "part_of_speech": "n",
           "translation": "緊急;迫切;急事",
+          "example": "There was a sense of urgency in her voice as she called for help.",
           "word": "urgency"
         },
         {
           "part_of_speech": "v",
           "translation": "如火炬般地燃燒",
+          "example": "The campfire torched brightly in the night.",
           "word": "torch"
         },
         {
           "part_of_speech": "adj",
           "translation": "身體的;物理學的",
+          "example": "Physical exercise is important for good health.",
           "word": "physical"
         },
         {
           "part_of_speech": "n",
           "translation": "市長,鎮長",
+          "example": "The mayor gave a speech at the opening ceremony.",
           "word": "mayor"
         },
         {
           "part_of_speech": "n",
           "translation": "習俗",
+          "example": "It is a custom to shake hands when meeting someone new.",
           "word": "custom"
         },
         {
           "part_of_speech": "v",
           "translation": "使模糊不清;使朦朧",
+          "example": "The rain blurred the view through the window.",
           "word": "blur"
         },
         {
           "part_of_speech": "n",
           "translation": "渡輪",
+          "example": "We took a ferry across the river to the island.",
           "word": "ferry"
         },
         {
           "part_of_speech": "n",
           "translation": "論題;話題",
+          "example": "The main topic of discussion was climate change.",
           "word": "topic"
         },
         {
           "part_of_speech": "n",
           "translation": "外形;輪廓",
+          "example": "She traced the outline of the country on the map.",
           "word": "outline"
         },
         {
           "part_of_speech": "n",
           "translation": "重要性,重要",
+          "example": "The significance of the discovery was immediately recognized.",
           "word": "significance"
         },
         {
           "part_of_speech": "v",
           "translation": "提議",
+          "example": "She proposed a new plan to improve efficiency.",
           "word": "propose"
         },
         {
           "part_of_speech": "n",
           "translation": "談話;交談;空話;話題;談判",
+          "example": "They had a long talk about their future plans.",
           "word": "talk"
         },
         {
           "part_of_speech": "n",
           "translation": "金屬線",
+          "example": "The electrician used copper wire to connect the circuit.",
           "word": "wire"
         },
         {
           "part_of_speech": "n",
           "translation": "洋李; 梅子",
+          "example": "She picked a ripe plum from the tree.",
           "word": "plum"
         },
         {
           "part_of_speech": "v",
           "translation": "逗弄;取笑;向...強求",
+          "example": "The children teased their friend in a playful way.",
           "word": "tease"
         },
         {
           "part_of_speech": "n",
           "translation": "敬禮;致敬;致意",
+          "example": "The soldier gave a salute to his commanding officer.",
           "word": "salute"
         },
         {
           "part_of_speech": "n",
           "translation": "香草精",
+          "example": "Add a teaspoon of vanilla to the cake batter.",
           "word": "vanilla"
         },
         {
           "part_of_speech": "n",
           "translation": "想像力;創造力",
+          "example": "Children often have a vivid imagination.",
           "word": "imagination"
         },
         {
           "part_of_speech": "n",
           "translation": "時代;年代",
+          "example": "The Victorian era was known for its strict social rules.",
           "word": "era"
         },
         {
           "part_of_speech": "adj",
           "translation": "有學問的,博學的;精通的",
+          "example": "He is a learned professor of history.",
           "word": "learned"
         },
         {
           "part_of_speech": "v",
           "translation": "保存;保護;節省",
+          "example": "We must conserve water during the drought.",
           "word": "conserve"
         },
         {
           "part_of_speech": "n",
           "translation": "(美國十億",
+          "example": "The company made a billion dollars in profit last year.",
           "word": "billion"
         },
         {
           "part_of_speech": "n",
           "translation": "氧;氧氣",
+          "example": "Plants release oxygen during photosynthesis.",
           "word": "oxygen"
         },
         {
           "part_of_speech": "v",
           "translation": "用獨木舟載運",
+          "example": "They canoed down the river for several hours.",
           "word": "canoe"
         },
         {
           "part_of_speech": "n",
           "translation": "腳踝",
+          "example": "She twisted her ankle while running.",
           "word": "ankle"
         },
         {
           "part_of_speech": "n",
           "translation": "測量法;測定;尺寸",
+          "example": "Accurate measurement is important in science experiments.",
           "word": "measurement"
         },
         {
           "part_of_speech": "adv",
           "translation": "之後,後來",
+          "example": "We went to dinner afterwards.",
           "word": "afterwards"
         },
         {
           "part_of_speech": "n",
           "translation": "女主人",
+          "example": "The hostess greeted the guests at the door.",
           "word": "hostess"
         },
         {
           "part_of_speech": "n",
           "translation": "嘆氣,嘆息",
+          "example": "He let out a sigh of relief when the test was over.",
           "word": "sigh"
         },
         {
           "part_of_speech": "v",
           "translation": "(心臟;脈搏等跳動;抽動;抽痛",
+          "example": "Her heart throbbed with excitement.",
           "word": "throb"
         },
         {
           "part_of_speech": "adj",
           "translation": "友善的",
+          "example": "The staff at the hotel were very friendly.",
           "word": "friendly"
         },
         {
           "part_of_speech": "v",
           "translation": "出汗",
+          "example": "He began to sweat after running up the stairs.",
           "word": "sweat"
         },
         {
           "part_of_speech": "n",
           "translation": "利潤,盈利;收益",
+          "example": "The business made a large profit last year.",
           "word": "profit"
         },
         {
           "part_of_speech": "n",
           "translation": "道德;倫理;寓意",
+          "example": "The story teaches a lesson about morality.",
           "word": "morality"
         },
         {
           "part_of_speech": "adj",
           "translation": "附近的",
+          "example": "There is a park nearby where we can play.",
           "word": "nearby"
         },
         {
           "part_of_speech": "adj",
           "translation": "有民主精神的",
+          "example": "The country has a democratic system of government.",
           "word": "democratic"
         },
         {
           "part_of_speech": "n",
           "translation": "(一陣疾風;突然吹奏;爆破",
+          "example": "A sudden blast of wind knocked over the sign.",
           "word": "blast"
         },
         {
           "part_of_speech": "n",
           "translation": "烏龜",
+          "example": "The turtle slowly crossed the road.",
           "word": "turtle"
         },
         {
           "part_of_speech": "adj",
           "translation": "最後的;最終的",
+          "example": "This is the ultimate challenge for any athlete.",
           "word": "ultimate"
         },
         {
           "part_of_speech": "n",
           "translation": "散熱器",
+          "example": "The radiator keeps the room warm in winter.",
           "word": "radiator"
         },
         {
           "part_of_speech": "n",
           "translation": "訪客",
+          "example": "The museum had over a thousand visitors last week.",
           "word": "visitor"
         },
         {
           "part_of_speech": "n",
           "translation": "故事;樓層",
+          "example": "She told an interesting story about her childhood.",
           "word": "story"
         },
         {
           "part_of_speech": "v",
           "translation": "君臨;統治",
+          "example": "The king reigned over the country for fifty years.",
           "word": "reign"
         },
         {
           "part_of_speech": "adj",
           "translation": "迷路的;離開正道的",
+          "example": "The dog went astray and couldn't find its way home.",
           "word": "astray"
         },
         {
           "part_of_speech": "v",
           "translation": "管理;給予;執行",
+          "example": "The nurse will administer the medication at noon.",
           "word": "administer"
         },
         {
           "part_of_speech": "n",
           "translation": "斑馬",
+          "example": "A zebra has black and white stripes.",
           "word": "zebra"
         },
         {
           "part_of_speech": "n",
           "translation": "(地球的半球;半球體",
+          "example": "The Northern Hemisphere experiences winter while the Southern Hemisphere has summer.",
           "word": "hemisphere"
         },
         {
           "part_of_speech": "n",
           "translation": "橫笛",
+          "example": "She played a beautiful melody on the flute.",
           "word": "flute"
         },
         {
           "part_of_speech": "n",
           "translation": "那個地方,那裡",
+          "example": "We will meet there at 3 p.m.",
           "word": "there"
         },
         {
           "part_of_speech": "n",
           "translation": "螺絲鉗;鐵箍",
+          "example": "Use a clamp to hold the pieces together while the glue dries.",
           "word": "clamp"
         },
         {
           "part_of_speech": "v",
           "translation": "哀悼;悲痛;痛哭",
+          "example": "They lamented the loss of their beloved pet.",
           "word": "lament"
         },
         {
           "part_of_speech": "n",
           "translation": "總額",
+          "example": "The total cost of the trip was higher than expected.",
           "word": "total"
         },
         {
           "part_of_speech": "n",
           "translation": "商標",
+          "example": "Nike is a well-known brand around the world.",
           "word": "brand"
         },
         {
           "part_of_speech": "adj",
           "translation": "容易滑的;不明確的",
+          "example": "The road was slippery after the rain.",
           "word": "slippery"
         },
         {
           "part_of_speech": "n",
           "translation": "文法",
+          "example": "He studied English grammar to improve his writing.",
           "word": "grammar"
         },
         {
           "part_of_speech": "adj",
           "translation": "反射的;沈思的;反映的",
+          "example": "She gave a reflective answer after thinking for a while.",
           "word": "reflective"
         },
         {
           "part_of_speech": "adj",
           "translation": "國內的",
+          "example": "Domestic flights are usually cheaper than international ones.",
           "word": "domestic"
         },
         {
           "part_of_speech": "v",
           "translation": "畫,拍攝;描述",
+          "example": "He pictured himself living in a big city.",
           "word": "picture"
         },
         {
           "part_of_speech": "v",
           "translation": "轉移;移動",
+          "example": "She shifted her attention to the new project.",
           "word": "shift"
         },
         {
           "part_of_speech": "v",
           "translation": "違犯;擾亂",
+          "example": "They violated the rules of the competition.",
           "word": "violate"
         },
         {
           "part_of_speech": "n",
           "translation": "中士;警官",
+          "example": "The sergeant led the team during the mission.",
           "word": "sergeant"
         },
         {
           "part_of_speech": "n",
           "translation": "風行;時髦事物(人物",
+          "example": "Bell-bottom pants were once the vogue in fashion.",
           "word": "vogue"
         },
         {
           "part_of_speech": "n",
           "translation": "傷亡人員",
+          "example": "The accident resulted in several casualties.",
           "word": "casualty"
         },
         {
           "part_of_speech": "v",
           "translation": "進攻;襲擊",
+          "example": "The army attacked the enemy at dawn.",
           "word": "attack"
         },
         {
           "part_of_speech": "v",
           "translation": "延遲,延緩",
+          "example": "They postponed the meeting until next week.",
           "word": "postpone"
         },
         {
           "part_of_speech": "n",
           "translation": "公報;公告",
+          "example": "The company issued a bulletin about the new policy.",
           "word": "bulletin"
         },
         {
           "part_of_speech": "n",
           "translation": "定單",
+          "example": "She placed an order for a new laptop online.",
           "word": "order"
         },
         {
           "part_of_speech": "adj",
           "translation": "可食的,食用的",
+          "example": "These mushrooms are edible, but some are poisonous.",
           "word": "edible"
         },
         {
           "part_of_speech": "n",
           "translation": "草本植物;藥草",
+          "example": "Basil is a common herb used in cooking.",
           "word": "herb"
         },
         {
           "part_of_speech": "n",
           "translation": "吼,嘯;怒號;喧鬧聲",
+          "example": "The lion let out a loud roar.",
           "word": "roar"
         },
         {
           "part_of_speech": "n",
           "translation": "雙親之一",
+          "example": "Each parent attended the school meeting.",
           "word": "parent"
         },
         {
           "part_of_speech": "prep",
           "translation": "在…之內",
+          "example": "The keys are in the drawer.",
           "word": "in"
         },
         {
           "part_of_speech": "n",
           "translation": "芬芳;香味",
+          "example": "The fragrance of roses filled the room.",
           "word": "fragrance"
         },
         {
           "part_of_speech": "n",
           "translation": "滿意,滿足",
+          "example": "She smiled with satisfaction after finishing her work.",
           "word": "satisfaction"
         },
         {
           "part_of_speech": "n",
           "translation": "零售",
+          "example": "The store specializes in the retail of electronics.",
           "word": "retail"
         },
         {
           "part_of_speech": "v",
           "translation": "排隊",
+          "example": "People lined up outside the store for the sale.",
           "word": "line"
         },
         {
           "part_of_speech": "adj",
           "translation": "一個的",
+          "example": "There is only one apple left in the basket.",
           "word": "one"
         },
         {
           "part_of_speech": "v",
           "translation": "捲;繞",
+          "example": "He reeled in the fish with his fishing rod.",
           "word": "reel"
         },
         {
           "part_of_speech": "prep",
           "translation": "在...之中",
+          "example": "She was sitting among her friends.",
           "word": "among"
         },
         {
           "part_of_speech": "n",
           "translation": "寡婦",
+          "example": "The widow lived alone after her husband's death.",
           "word": "widow"
         },
         {
           "part_of_speech": "n",
           "translation": "估價;評價",
+          "example": "The assessment of the property was completed last week.",
           "word": "assessment"
         },
         {
           "part_of_speech": "adv",
           "translation": "繼續;向前;開著;;在進行中",
+          "example": "The show must go on despite the difficulties.",
           "word": "on"
         },
         {
           "part_of_speech": "v",
           "translation": "排除,消除",
+          "example": "The new treatment can eliminate the symptoms.",
           "word": "eliminate"
         },
         {
           "part_of_speech": "n",
           "translation": "環道;一圈;巡迴路線;電路",
+          "example": "The runners completed one circuit of the track.",
           "word": "circuit"
         },
         {
           "part_of_speech": "adv",
           "translation": "最;最多;非常,很",
+          "example": "She is the most talented artist in the class.",
           "word": "most"
         },
         {
           "part_of_speech": "n",
           "translation": "架構;組織",
+          "example": "The framework of the building was completed first.",
           "word": "framework"
         },
         {
           "part_of_speech": "n",
           "translation": "會員",
+          "example": "He is a member of the local tennis club.",
           "word": "member"
         },
         {
           "part_of_speech": "n",
           "translation": "卡嗒聲",
+          "example": "She heard a click as the door locked.",
           "word": "click"
         },
         {
           "part_of_speech": "n",
           "translation": "不信;懷疑",
+          "example": "He stared in disbelief at the unexpected result.",
           "word": "disbelief"
         },
         {
           "part_of_speech": "n",
           "translation": "工會;結合",
+          "example": "The workers formed a union to protect their rights.",
           "word": "union"
         },
         {
           "part_of_speech": "v",
           "translation": "光滑地,平滑地",
+          "example": "She smoothed the wrinkles out of the tablecloth.",
           "word": "smooth"
         }
       ],

@@ -6,17 +6,66 @@ import 'package:examKing/models/level.dart';
 import 'package:examKing/models/word.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 import 'package:examKing/global/keys.dart' as keys;
 import 'package:examKing/global/config.dart' as config;
 import 'package:flutter/services.dart';
 
 class WordService {
-  Future<void> initializeWords() async {
+  Future<void> syncWordIsLearnedAndSeenCount() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(keys.prefTokenKey);
+    if (token == null) {
+      throw UnAuthenticatedException();
+    }
+
+    Uri url = Uri.parse("${dotenv.get('HTTP_HOST')}word_status");
+    var res = await http.get(
+      url,
+      headers: {
+        "Content-type": "Application/json",
+        "Authorization": "Bearer $token",
+      },
+    );
+
+    switch (res.statusCode) {
+      case 200:
+        debugPrint(
+            "backend service | syncWordIsLearnedAndSeenCount | get success response ${res.body}");
+
+        List wordStatusList = json.decode(res.body);
+
+        for (Map wordStatus in wordStatusList) {
+          prefs.setBool(
+              "${keys.prefWordIsLearnedPrefixKey}_${wordStatus[keys.wordWordKey]}",
+              wordStatus[keys.wordIsLearnedKey]);
+          prefs.setInt(
+              "${keys.prefWordSeenCountPrefixKey}_${wordStatus[keys.wordWordKey]}",
+              wordStatus[keys.wordSeenCountKey]);
+        }
+      case 404:
+        debugPrint(
+            "service | syncWordIsLearnedAndSeenCount | end point not found");
+        throw PageNotFoundException();
+      case 401:
+        debugPrint(
+            "backend service | syncWordIsLearnedAndSeenCount | ${res.body}");
+        throw UnAuthenticatedException();
+      default:
+        debugPrint(
+            "backend service | syncWordIsLearnedAndSeenCount | error status ${res.statusCode}");
+        debugPrint("body ${res.body}");
+        throw UnhandledStatusException();
+    }
+  }
+
+  Future<void> initializeWords({bool force = false}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     int wordVersion = prefs.getInt(keys.prefWordVersionKey) ?? 0;
 
-    if (wordVersion != config.wordVersion) {
+    if (wordVersion != config.wordVersion || force) {
       // Retrieve words.json from assets
       final String wordsJsonStr =
           await rootBundle.loadString('assets/words.json');
@@ -28,6 +77,7 @@ class WordService {
         if (testType == TestType.hs7000.name) {
           for (String level in wordsJson[testType].keys) {
             for (String book in wordsJson[testType][level].keys) {
+              // save word index to share preferences
               prefs.setString(
                 "${keys.prefWordIndexPrefixKey}_${testType}_${level}_${book}",
                 json.encode(wordsJson[testType][level][book]),
@@ -40,6 +90,7 @@ class WordService {
             for (String book in wordsJson[testType][level].keys) {
               levelWords.addAll(wordsJson[testType][level][book]);
             }
+            // save word index to share preferences
             prefs.setString(
               "${keys.prefWordIndexPrefixKey}_${testType}_${level}",
               json.encode(levelWords),
@@ -47,6 +98,9 @@ class WordService {
           }
         }
       }
+
+      // sync word isLearned and seenCount from the cloud
+      await syncWordIsLearnedAndSeenCount();
 
       prefs.setInt(keys.prefWordVersionKey, config.wordVersion);
     }
@@ -112,6 +166,40 @@ class WordService {
         "${keys.prefWordIsLearnedPrefixKey}_${word.word}", word.isLearned);
     prefs.setInt(
         "${keys.prefWordSeenCountPrefixKey}_${word.word}", word.seenCount);
+
+    // also sync the word update to the backend
+
+    String? token = prefs.getString(keys.prefTokenKey);
+    if (token == null) {
+      throw UnAuthenticatedException();
+    }
+
+    Uri url = Uri.parse("${dotenv.get('HTTP_HOST')}word");
+    var res = await http.post(
+      url,
+      headers: {
+        "Content-type": "Application/json",
+        "Authorization": "Bearer $token",
+      },
+      body: json.encode({
+        "word": word.word,
+        "status": word.isLearned ? "reviewing" : "learning",
+      }),
+    );
+
+    switch (res.statusCode) {
+      case 200:
+        debugPrint(
+            "backend service | updateUserInfo | get success response ${res.body}");
+      case 404:
+        debugPrint("service | updateUserInfo | end point not found");
+      case 401:
+        debugPrint("backend service | updateUserInfo | ${res.body}");
+      default:
+        debugPrint(
+            "backend service | updateUserInfo | error status ${res.statusCode}");
+        debugPrint("body ${res.body}");
+    }
   }
 
   Future<double> getHighSchoolWordProgress() async {

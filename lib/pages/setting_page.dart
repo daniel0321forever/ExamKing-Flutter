@@ -7,6 +7,7 @@ import 'package:examKing/component/logout_icon.dart';
 import 'package:examKing/models/user.dart';
 import 'package:examKing/pages/ability_analyse_page.dart';
 import 'package:examKing/pages/login_page.dart';
+import 'package:examKing/pages/main_page.dart';
 import 'package:examKing/providers/global_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:examKing/component/main_page_button.dart';
@@ -24,10 +25,10 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage>
     with SingleTickerProviderStateMixin {
   late AuthBloc authBloc;
+  late MainBloc mainBloc;
   late StreamSubscription authBlocListener;
   late UserData user;
   late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
 
   bool _isEditing = false;
   final TextEditingController _nameController = TextEditingController();
@@ -50,6 +51,8 @@ class _SettingPageState extends State<SettingPage>
       }
     });
 
+    mainBloc = context.read<MainBloc>();
+
     setState(() {});
 
     user = context.read<GlobalProvider>().userData!;
@@ -59,16 +62,13 @@ class _SettingPageState extends State<SettingPage>
       duration: const Duration(seconds: 3),
       vsync: this,
     )..repeat(reverse: true);
-
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
   }
 
   @override
   void dispose() {
     _nameController.dispose();
     _controller.dispose();
+    authBlocListener.cancel();
     super.dispose();
   }
 
@@ -175,6 +175,7 @@ class _SettingPageState extends State<SettingPage>
                 ],
               ),
               const SizedBox(height: 40),
+
               // Ability Analysis Button
               MainPageButton(
                 onPressed: () {
@@ -187,14 +188,28 @@ class _SettingPageState extends State<SettingPage>
                 textColor: Colors.black,
               ),
               const SizedBox(height: 30),
-              // Battle Arena Button
+
+              // Sync Button
+              MainPageButton(
+                onPressed: () {
+                  // sync word isLearned and seenCount from the cloud
+                  mainBloc.add(MainEventInitialize(force: true));
+                  Navigator.of(context).pop();
+                },
+                title: "Sync",
+                backgroundColor: const Color.fromARGB(255, 254, 223, 46),
+                textColor: const Color.fromARGB(255, 114, 84, 0),
+              ),
+              const SizedBox(height: 30),
+
+              // Log Out Button
               MainPageButton(
                 onPressed: () {
                   authBloc.add(AuthEventLogOut());
                 },
                 title: "Logout",
                 backgroundColor: Colors.red,
-                textColor: const Color.fromARGB(255, 185, 0, 0),
+                textColor: const Color.fromARGB(255, 108, 1, 1),
               ),
             ],
           ),

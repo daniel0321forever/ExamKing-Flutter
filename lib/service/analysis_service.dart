@@ -33,10 +33,13 @@ class AnalysisService {
 
     switch (res.statusCode) {
       case 200:
-        debugPrint("backend service | updateUserInfo | get success response ${res.body}");
-        List<Stat> statList = List<Stat>.from(json.decode(res.body).map((statMap) {
+        debugPrint(
+            "backend service | updateUserInfo | get success response ${res.body}");
+        List<Stat> statList =
+            List<Stat>.from(json.decode(res.body).map((statMap) {
           debugPrint("statMap ${statMap[keys.statKeyKey]}");
-          statMap[keys.statTitleKey] = statProperties[statMap[keys.statKeyKey]]![keys.statTitleKey];
+          statMap[keys.statTitleKey] =
+              statProperties[statMap[keys.statKeyKey]]![keys.statTitleKey];
           return Stat.fromMap(statMap);
         }));
         return statList;
@@ -48,7 +51,8 @@ class AnalysisService {
         debugPrint("backend service | updateUserInfo | ${res.body}");
         throw UnAuthenticatedException();
       default:
-        debugPrint("backend service | updateUserInfo | error status ${res.statusCode}");
+        debugPrint(
+            "backend service | updateUserInfo | error status ${res.statusCode}");
         debugPrint("body ${res.body}");
         throw UnhandledStatusException();
     }
@@ -73,7 +77,8 @@ class AnalysisService {
 
     switch (res.statusCode) {
       case 200:
-        debugPrint("backend service | updateUserInfo | get success response ${res.body}");
+        debugPrint(
+            "backend service | updateUserInfo | get success response ${res.body}");
         return List<int>.from(json.decode(res.body));
 
       case 404:
@@ -83,7 +88,8 @@ class AnalysisService {
         debugPrint("backend service | updateUserInfo | ${res.body}");
         throw UnAuthenticatedException();
       default:
-        debugPrint("backend service | updateUserInfo | error status ${res.statusCode}");
+        debugPrint(
+            "backend service | updateUserInfo | error status ${res.statusCode}");
         debugPrint("body ${res.body}");
         throw UnhandledStatusException();
     }
@@ -92,7 +98,8 @@ class AnalysisService {
   Future<List<int>> getPreviousMonthWordProgress(int month, int year) async {
     DateTime previousMonth = DateTime(year, month);
     int daysInMonth = DateTime(year, month + 1, 0).day;
-    List<int> wordProgress = List<int>.generate(daysInMonth, (index) => (index + 1) * (previousMonth.millisecondsSinceEpoch % 100));
+    List<int> wordProgress = List<int>.generate(daysInMonth,
+        (index) => (index + 1) * (previousMonth.millisecondsSinceEpoch % 100));
     return wordProgress;
   }
 
@@ -115,8 +122,11 @@ class AnalysisService {
 
     switch (res.statusCode) {
       case 200:
-        debugPrint("backend service | updateUserInfo | get success response ${res.body}");
-        return List<List<double>>.from(json.decode(res.body).map((l) => List<double>.from(l.map((e) => e.toDouble()))));
+        debugPrint(
+            "backend service | updateUserInfo | get success response ${res.body}");
+        return List<List<double>>.from(json
+            .decode(res.body)
+            .map((l) => List<double>.from(l.map((e) => e.toDouble()))));
 
       case 404:
         debugPrint("service | updateUserInfo | end point not found");
@@ -125,7 +135,8 @@ class AnalysisService {
         debugPrint("backend service | updateUserInfo | ${res.body}");
         throw UnAuthenticatedException();
       default:
-        debugPrint("backend service | updateUserInfo | error status ${res.statusCode}");
+        debugPrint(
+            "backend service | updateUserInfo | error status ${res.statusCode}");
         debugPrint("body ${res.body}");
         throw UnhandledStatusException();
     }

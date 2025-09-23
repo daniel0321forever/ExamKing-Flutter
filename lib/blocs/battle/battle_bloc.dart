@@ -185,6 +185,10 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     }
   }
 
+  int calculateAddedScore(int leftSec) {
+    return 200 * ((leftSec ~/ 2 + 1) * 2) ~/ roundDuration.inSeconds;
+  }
+
   BattleBloc({required this.userProvider}) : super(BattleWaitingState()) {
     /// The following behaviour is expected as the battle start
     /// 1) Client connecting to socket server
@@ -264,7 +268,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         int addedScore = 0;
 
         if (problems![round].options[event.answerIndex].correct) {
-          addedScore = 200 * (leftSec! ~/ 2 * 2) ~/ roundDuration.inSeconds;
+          addedScore = calculateAddedScore(leftSec!);
           playerScore += addedScore;
           record!.answerRecords.add(AnswerRecord(
               problemID: problems![round].problemID, correct: true));
@@ -393,7 +397,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       if (round >= 0) emit(BattleNextRoundState(problem: problems![round]));
 
       var random = Random();
-      int oppAnsTime = random.nextInt(3 - 1) + 4;
+      int oppAnsTime = random.nextInt(10) + 1;
 
       debugPrint("on BattleRoundStartEvent | restarting round timer");
 
@@ -409,11 +413,11 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
           return;
         }
 
+        // calculate the added score for the computer opponent
         if (leftSec! == oppAnsTime && isOppnComputer) {
-          int computerAddedScore = (random.nextInt(2) % 2 == 0
-                  ? 0
-                  : 200 * ((leftSec! ~/ 2 * 2) / roundDuration.inSeconds))
-              .toInt();
+          int computerAddedScore =
+              (random.nextInt(4) % 4 == 0 ? 0 : calculateAddedScore(leftSec!))
+                  .toInt();
           backendService.answer(computerAddedScore, userId: opponentID!);
           return;
         }

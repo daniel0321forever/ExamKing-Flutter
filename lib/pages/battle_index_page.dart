@@ -125,6 +125,7 @@ class _IndexPageState extends State<BattleIndexPage>
       body: SingleChildScrollView(
         child: Container(
           height: 240 * challenges.length.toDouble() + 200,
+          margin: const EdgeInsets.only(top: 30),
           decoration: const BoxDecoration(),
           child: Stack(
             children: <Widget>[

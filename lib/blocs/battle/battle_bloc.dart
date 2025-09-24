@@ -296,6 +296,10 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       }
     });
 
+    /// The following behavior is expected as the event occurs
+    /// 1) Update opponent score and emit BattleAnsweredState
+    /// 2) Check going to next round
+    /// 3) End game if the round is the last round
     on<BattleGetAnsRespondedEvent>((event, emit) async {
       try {
         // if the answer response is from the opponent
@@ -346,6 +350,10 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       }
     });
 
+    /// The following behavior is expected as the event occurs
+    /// 1) Emit the BattleWaitingState to the UI code
+    /// 2) Start waiting timer
+    /// 3) Connect to computer agent if the waiting time is the max waiting time
     on<BattleWaitingEvent>((event, emit) {
       debugPrint("on BattleWaitingEvent | emitting BattleWaitingEvent");
       emit(BattleWaitingState());
@@ -371,6 +379,10 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       });
     });
 
+    /// The following behavior is expected as the event occurs
+    /// 1) Wait a few seconds just for the UI effect
+    /// 2) Emit the BattleStartBattleState
+    /// 3) Trigger the BattleRoundStartEvent
     on<BattleStartBattleEvent>((event, emit) async {
       // NOTE: the 'problems' would be decoded in the listener, to save me from passing the decoded data as parameter
       debugPrint(
@@ -389,6 +401,10 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       add(BattleRoundStartEvent());
     });
 
+    /// The following behavior is expected as the event occurs
+    /// 1) Emit the BattleNextRoundState
+    /// 2) Restart the round timer
+    /// 3) Calculate the added score for the computer opponent
     on<BattleRoundStartEvent>((event, emit) async {
       debugPrint("on BattleRoundStartEvent | emitting BattleNextRoundState");
 
@@ -424,6 +440,8 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       });
     });
 
+    /// The following behavior is expected as the event occurs
+    /// 1) Emit the BattleTimerTickedState to the UI code
     on<BattleTimerTickedEvent>((event, emit) {
       debugPrint("on BattleTimerTickedEvent | leftSec: $leftSec");
       emit(BattleTimerTickedState());
@@ -437,21 +455,25 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
         cancelRoundTimer();
 
-        if (hasResponded) return;
+        if (!hasResponded) {
+          hasResponded = true;
 
-        hasResponded = true;
+          // send message to server
+          backendService.answer(0,
+              userId: userProvider.userData!.username ??
+                  userProvider.userData!.googleUsername!);
 
-        // send message to server
-        backendService.answer(0,
-            userId: userProvider.userData!.username ??
-                userProvider.userData!.googleUsername!);
+          emit(BattleAnsweredState(
+            playerAnswered: true,
+            playerScore: playerScore,
+            isCorrect: false,
+            answerIndex: null,
+          ));
+        }
 
-        emit(BattleAnsweredState(
-          playerAnswered: true,
-          playerScore: playerScore,
-          isCorrect: false,
-          answerIndex: null,
-        ));
+        if (!opnHasResponded && isOppnComputer) {
+          backendService.answer(0, userId: opponentID!);
+        }
 
         // // send message to server
         // backendService.answer(0, null);

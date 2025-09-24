@@ -74,7 +74,7 @@ class _WordCardState extends State<WordCard> {
                       borderRadius: BorderRadius.circular(7),
                     ),
                     child: Text(
-                      widget.word.partOfSpeech,
+                      '${widget.word.partOfSpeech}.',
                       style: GoogleFonts.inter(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,

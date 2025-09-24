@@ -4,7 +4,6 @@ import 'package:examKing/providers/global_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 
 class Histogram extends StatefulWidget {
   const Histogram({super.key});
@@ -150,7 +149,7 @@ class _BarWidgetState extends State<BarWidget>
                 color: color,
                 gradient: widget.value >= 70
                     ? LinearGradient(
-                        colors: [color, color.withOpacity(0.5)],
+                        colors: [color, color.withValues(alpha: 0.5)],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                       )

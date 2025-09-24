@@ -44,7 +44,7 @@ class HSLearnIndexItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "Level ${level.level}",
+                  level.title,
                   style: GoogleFonts.barlowCondensed(
                     fontSize: 16,
                     color: Colors.black,

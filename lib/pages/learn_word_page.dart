@@ -59,7 +59,7 @@ class _LearnWordPageState extends State<LearnWordPage> {
                     // level title
                     const SizedBox(height: 20),
                     Text(
-                      "Level ${widget.level.level}",
+                      widget.level.title,
                       style: GoogleFonts.barlowCondensed(
                         fontSize: 20,
                       ),

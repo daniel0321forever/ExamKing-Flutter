@@ -68,12 +68,24 @@ class _TrendChartState extends State<TrendChart> {
         LineChartData(
           minY: 0,
           maxY: 100,
-          lineTouchData: const LineTouchData(
+          lineTouchData: LineTouchData(
             // use the built-in behaviour (show a tooltip bubble and an indicator on touched spots)
             handleBuiltInTouches: true,
             // set the touched behaviour data
             touchTooltipData: LineTouchTooltipData(
-              tooltipBgColor: Color.fromARGB(95, 214, 214, 214),
+              tooltipBgColor: const Color.fromARGB(95, 214, 214, 214),
+              getTooltipItems: (touchedSpots) {
+                return touchedSpots.map((LineBarSpot touchedSpot) {
+                  // You can customize the label here. For example, show "正確率: xx%"
+                  return LineTooltipItem(
+                    '${touchedSpot.y.toStringAsFixed(1)}%',
+                    const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                }).toList();
+              },
             ),
           ),
           lineBarsData: List<LineChartBarData>.generate(1, (i) {

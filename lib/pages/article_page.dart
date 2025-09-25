@@ -2,14 +2,17 @@ import 'dart:async';
 
 import 'package:examKing/blocs/article/article_bloc.dart';
 import 'package:examKing/component/back_to_main_button.dart';
+import 'package:examKing/models/level.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 class ArticlePage extends StatefulWidget {
-  final int level;
-  const ArticlePage({super.key, required this.level});
+  final Level level;
+  final String currentWord;
+  const ArticlePage(
+      {super.key, required this.level, required this.currentWord});
 
   @override
   State<ArticlePage> createState() => _ArticlePageState();
@@ -30,7 +33,8 @@ class _ArticlePageState extends State<ArticlePage> {
       }
     });
 
-    articleBloc.add(ArticleEventLoad(level: widget.level));
+    articleBloc.add(
+        ArticleEventLoad(level: widget.level, currentWord: widget.currentWord));
   }
 
   @override
@@ -85,7 +89,8 @@ class _ArticlePageState extends State<ArticlePage> {
                               style: part.word == null
                                   ? GoogleFonts.crimsonPro(
                                       fontSize: 18,
-                                      color: const Color.fromARGB(255, 37, 37, 37),
+                                      color:
+                                          const Color.fromARGB(255, 37, 37, 37),
                                     )
                                   : GoogleFonts.crimsonPro(
                                       fontSize: 19,

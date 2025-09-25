@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:examKing/models/article_part.dart';
+import 'package:examKing/models/level.dart';
+import 'package:examKing/models/subject.dart';
 import 'package:examKing/service/backend.dart';
 import 'package:meta/meta.dart';
 
@@ -8,7 +10,7 @@ part 'article_state.dart';
 
 class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
   List<ArticlePart>? article;
-  int? level;
+  Level? level;
 
   BackendService backendService = BackendService();
 
@@ -21,7 +23,7 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
     on<ArticleEventLoad>((event, emit) async {
       emit(ArticleStateLoading());
       level = event.level;
-      article = await backendService.getArticle(event.level);
+      article = await backendService.getArticle(event.level, event.currentWord);
       emit(ArticleStateGetArticle());
     });
 

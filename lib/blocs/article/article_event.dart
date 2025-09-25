@@ -4,8 +4,9 @@ part of 'article_bloc.dart';
 sealed class ArticleEvent {}
 
 class ArticleEventLoad extends ArticleEvent {
-  final int level;
-  ArticleEventLoad({required this.level});
+  final Level level;
+  final String currentWord;
+  ArticleEventLoad({required this.level, required this.currentWord});
 }
 
 class ArticleEventLeave extends ArticleEvent {}

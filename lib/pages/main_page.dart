@@ -7,7 +7,6 @@ import 'package:examKing/component/histogram.dart';
 import 'package:examKing/component/logout_icon.dart';
 import 'package:examKing/models/user.dart';
 import 'package:examKing/pages/ability_analyse_page.dart';
-import 'package:examKing/pages/article_index.dart';
 import 'package:examKing/pages/gre_main_page.dart';
 import 'package:examKing/pages/login_page.dart';
 import 'package:examKing/pages/subject_index_page.dart';

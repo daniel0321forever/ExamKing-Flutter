@@ -5,6 +5,7 @@ import 'package:examKing/global/exception.dart';
 import 'package:examKing/global/properties.dart';
 import 'package:examKing/models/ability_record.dart';
 import 'package:examKing/models/article_part.dart';
+import 'package:examKing/models/level.dart';
 import 'package:examKing/models/record.dart';
 import 'package:examKing/models/user.dart';
 import 'package:examKing/models/word.dart';
@@ -31,26 +32,32 @@ class BackendService {
   /// The following behaviour are expected
   /// 1) The user might wait for a while without getting game-data before there is match for the user
   /// 2) The server would return game-data with following format by the key 'game-data' once the connection is built
-  Future<void> connectToBattle(String challengeKey, {required String username, int? level}) async {
-    String gameSocketURL = "${dotenv.get('SOCKET_HOST')}battle?user=$username&challenge=$challengeKey";
+  Future<void> connectToBattle(String challengeKey,
+      {required String username, int? level}) async {
+    String gameSocketURL =
+        "${dotenv.get('SOCKET_HOST')}battle?user=$username&challenge=$challengeKey";
     gameSocketURL += level != null ? "&level=$level" : "";
     try {
       channel = WebSocketChannel.connect(Uri.parse(gameSocketURL));
       await channel?.ready;
     } catch (e) {
-      debugPrint("backend_service | connectToBattle | error occurs when waiting for channel to be ready: $e");
+      debugPrint(
+          "backend_service | connectToBattle | error occurs when waiting for channel to be ready: $e");
       throw const SocketException("fail to connect to game consumer");
     }
   }
 
-  Future<void> connectToComputerSocket(String challengeKey, {required String username, int? level}) async {
-    String gameSocketURL = "${dotenv.get('SOCKET_HOST')}battle?user=$username&challenge=$challengeKey";
+  Future<void> connectToComputerSocket(String challengeKey,
+      {required String username, int? level}) async {
+    String gameSocketURL =
+        "${dotenv.get('SOCKET_HOST')}battle?user=$username&challenge=$challengeKey";
     gameSocketURL += level != null ? "&level=$level" : "";
     try {
       computerChannel = WebSocketChannel.connect(Uri.parse(gameSocketURL));
       await computerChannel?.ready;
     } catch (e) {
-      debugPrint("backend_service | connectToComputerSocket | error occurs when waiting for channel to be ready: $e");
+      debugPrint(
+          "backend_service | connectToComputerSocket | error occurs when waiting for channel to be ready: $e");
       throw const SocketException("fail to connect to game consumer");
     }
   }
@@ -113,7 +120,8 @@ class BackendService {
 
     // Other device
     else {
-      throw Exception("Invalid platform ${Platform.operatingSystem} (Why the hell it would happen?)");
+      throw Exception(
+          "Invalid platform ${Platform.operatingSystem} (Why the hell it would happen?)");
     }
 
     final GoogleSignInAccount? googleAccount = await googleSignIn!.signIn();
@@ -124,10 +132,13 @@ class BackendService {
       throw GoogleAuthFailedException();
     }
 
-    final GoogleSignInAuthentication googleAuthentication = await googleAccount.authentication;
+    final GoogleSignInAuthentication googleAuthentication =
+        await googleAccount.authentication;
 
-    debugPrint("backend | signInWithGoogle | email, ${googleAccount.displayName}");
-    debugPrint("backend | signInWithGoogle | auth, ${googleAuthentication.idToken}");
+    debugPrint(
+        "backend | signInWithGoogle | email, ${googleAccount.displayName}");
+    debugPrint(
+        "backend | signInWithGoogle | auth, ${googleAuthentication.idToken}");
 
     // log in to backend with id_token
     var res = await http.post(
@@ -169,17 +180,20 @@ class BackendService {
 
     switch (res.statusCode) {
       case 200:
-        debugPrint("backend service | updatedBattleRecord | get success response ${res.body}");
+        debugPrint(
+            "backend service | updatedBattleRecord | get success response ${res.body}");
         Map body = json.decode(utf8.decode(res.bodyBytes));
         return UserData.fromMap(body);
       case 404:
-        debugPrint("backend service | updatedBattleRecord | end point not found");
+        debugPrint(
+            "backend service | updatedBattleRecord | end point not found");
         throw PageNotFoundException();
       case 401:
         debugPrint("backend service | updatedBattleRecord | ${res.body}");
         throw UnAuthenticatedException();
       default:
-        debugPrint("backend service | updatedBattleRecord | error status ${res.statusCode}");
+        debugPrint(
+            "backend service | updatedBattleRecord | error status ${res.statusCode}");
         debugPrint("body ${res.body}");
         throw UnhandledStatusException();
     }
@@ -202,7 +216,8 @@ class BackendService {
 
     switch (res.statusCode) {
       case 200:
-        debugPrint("backend service | signIn | get success response ${res.body}");
+        debugPrint(
+            "backend service | signIn | get success response ${res.body}");
         Map body = json.decode(utf8.decode(res.bodyBytes));
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString(keys.prefTokenKey, body[keys.accountTokenKey]);
@@ -211,7 +226,8 @@ class BackendService {
         debugPrint("backend service | signIn | end point not found");
         throw PageNotFoundException();
       case 401:
-        debugPrint("backend service | signIn | username or password is incorrect");
+        debugPrint(
+            "backend service | signIn | username or password is incorrect");
         throw UnAuthenticatedException();
       default:
         debugPrint("backend service | signIn | error status ${res.statusCode}");
@@ -220,7 +236,8 @@ class BackendService {
     }
   }
 
-  Future<UserData> signUp(String username, String password, String email, String name) async {
+  Future<UserData> signUp(
+      String username, String password, String email, String name) async {
     debugPrint("backend | signUp | triggered");
 
     Uri url = Uri.parse("${dotenv.get('HTTP_HOST')}signup");
@@ -239,7 +256,8 @@ class BackendService {
 
     switch (res.statusCode) {
       case 200:
-        debugPrint("backend service | signUp | get success response ${res.body}");
+        debugPrint(
+            "backend service | signUp | get success response ${res.body}");
         Map body = json.decode(utf8.decode(res.bodyBytes));
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString(keys.prefTokenKey, body[keys.accountTokenKey]);
@@ -272,9 +290,11 @@ class BackendService {
 
     switch (res.statusCode) {
       case 200:
-        debugPrint("backend service | checkUsername | get success response ${res.body}");
+        debugPrint(
+            "backend service | checkUsername | get success response ${res.body}");
       case 409:
-        debugPrint("backend service | checkUsername | username is already taken");
+        debugPrint(
+            "backend service | checkUsername | username is already taken");
         throw UsernameAlreadyTakenException();
       default:
         throw UnhandledStatusException();
@@ -296,12 +316,14 @@ class BackendService {
 
     switch (res.statusCode) {
       case 200:
-        debugPrint("backend service | checkEmail | get success response ${res.body}");
+        debugPrint(
+            "backend service | checkEmail | get success response ${res.body}");
       case 400:
         debugPrint("backend service | checkEmail | email is invalid");
         throw EmailInvalidException();
       default:
-        debugPrint("backend service | checkEmail | error status ${res.statusCode}");
+        debugPrint(
+            "backend service | checkEmail | error status ${res.statusCode}");
         debugPrint("body ${res.body}");
         throw UnhandledStatusException();
     }
@@ -334,7 +356,8 @@ class BackendService {
 
     switch (res.statusCode) {
       case 200:
-        debugPrint("backend service | updateUserInfo | get success response ${res.body}");
+        debugPrint(
+            "backend service | updateUserInfo | get success response ${res.body}");
       case 404:
         debugPrint("service | updateUserInfo | end point not found");
         throw PageNotFoundException();
@@ -342,7 +365,8 @@ class BackendService {
         debugPrint("backend service | updateUserInfo | ${res.body}");
         throw UnAuthenticatedException();
       default:
-        debugPrint("backend service | updateUserInfo | error status ${res.statusCode}");
+        debugPrint(
+            "backend service | updateUserInfo | error status ${res.statusCode}");
         debugPrint("body ${res.body}");
         throw UnhandledStatusException();
     }
@@ -368,7 +392,8 @@ class BackendService {
 
     switch (res.statusCode) {
       case 200:
-        debugPrint("backend service | updatedBattleRecord | get success response ${res.body}");
+        debugPrint(
+            "backend service | updatedBattleRecord | get success response ${res.body}");
       case 404:
         debugPrint("service | updatedBattleRecord | end point not found");
         throw PageNotFoundException();
@@ -376,7 +401,8 @@ class BackendService {
         debugPrint("backend service | updatedBattleRecord | ${res.body}");
         throw UnAuthenticatedException();
       default:
-        debugPrint("backend service | updatedBattleRecord | error status ${res.statusCode}");
+        debugPrint(
+            "backend service | updatedBattleRecord | error status ${res.statusCode}");
         debugPrint("body ${res.body}");
         throw UnhandledStatusException();
     }
@@ -403,7 +429,8 @@ class BackendService {
 
     switch (res.statusCode) {
       case 200:
-        debugPrint("backend service | getAbilityRecord | get success response ${res.body}");
+        debugPrint(
+            "backend service | getAbilityRecord | get success response ${res.body}");
         Map body = json.decode(res.body);
 
         List<AbilityRecord> abilityRecords = List<AbilityRecord>.generate(
@@ -419,13 +446,14 @@ class BackendService {
         debugPrint("backend service | getAbilityRecord | ${res.body}");
         throw UnAuthenticatedException();
       default:
-        debugPrint("backend service | getAbilityRecord | error status ${res.statusCode}");
+        debugPrint(
+            "backend service | getAbilityRecord | error status ${res.statusCode}");
         debugPrint("body ${res.body}");
         throw UnhandledStatusException();
     }
   }
 
-  Future<List<ArticlePart>> getArticle(int level) async {
+  Future<List<ArticlePart>> getArticle(Level level, String currentWord) async {
     debugPrint("backend | getArticle | triggered");
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -435,7 +463,42 @@ class BackendService {
       throw UnAuthenticatedException();
     }
 
-    Uri url = Uri.parse("${dotenv.get('HTTP_HOST')}article?level=$level");
+    Uri url;
+
+    switch (level.testType) {
+      case TestType.gre:
+        url =
+            Uri.parse("${dotenv.get('HTTP_HOST')}article?level=${level.level}");
+        break;
+      case TestType.hs7000:
+        String wordIndex =
+            "${keys.prefWordIndexPrefixKey}_${level.testType.name}_${level.level}_${level.book}";
+
+        String? wordMapString = prefs.getString(wordIndex);
+
+        if (wordMapString == null) {
+          debugPrint(
+              "word service | getWords | word index $wordIndex not found");
+          throw UnhandledStatusException();
+        }
+
+        List<String> words = List<String>.from(
+          json
+              .decode(wordMapString)
+              .map((wordMap) => wordMap[keys.wordWordKey]),
+        )
+          ..shuffle()
+          ..sublist(0, 9);
+
+        words.add(currentWord);
+
+        url = Uri.parse(
+            "${dotenv.get('HTTP_HOST')}article?words=${words.join(',')}");
+        break;
+      default:
+        throw UnhandledStatusException();
+    }
+
     var res = await http.get(
       url,
       headers: {
@@ -447,7 +510,8 @@ class BackendService {
     switch (res.statusCode) {
       case 200:
         debugPrint("backend service | getArticle | get success response");
-        String article = json.decode(utf8.decode(res.bodyBytes))[keys.articleArticleKey];
+        String article =
+            json.decode(utf8.decode(res.bodyBytes))[keys.articleArticleKey];
         List<ArticlePart> articleParts = [];
         List<String> segments = article.split("@");
         for (String segment in segments) {
@@ -455,7 +519,8 @@ class BackendService {
           if (segment.contains("&")) {
             List<String> parts = segment.split("&");
             articleParts.add(ArticlePart(content: parts[0], word: parts[0]));
-            articleParts.add(ArticlePart(content: parts.length > 1 ? parts[1] : ""));
+            articleParts
+                .add(ArticlePart(content: parts.length > 1 ? parts[1] : ""));
           } else {
             articleParts.add(ArticlePart(content: segment));
           }

@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:examKing/models/level.dart';
 import 'package:examKing/models/word.dart';
 import 'package:examKing/providers/global_provider.dart';
 import 'package:examKing/service/backend.dart';
 import 'package:examKing/service/word_service.dart';
+import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
 
 part 'words_event.dart';
@@ -54,9 +57,15 @@ class WordsBloc extends Bloc<WordsEvent, WordsState> {
         currentUnfamiliar++;
       }
 
+      currentWord!.seenCount++;
+
       Word previousWord = currentWord!;
+
+      // iterate to find the next word until the word is not the same as the previous word
       do {
-        currentWord = (words!..shuffle()).first;
+        final random = Random();
+        int randomIndex = random.nextInt(words!.length);
+        currentWord = words![randomIndex];
       } while (currentWord!.word == previousWord.word);
 
       emit(WordsStateGetWord(word: currentWord!));

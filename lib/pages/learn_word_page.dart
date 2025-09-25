@@ -6,6 +6,7 @@ import 'package:examKing/component/word_card.dart';
 import 'package:examKing/models/level.dart';
 import 'package:examKing/models/stat.dart';
 import 'package:examKing/models/word.dart';
+import 'package:examKing/pages/article_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,13 +24,17 @@ class _LearnWordPageState extends State<LearnWordPage> {
   late final WordsBloc wordsBloc;
   late final StreamSubscription<WordsState> wordsStateSubscription;
 
+  bool isFlipped = false;
+
   @override
   void initState() {
     super.initState();
     wordsBloc = BlocProvider.of<WordsBloc>(context);
     wordsStateSubscription = wordsBloc.stream.listen((state) {
       if (state is WordsStateGetWord) {
-        setState(() {});
+        setState(() {
+          isFlipped = false;
+        });
       }
     });
 
@@ -40,6 +45,13 @@ class _LearnWordPageState extends State<LearnWordPage> {
   void dispose() {
     wordsStateSubscription.cancel();
     super.dispose();
+  }
+
+  void flipCard() {
+    if (isFlipped) return;
+    setState(() {
+      isFlipped = true;
+    });
   }
 
   @override
@@ -57,7 +69,7 @@ class _LearnWordPageState extends State<LearnWordPage> {
                     const AnimatedBackButton(),
 
                     // level title
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 40),
                     Text(
                       widget.level.title,
                       style: GoogleFonts.barlowCondensed(
@@ -67,30 +79,116 @@ class _LearnWordPageState extends State<LearnWordPage> {
 
                     // word card
                     const SizedBox(height: 20),
-                    WordCard(word: wordsBloc.currentWord!),
+                    WordCard(
+                      word: wordsBloc.currentWord!,
+                      isFlipped: isFlipped,
+                      onFlip: flipCard,
+                    ),
 
                     // stat card
-                    const SizedBox(height: 50),
-                    StatCard(
-                      stat: Stat(
-                        key: "Reviewing",
-                        title: "Reviewing",
-                        val: wordsBloc.currentLearned.toDouble(),
-                        maxVal: wordsBloc.words!.length.toDouble(),
-                      ),
+                    const Spacer(),
+
+                    Container(
+                      height: 170,
+                      alignment: Alignment.center,
+                      child: !isFlipped
+                          ? Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ArticlePage(
+                                          level: widget.level,
+                                          currentWord:
+                                              wordsBloc.currentWord!.word,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 14.0, vertical: 13.0),
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromARGB(
+                                          121, 107, 204, 222),
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Icon(Icons.article_outlined),
+                                        const SizedBox(width: 5),
+                                        Text(
+                                          "Create Article",
+                                          style: GoogleFonts.mandali(
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
+                                const SizedBox(height: 10),
+                                StatCard(
+                                  stat: Stat(
+                                    key: "Reviewing",
+                                    title: "Reviewing",
+                                    val: wordsBloc.currentLearned.toDouble(),
+                                    maxVal: wordsBloc.words!.length.toDouble(),
+                                  ),
+                                ),
+
+                                // not remembered stat card
+                                const SizedBox(height: 20),
+                                StatCard(
+                                  stat: Stat(
+                                    key: "Learning",
+                                    title: "Learning",
+                                    val: wordsBloc.currentUnfamiliar.toDouble(),
+                                    maxVal: wordsBloc.words!.length.toDouble(),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 28.0),
+                              child: Row(
+                                children: [
+                                  WordCardActionButton(
+                                      label: "Unfamiliar",
+                                      icon: Icons.close,
+                                      color: const Color.fromARGB(
+                                          255, 252, 152, 122),
+                                      onTap: () {
+                                        wordsBloc.add(WordsEventResponded(
+                                            isKnown: false,
+                                            word: wordsBloc.currentWord!.word));
+                                        setState(() {});
+                                      }),
+                                  const Spacer(),
+                                  WordCardActionButton(
+                                      label: "Knew",
+                                      icon: Icons.check,
+                                      color: const Color.fromARGB(
+                                          255, 122, 211, 20),
+                                      onTap: () {
+                                        wordsBloc.add(WordsEventResponded(
+                                            isKnown: true,
+                                            word: wordsBloc.currentWord!.word));
+                                        setState(() {});
+                                      }),
+                                ],
+                              ),
+                            ),
                     ),
 
-                    // not remembered stat card
                     const SizedBox(height: 20),
-                    StatCard(
-                      stat: Stat(
-                        key: "Learning",
-                        title: "Learning",
-                        val: wordsBloc.currentUnfamiliar.toDouble(),
-                        maxVal: wordsBloc.words!.length.toDouble(),
-                      ),
-                      color: const Color.fromARGB(255, 233, 158, 152),
-                    ),
                   ],
                 ),
         ),
@@ -203,7 +301,7 @@ class _StatCardState extends State<StatCard> {
                       height: 8,
                       decoration: BoxDecoration(
                         color: widget.color ??
-                            const Color.fromARGB(255, 158, 199, 231),
+                            const Color.fromARGB(255, 56, 56, 56),
                         borderRadius: BorderRadius.circular(4),
                         boxShadow: const [
                           BoxShadow(
@@ -218,6 +316,48 @@ class _StatCardState extends State<StatCard> {
                 },
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class WordCardActionButton extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final Color color;
+  final VoidCallback onTap;
+  const WordCardActionButton(
+      {super.key,
+      required this.label,
+      required this.icon,
+      required this.color,
+      required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            padding:
+                const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+            decoration: BoxDecoration(
+              color: color,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: Colors.white, size: 60),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: GoogleFonts.inter(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: color.withValues(alpha: 0.8),
+            ),
           ),
         ],
       ),

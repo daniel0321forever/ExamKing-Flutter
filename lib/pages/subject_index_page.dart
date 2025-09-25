@@ -63,6 +63,8 @@ class _SubjectIndexPageState extends State<SubjectIndexPage> {
   @override
   void dispose() {
     subjectListScrollController.dispose();
+    subjectItemPageController.dispose();
+    subjectSubscription.cancel();
     super.dispose();
   }
 

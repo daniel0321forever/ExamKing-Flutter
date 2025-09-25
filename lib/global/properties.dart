@@ -202,6 +202,7 @@ List<Subject> subjects = [
     intro: "GRE常見1000單字",
     icon: Icons.grade,
     linkedPage: const GREMainPage(),
+    progress: 0.5,
   ),
   Subject(
     name: "7000單",
@@ -211,5 +212,6 @@ List<Subject> subjects = [
     intro: "學測、分科必備英文單字",
     icon: Icons.book,
     linkedPage: const HSMainPage(),
+    progress: 0.5,
   ),
 ];
